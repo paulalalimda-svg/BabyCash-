@@ -1,0 +1,288 @@
+# =============================================================================
+# CONFIGURACIÓN DE PRODUCCIÓN - BabyCash Backend
+# =============================================================================
+# Este archivo contiene la configuración optimizada y segura para ambiente de
+# producción. NUNCA incluir credenciales directamente, usar variables de entorno.
+# =============================================================================
+
+spring:
+  # ---------------------------------------------------------------------------
+  # DATASOURCE - PostgreSQL con configuración segura
+  # ---------------------------------------------------------------------------
+  datasource:
+    # URL usando variables de entorno (OBLIGATORIO en producción)
+    # Incluye SSL y configuración de timezone
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/babycash?sslmode=require&serverTimezone=America/Bogota}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}  # OBLIGATORIO - debe venir de variable de entorno
+    driver-class-name: org.postgresql.Driver
+    
+    # HikariCP - Pool de conexiones optimizado para producción
+    hikari:
+      pool-name: BabyCashHikariPool-PROD
+      maximum-pool-size: 20          # Ajustar según carga esperada
+      minimum-idle: 5                 # Conexiones mínimas en idle
+      connection-timeout: 30000       # 30 segundos
+      idle-timeout: 600000            # 10 minutos
+      max-lifetime: 1800000           # 30 minutos - refresca conexiones
+      leak-detection-threshold: 60000 # Detecta connection leaks
+      connection-test-query: SELECT 1 # Health check de conexiones
+      
+  # ---------------------------------------------------------------------------
+  # JPA/HIBERNATE - Configuración estricta de producción
+  # ---------------------------------------------------------------------------
+  jpa:
+    # ⚠️ CRÍTICO: validate NO create-drop
+    # En producción NUNCA auto-crear/borrar tablas
+    hibernate:
+      ddl-auto: validate  # Solo valida que el schema coincida
+    
+    properties:
+      hibernate:
+        # Dialecto específico de PostgreSQL
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+        # Format SQL desactivado en producción (performance)
+        format_sql: false
+        use_sql_comments: false
+        
+        # JDBC batch processing para inserts/updates
+        jdbc:
+          batch_size: 20
+          fetch_size: 50
+        order_inserts: true
+        order_updates: true
+        
+        # Cache de segundo nivel (opcional - evaluar según uso)
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        
+        # Estadísticas desactivadas (performance)
+        generate_statistics: false
+        
+    # Desactivar open-in-view (mejor performance)
+    open-in-view: false
+    
+  # ---------------------------------------------------------------------------
+  # CACHE - Spring Cache para productos
+  # ---------------------------------------------------------------------------
+  cache:
+    type: simple  # En producción considerar Redis/Hazelcast
+    cache-names:
+      - products
+      - featuredProducts
+      - categories
+    
+  # ---------------------------------------------------------------------------
+  # LOGGING - Configuración de logs para producción
+  # ---------------------------------------------------------------------------
+logging:
+  level:
+    root: WARN                                      # Solo warnings y errores
+    com.babycash.backend: INFO                      # Info de nuestra app
+    org.springframework.web: WARN                   # Menos verboso
+    org.springframework.security: WARN              # Solo problemas de seguridad
+    org.hibernate: WARN                             # Solo warnings de Hibernate
+    org.hibernate.SQL: OFF                          # NO loguear SQL (performance)
+    org.hibernate.type.descriptor.sql: OFF          # NO loguear bindings
+    com.zaxxer.hikari: INFO                         # Info del pool
+  
+  # Configuración de archivos de log
+  file:
+    name: /var/log/babycash/application.log
+    max-size: 10MB
+    max-history: 30  # 30 días de historial
+    total-size-cap: 1GB
+  
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# =============================================================================
+# SEGURIDAD - JWT y configuración de autenticación
+# =============================================================================
+app:
+  jwt:
+    # ⚠️ CRÍTICO: Secret debe venir de variable de entorno
+    secret: ${JWT_SECRET}  # OBLIGATORIO - mínimo 256 bits (32 caracteres)
+    expiration: 86400000   # 24 horas en milisegundos
+    
+  # CORS - Configuración específica para frontend en producción
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://babycash.com,https://www.babycash.com}
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600  # 1 hora de cache para preflight
+
+# =============================================================================
+# SERVER - Configuración del servidor Tomcat
+# =============================================================================
+server:
+  port: ${SERVER_PORT:8080}
+  
+  # Compression - Mejora performance en respuestas grandes
+  compression:
+    enabled: true
+    mime-types: 
+      - application/json
+      - application/xml
+      - text/html
+      - text/xml
+      - text/plain
+      - application/javascript
+      - text/css
+    min-response-size: 1024  # 1KB
+  
+  # Timeouts optimizados
+  tomcat:
+    connection-timeout: 20000  # 20 segundos
+    threads:
+      max: 200                  # Ajustar según hardware
+      min-spare: 10
+    max-connections: 8192       # Máximo de conexiones TCP
+    accept-count: 100           # Cola de conexiones
+    
+  # Shutdown graceful - cierre ordenado
+  shutdown: graceful
+  
+  # Headers de seguridad
+  error:
+    include-message: never       # No exponer mensajes de error
+    include-binding-errors: never
+    include-stacktrace: never    # NO exponer stacktraces
+    include-exception: false
+    whitelabel:
+      enabled: false             # Deshabilitar página de error por defecto
+
+# =============================================================================
+# SPRING BOOT ACTUATOR - Monitoreo y health checks
+# =============================================================================
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        # Solo exponer endpoints esenciales
+        include: health,info,metrics,prometheus
+  
+  endpoint:
+    health:
+      show-details: when-authorized  # Detalles solo para usuarios autorizados
+      probes:
+        enabled: true
+  
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  
+  metrics:
+    export:
+      prometheus:
+        enabled: true  # Si usas Prometheus para monitoreo
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  
+  # Info del endpoint /actuator/info
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+
+# =============================================================================
+# SPRINGDOC - Swagger/OpenAPI configuración de producción
+# =============================================================================
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}  # Desactivado por defecto en prod
+    path: /v3/api-docs
+  
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}  # Desactivado por defecto en prod
+    path: /swagger-ui.html
+    
+  # Si se activa Swagger en prod, configurar con autenticación
+  show-actuator: false
+
+# =============================================================================
+# CONFIGURACIÓN ADICIONAL DE PRODUCCIÓN
+# =============================================================================
+
+# Jackson - Serialización JSON
+spring.jackson:
+  serialization:
+    write-dates-as-timestamps: false
+    indent-output: false  # Compactar JSON (performance)
+  time-zone: America/Bogota
+  default-property-inclusion: non_null  # No incluir nulls en JSON
+
+# Multipart - Subida de archivos (si aplica)
+spring.servlet.multipart:
+  max-file-size: 5MB
+  max-request-size: 10MB
+  enabled: true
+
+# DevTools desactivado en producción
+spring.devtools:
+  restart:
+    enabled: false
+  livereload:
+    enabled: false
+
+# Banner de Spring Boot
+spring.main:
+  banner-mode: off  # Sin banner en logs
+
+# =============================================================================
+# NOTAS IMPORTANTES PARA DEPLOYMENT
+# =============================================================================
+# 
+# 1. VARIABLES DE ENTORNO OBLIGATORIAS:
+#    - DB_URL: URL completa de PostgreSQL con SSL
+#    - DB_USERNAME: Usuario de la base de datos
+#    - DB_PASSWORD: Contraseña de la base de datos
+#    - JWT_SECRET: Secret para firma JWT (mínimo 256 bits)
+#    - CORS_ALLOWED_ORIGINS: Dominios permitidos para CORS
+#
+# 2. VARIABLES OPCIONALES:
+#    - SERVER_PORT: Puerto del servidor (default: 8080)
+#    - SWAGGER_ENABLED: Activar Swagger en prod (default: false)
+#
+# 3. ANTES DE DEPLOY:
+#    - Ejecutar migraciones de BD (Flyway/Liquibase recomendado)
+#    - Verificar que ddl-auto=validate esté configurado
+#    - Aplicar índices de base de datos (indexes.sql)
+#    - Configurar certificados SSL para PostgreSQL
+#    - Configurar HTTPS en el reverse proxy (Nginx/Apache)
+#    - Configurar rate limiting en reverse proxy o WAF
+#
+# 4. MONITOREO:
+#    - Configurar alertas en /actuator/health
+#    - Monitorear métricas en /actuator/metrics
+#    - Logs centralizados (ELK, Splunk, CloudWatch)
+#    - APM tools (New Relic, Datadog, AppDynamics)
+#
+# 5. SEGURIDAD:
+#    - Usar HTTPS exclusivamente
+#    - Configurar firewall (solo puertos necesarios)
+#    - Implementar rate limiting
+#    - Habilitar SQL injection protection
+#    - Mantener dependencias actualizadas
+#    - Rotación periódica de JWT_SECRET
+#
+# 6. PERFORMANCE:
+#    - Considerar Redis para caché distribuido
+#    - CDN para assets estáticos
+#    - Load balancer para múltiples instancias
+#    - Database read replicas si es necesario
+#
+# =============================================================================

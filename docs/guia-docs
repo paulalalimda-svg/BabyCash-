@@ -1,0 +1,3819 @@
+📁 CARPETA: /docs/00-INICIO-AQUI
+1. README-PRIMERO.md
+
+    Bienvenida al proyecto
+    Orden de lectura de toda la documentación
+    Requisitos previos para entender el proyecto
+    Glosario de términos básicos
+
+2. MAPA-DEL-PROYECTO.md
+
+    Diagrama visual de carpetas
+    Qué hace cada módulo principal
+    Flujo general de la aplicación
+
+3. TECNOLOGIAS-USADAS.md
+
+    Lista de todas las tecnologías
+    Por qué se eligió cada una
+    Versiones específicas
+
+📁 CARPETA: /docs/01-FUNDAMENTOS-JAVA
+4. QUE-ES-JAVA.md
+
+    Explicación de Java para principiantes
+    Diferencia con JavaScript
+    Por qué Java en este proyecto
+
+5. SINTAXIS-BASICA-JAVA.md
+
+    Variables y tipos de datos
+    Operadores
+    Estructuras de control (if, for, while)
+
+6. CLASES-Y-OBJETOS.md
+
+    Qué es una clase
+    Qué es un objeto
+    Ejemplos prácticos del proyecto
+
+7. METODOS-Y-FUNCIONES.md
+
+    Qué son los métodos
+    Parámetros y retornos
+    Ejemplos del proyecto
+
+8. MODIFICADORES-ACCESO.md
+
+    public, private, protected
+    Cuándo usar cada uno
+    Ejemplos en el código
+
+9. ANOTACIONES-JAVA.md
+
+    Qué son las anotaciones (@)
+    Las más usadas en el proyecto
+    Para qué sirve cada una
+
+10. PAQUETES-E-IMPORTS.md
+
+    Qué son los packages
+    Cómo funcionan los imports
+    Organización del proyecto
+
+📁 CARPETA: /docs/02-SPRING-BOOT-BASICO
+11. QUE-ES-SPRING-BOOT.md
+
+    Framework vs Librería
+    Por qué Spring Boot
+    Arquitectura general
+
+12. ANOTACIONES-SPRING.md
+
+    @SpringBootApplication
+    @Component, @Service, @Repository
+    @Controller, @RestController
+
+13. INYECCION-DEPENDENCIAS.md
+
+    Qué es Dependency Injection
+    @Autowired
+    Constructor vs Field Injection
+
+14. APPLICATION-PROPERTIES.md
+
+    Para qué sirve
+    Configuraciones importantes
+    Variables de entorno
+
+15. ESTRUCTURA-PROYECTO-SPRING.md
+
+    Carpetas estándar
+    Convenciones de nombres
+    Arquitectura en capas
+
+📁 CARPETA: /docs/03-BASE-DATOS-POSTGRESQL
+16. QUE-ES-POSTGRESQL.md
+
+    Base de datos relacional
+    SQL vs NoSQL
+    Por qué PostgreSQL
+
+17. CONCEPTOS-SQL-BASICOS.md
+
+    Tablas, filas, columnas
+    Tipos de datos SQL
+    Primary Key y Foreign Key
+
+18. CONEXION-SPRING-POSTGRESQL.md
+
+    Configuración de conexión
+    Driver JDBC
+    application.properties para BD
+
+19. JPA-HIBERNATE.md
+
+    Qué es JPA
+    Qué es Hibernate
+    ORM explicado simple
+
+20. ENTIDADES-JPA.md
+
+    @Entity
+    @Table
+    @Id, @GeneratedValue
+    Mapeo de columnas
+
+21. RELACIONES-JPA.md
+
+    @OneToMany
+    @ManyToOne
+    @ManyToMany
+    Ejemplos del proyecto
+
+22. REPOSITORIOS-JPA.md
+
+    JpaRepository
+    Métodos automáticos
+    Queries personalizadas
+
+📁 CARPETA: /docs/04-ARQUITECTURA-PROYECTO
+23. ARQUITECTURA-CAPAS.md
+
+    Controller → Service → Repository
+    Separación de responsabilidades
+    Flujo de datos
+
+24. CAPA-CONTROLLER.md
+
+    Qué hace el Controller
+    @RequestMapping
+    Métodos HTTP (GET, POST, PUT, DELETE)
+
+25. CAPA-SERVICE.md
+
+    Lógica de negocio
+    Por qué separar del Controller
+    Transacciones
+
+26. CAPA-REPOSITORY.md
+
+    Acceso a datos
+    Interface vs Implementación
+    Spring Data JPA
+
+27. DTOS-DATA-TRANSFER-OBJECTS.md
+
+    Qué son los DTOs
+    Por qué usarlos
+    Diferencia con Entities
+
+28. MAPPERS.md
+
+    Conversión Entity ↔ DTO
+    MapStruct o manual
+    Ejemplos del proyecto
+
+📁 CARPETA: /docs/05-API-REST
+29. QUE-ES-UNA-API-REST.md
+
+    Conceptos REST
+    Cliente-Servidor
+    JSON como formato
+
+30. ENDPOINTS-DEL-PROYECTO.md
+
+    Lista completa de endpoints
+    Qué hace cada uno
+    Request y Response
+
+31. VERBOS-HTTP.md
+
+    GET, POST, PUT, DELETE
+    Cuándo usar cada uno
+    Ejemplos prácticos
+
+32. CODIGOS-ESTADO-HTTP.md
+
+    200 OK
+    201 Created
+    400 Bad Request
+    401 Unauthorized
+    404 Not Found
+    500 Internal Server Error
+
+33. REQUEST-RESPONSE.md
+
+    @RequestBody
+    @RequestParam
+    @PathVariable
+    ResponseEntity
+
+📁 CARPETA: /docs/06-SEGURIDAD
+34. SPRING-SECURITY-INTRO.md
+
+    Qué es Spring Security
+    Por qué es necesario
+    Flujo de autenticación
+
+35. JWT-JSON-WEB-TOKENS.md
+
+    Qué es JWT
+    Cómo funciona
+    Estructura del token
+
+36. AUTENTICACION-LOGIN.md
+
+    Proceso de login
+    Generación del token
+    Almacenamiento del token
+
+37. AUTORIZACION-ROLES.md
+
+    Diferencia autenticación vs autorización
+    Roles y permisos
+    @PreAuthorize
+
+38. FILTROS-SECURITY.md
+
+    Filter Chain
+    JwtAuthenticationFilter
+    Validación de tokens
+
+39. ENCRIPTACION-PASSWORDS.md
+
+    BCryptPasswordEncoder
+    Por qué encriptar
+    Proceso de validación
+
+40. CONFIGURACION-SECURITY.md
+
+    SecurityConfig clase
+    Rutas públicas vs protegidas
+    CORS
+
+📁 CARPETA: /docs/07-FRONTEND-REACT
+41. QUE-ES-REACT.md
+
+    Librería de UI
+    Componentes
+    Virtual DOM
+
+42. TYPESCRIPT-BASICO.md
+
+    Por qué TypeScript
+    Tipos básicos
+    Interfaces
+
+43. COMPONENTES-REACT.md
+
+    Componentes funcionales
+    Props
+    Children
+
+44. HOOKS-REACT.md
+
+    useState
+    useEffect
+    useContext
+    Custom hooks
+
+45. TAILWIND-CSS.md
+
+    Utility-first CSS
+    Clases principales
+    Responsive design
+
+46. CONEXION-BACKEND.md
+
+    Fetch API
+    Axios
+    Manejo de tokens
+
+47. RUTAS-REACT-ROUTER.md
+
+    Navegación
+    Rutas protegidas
+    useNavigate
+
+48. FORMULARIOS-REACT.md
+
+    Manejo de inputs
+    Validación
+    Envío de datos
+
+📁 CARPETA: /docs/08-CODIGO-POR-ARCHIVO
+
+Aquí crearías un documento por cada archivo importante del backend:
+49. UserEntity-java.md
+50. UserRepository-java.md
+51. UserService-java.md
+52. UserController-java.md
+53. UserDTO-java.md
+54. SecurityConfig-java.md
+55. JwtUtil-java.md
+56. AuthController-java.md
+
+... (uno por cada archivo importante)
+
+Cada uno explicando:
+
+    Para qué sirve ese archivo
+    Línea por línea las partes importantes
+    Qué pasa si se modifica
+    Relación con otros archivos
+
+📁 CARPETA: /docs/09-CONVENCIONES-CODIGO
+70. NOMBRES-VARIABLES.md
+
+    camelCase
+    PascalCase
+    SNAKE_CASE
+    Cuándo usar cada uno
+
+71. NOMBRES-CLASES.md
+
+    Sustantivos
+    Sufijos: Service, Controller, Repository
+    Ejemplos buenos y malos
+
+72. NOMBRES-METODOS.md
+
+    Verbos
+    get, set, find, create, update, delete
+    Ejemplos del proyecto
+
+73. ORGANIZACION-IMPORTS.md
+
+    Orden de imports
+    Imports no usados
+    Agrupación
+
+74. COMENTARIOS-CODIGO.md
+
+    Cuándo comentar
+    JavaDoc
+    Comentarios inline
+
+📁 CARPETA: /docs/10-FLUJOS-COMPLETOS
+75. FLUJO-REGISTRO-USUARIO.md
+
+    Frontend → Backend → BD
+    Paso a paso
+    Diagrama
+
+76. FLUJO-LOGIN.md
+
+    Validación de credenciales
+    Generación de token
+    Respuesta al frontend
+
+77. FLUJO-CREAR-RECURSO.md
+
+    Envío desde frontend
+    Validaciones
+    Guardado en BD
+    Respuesta
+
+78. FLUJO-CONSULTAR-DATOS.md
+
+    Request con token
+    Validación de seguridad
+    Query a BD
+    Respuesta
+
+79. FLUJO-ACTUALIZAR-RECURSO.md
+80. FLUJO-ELIMINAR-RECURSO.md
+📁 CARPETA: /docs/11-MANEJO-ERRORES
+81. EXCEPCIONES-JAVA.md
+
+    try-catch
+    throw
+    Tipos de excepciones
+
+82. MANEJO-ERRORES-SPRING.md
+
+    @ControllerAdvice
+    @ExceptionHandler
+    Respuestas de error personalizadas
+
+83. VALIDACIONES.md
+
+    @Valid
+    @NotNull, @NotBlank
+    Mensajes de error
+
+📁 CARPETA: /docs/12-TESTING
+84. INTRODUCCION-TESTING.md
+85. UNIT-TESTS.md
+86. INTEGRATION-TESTS.md
+87. POSTMAN-TESTING.md
+📁 CARPETA: /docs/13-DEPLOYMENT
+88. BUILD-DEL-PROYECTO.md
+89. JAR-VS-WAR.md
+90. VARIABLES-ENTORNO.md
+📁 CARPETA: /docs/14-PREGUNTAS-FRECUENTES
+91. FAQ-ERRORES-COMUNES.md
+92. FAQ-SPRING-BOOT.md
+93. FAQ-POSTGRESQL.md
+94. FAQ-REACT.md
+95. FAQ-SEGURIDAD.md
+📁 CARPETA: /docs/15-GLOSARIO
+96. GLOSARIO-TERMINOS-GENERALES.md
+97. GLOSARIO-JAVA.md
+98. GLOSARIO-SPRING.md
+99. GLOSARIO-BASE-DATOS.md
+100. GLOSARIO-WEB.md
+📁 CARPETA: /docs/16-GUIAS-EXPOSICION
+101. COMO-EXPLICAR-LA-ARQUITECTURA.md
+102. COMO-EXPLICAR-LA-SEGURIDAD.md
+103. COMO-DEMOSTRAR-FUNCIONALIDAD.md
+104. PREGUNTAS-PROFESORES-RESPUESTAS.md
+105. SCRIPT-PRESENTACION.md
+📁 CARPETA: /docs/17-DIAGRAMAS
+106. DIAGRAMA-ARQUITECTURA.md
+107. DIAGRAMA-BASE-DATOS.md
+108. DIAGRAMA-FLUJO-AUTENTICACION.md
+109. DIAGRAMA-CLASES.md
+110. DIAGRAMA-SECUENCIA.md
+Cómo proceder:
+
+Dime:
+
+    ¿Quieres que empiece a desarrollar estos archivos?
+    ¿Por cuál carpeta quieres que comience?
+    ¿Hay algún aspecto específico de tu proyecto que deba conocer para personalizar la documentación?
+
+Puedo generar cada uno de estos archivos con explicaciones súper detalladas, ejemplos, y en un lenguaje que alguien sin experiencia pueda entender.
+
+¿Arranco con la carpeta /docs/00-INICIO-AQUI? 🚀
+
+bueno dime que mas podemos documentar en el abckend, no se aplique principios solid, cleaan code, buenas practicas, que mas para dejar el backend cubierto al 100 y depues hcaer lo msimo con el frontend
+Documentación COMPLETA Backend + Frontend
+
+Excelente punto. Vamos a hacer esto EXHAUSTIVO. Aquí está TODO lo que necesitas documentar:
+📁 CARPETA: /docs/18-PRINCIPIOS-SOLID
+111. QUE-ES-SOLID.md
+
+    Origen de SOLID
+    Por qué es importante
+    Beneficios en el proyecto
+
+112. S-SINGLE-RESPONSIBILITY.md
+
+    Una clase, una responsabilidad
+    Ejemplos BUENOS del proyecto
+    Ejemplos MALOS (anti-patterns)
+    Cómo identificar violaciones
+
+113. O-OPEN-CLOSED.md
+
+    Abierto para extensión, cerrado para modificación
+    Ejemplos con herencia
+    Ejemplos con interfaces
+    Aplicación en el proyecto
+
+114. L-LISKOV-SUBSTITUTION.md
+
+    Principio de sustitución
+    Herencia correcta
+    Ejemplos prácticos
+
+115. I-INTERFACE-SEGREGATION.md
+
+    Interfaces específicas vs genéricas
+    No forzar implementaciones innecesarias
+    Ejemplos del proyecto
+
+116. D-DEPENDENCY-INVERSION.md
+
+    Depender de abstracciones
+    Inyección de dependencias
+    Cómo Spring implementa esto
+
+117. SOLID-EN-NUESTRO-PROYECTO.md
+
+    Análisis de cada clase principal
+    Dónde aplicamos SOLID
+    Mejoras futuras
+
+📁 CARPETA: /docs/19-CLEAN-CODE
+118. PRINCIPIOS-CLEAN-CODE.md
+
+    Qué es código limpio
+    Por qué importa
+    Robert C. Martin (Uncle Bob)
+
+119. NOMBRES-SIGNIFICATIVOS.md
+
+    Variables descriptivas
+    Evitar abreviaciones
+    Contexto en los nombres
+    Ejemplos ANTES/DESPUÉS del proyecto
+
+120. FUNCIONES-METODOS-LIMPIOS.md
+
+    Una función, una tarea
+    Máximo de líneas por función
+    Parámetros (máximo 3)
+    Evitar flags booleanos
+
+121. COMENTARIOS-BUENOS-VS-MALOS.md
+
+    Cuándo SÍ comentar
+    Cuándo NO comentar
+    Código auto-explicativo
+    JavaDoc apropiado
+
+122. FORMATEO-CODIGO.md
+
+    Indentación
+    Espaciado
+    Líneas en blanco
+    Agrupación lógica
+    Configuración del IDE
+
+123. MANEJO-ERRORES-LIMPIO.md
+
+    No retornar null
+    Optional en Java
+    Excepciones específicas
+    Try-catch apropiado
+
+124. EVITAR-CODIGO-DUPLICADO-DRY.md
+
+    Don't Repeat Yourself
+    Extracción de métodos
+    Utilidades compartidas
+    Ejemplos del proyecto
+
+125. CLASES-COHESIVAS.md
+
+    Alta cohesión
+    Bajo acoplamiento
+    Tamaño de clases
+    Refactoring
+
+📁 CARPETA: /docs/20-PATRONES-DISEÑO
+126. QUE-SON-PATRONES-DISEÑO.md
+
+    Soluciones probadas
+    Tipos: Creacionales, Estructurales, Comportamiento
+    Gang of Four (GoF)
+
+127. PATRON-SINGLETON.md
+
+    Definición
+    Cuándo usarlo
+    Ejemplos en Spring (@Bean)
+    Ventajas y desventajas
+
+128. PATRON-FACTORY.md
+
+    Factory Method
+    Creación de objetos
+    Ejemplos del proyecto
+
+129. PATRON-BUILDER.md
+
+    Construcción de objetos complejos
+    Lombok @Builder
+    Ejemplos prácticos
+
+130. PATRON-STRATEGY.md
+
+    Encapsular algoritmos
+    Ejemplos de diferentes estrategias
+    Aplicación en servicios
+
+131. PATRON-OBSERVER.md
+
+    Eventos en Spring
+    @EventListener
+    Casos de uso
+
+132. PATRON-DECORATOR.md
+
+    Añadir funcionalidad
+    Wrappers
+    Ejemplos
+
+133. PATRON-REPOSITORY.md
+
+    Abstracción de acceso a datos
+    Spring Data JPA
+    Por qué es importante
+
+134. PATRON-DTO.md
+
+    Transfer Objects
+    Separación de capas
+    Mapeo
+
+135. PATRON-DEPENDENCY-INJECTION.md
+
+    IoC (Inversion of Control)
+    Cómo Spring lo implementa
+    Ventajas
+
+136. PATRON-MVC.md
+
+    Model-View-Controller
+    Adaptación en REST
+    Flujo de datos
+
+📁 CARPETA: /docs/21-BUENAS-PRACTICAS-JAVA
+137. INMUTABILIDAD.md
+
+    final keyword
+    Objetos inmutables
+    Records en Java
+    Ventajas
+
+138. STREAMS-Y-LAMBDAS.md
+
+    Programación funcional
+    Stream API
+    Expresiones lambda
+    Ejemplos del proyecto
+
+139. OPTIONAL-JAVA.md
+
+    Evitar NullPointerException
+    Cuándo usar Optional
+    Métodos: orElse, orElseThrow, map
+    Anti-patterns con Optional
+
+140. GENERICS.md
+
+    Tipos genéricos
+    Type safety
+    Ejemplos en repositorios
+
+141. EQUALS-Y-HASHCODE.md
+
+    Por qué sobrescribirlos
+    Contrato equals-hashCode
+    Lombok @EqualsAndHashCode
+
+142. SERIALIZATION.md
+
+    Serializable interface
+    JSON serialization
+    @JsonProperty, @JsonIgnore
+
+143. ENUMS.md
+
+    Cuándo usar enumeraciones
+    Métodos en enums
+    Ejemplos del proyecto
+
+144. CONSTANTES.md
+
+    static final
+    Dónde declarar constantes
+    Naming conventions
+
+145. RECURSOS-TRY-WITH-RESOURCES.md
+
+    AutoCloseable
+    Manejo de recursos
+    Evitar leaks
+
+📁 CARPETA: /docs/22-BUENAS-PRACTICAS-SPRING-BOOT
+146. ESTRUCTURA-PAQUETES.md
+
+    Organización por feature vs por layer
+    Nombrado de paquetes
+    Convenciones
+
+147. CONFIGURACION-EXTERNALIZADA.md
+
+    application.yml vs application.properties
+    Perfiles (dev, prod)
+    @ConfigurationProperties
+
+148. PROFILES-SPRING.md
+
+    @Profile
+    application-dev.yml
+    application-prod.yml
+    Variables de entorno
+
+149. VALIDACIONES-BEAN-VALIDATION.md
+
+    @Valid
+    @NotNull, @NotBlank, @Size
+    @Email, @Min, @Max
+    Custom validators
+    Mensajes personalizados
+
+150. TRANSACCIONES.md
+
+    @Transactional
+    ACID
+    Propagación de transacciones
+    Rollback
+
+151. MANEJO-EXCEPCIONES-GLOBAL.md
+
+    @ControllerAdvice
+    @ExceptionHandler
+    Estructura de respuestas de error
+    HTTP status apropiados
+
+152. LOGGING.md
+
+    SLF4J con Logback
+    Niveles: TRACE, DEBUG, INFO, WARN, ERROR
+    Qué loggear
+    Qué NO loggear (passwords, tokens)
+    Configuración logback-spring.xml
+
+153. ACTUATOR.md
+
+    Spring Boot Actuator
+    Health checks
+    Metrics
+    Endpoints útiles
+
+154. DOCUMENTATION-SWAGGER.md
+
+    OpenAPI/Swagger
+    Springdoc
+    Anotaciones de documentación
+    Generación automática
+
+155. CORS-CONFIGURATION.md
+
+    Qué es CORS
+    Por qué es necesario
+    Configuración correcta
+    Seguridad
+
+156. REQUEST-RESPONSE-LOGGING.md
+
+    Interceptores
+    Logging de requests
+    Performance monitoring
+
+157. PAGINATION.md
+
+    Pageable
+    Page vs List
+    Sort
+    Ejemplos de endpoints
+
+158. SOFT-DELETE.md
+
+    Borrado lógico vs físico
+    Campo deleted o active
+    Queries con filtros
+
+📁 CARPETA: /docs/23-BASE-DATOS-AVANZADO
+159. DISEÑO-BASE-DATOS.md
+
+    Normalización (1NF, 2NF, 3NF)
+    Desnormalización cuándo conviene
+    Diseño del proyecto
+
+160. INDICES.md
+
+    Qué son los índices
+    Cuándo crearlos
+    @Index en JPA
+    Performance
+
+161. QUERIES-EFICIENTES.md
+
+    N+1 problem
+    Fetch EAGER vs LAZY
+    @EntityGraph
+    JOIN FETCH
+
+162. MIGRACIONES-LIQUIBASE-FLYWAY.md
+
+    Control de versiones de BD
+    Flyway
+    Versionado de schemas
+    Scripts de migración
+
+163. CONSTRAINS-Y-VALIDACIONES-BD.md
+
+    UNIQUE
+    NOT NULL
+    CHECK
+    Foreign Keys
+
+164. TRANSACTIONS-DATABASE.md
+
+    Isolation levels
+    Locks
+    Deadlocks
+
+165. AUDIT-FIELDS.md
+
+    createdAt, updatedAt
+    createdBy, updatedBy
+    @CreatedDate, @LastModifiedDate
+    @EntityListeners
+
+📁 CARPETA: /docs/24-SEGURIDAD-AVANZADA
+166. OWASP-TOP-10.md
+
+    Vulnerabilidades más comunes
+    Cómo prevenirlas
+    Aplicación en el proyecto
+
+167. SQL-INJECTION-PREVENTION.md
+
+    Qué es SQL Injection
+    Prepared Statements
+    JPA y seguridad
+
+168. XSS-PREVENTION.md
+
+    Cross-Site Scripting
+    Sanitización de inputs
+    Content Security Policy
+
+169. CSRF-PROTECTION.md
+
+    Cross-Site Request Forgery
+    Tokens CSRF
+    Configuración en Spring
+
+170. RATE-LIMITING.md
+
+    Limitar peticiones
+    Bucket4j
+    Prevenir ataques DoS
+
+171. PASSWORD-POLICIES.md
+
+    Requisitos de contraseñas
+    Validaciones
+    Expiración de contraseñas
+
+172. HTTPS-Y-SSL.md
+
+    Por qué HTTPS
+    Certificados
+    Configuración
+
+173. SECRETS-MANAGEMENT.md
+
+    NO hardcodear secrets
+    Variables de entorno
+    Vault, AWS Secrets Manager
+
+174. ROLES-Y-PERMISOS-GRANULARES.md
+
+    Role-Based Access Control (RBAC)
+    Permisos por recurso
+    @PreAuthorize con SpEL
+
+📁 CARPETA: /docs/25-TESTING-BACKEND
+175. PIRAMIDE-TESTING.md
+
+    Unit tests
+    Integration tests
+    E2E tests
+    Proporciones
+
+176. JUNIT-5.md
+
+    Anotaciones: @Test, @BeforeEach, @AfterEach
+    Assertions
+    Estructura de tests
+
+177. MOCKITO.md
+
+    Mocking de dependencias
+    @Mock, @InjectMocks
+    when().thenReturn()
+    verify()
+
+178. TEST-CONTROLLERS.md
+
+    @WebMvcTest
+    MockMvc
+    Testing endpoints
+    Ejemplos del proyecto
+
+179. TEST-SERVICES.md
+
+    @SpringBootTest vs tests unitarios
+    Mocking de repositorios
+    Cobertura
+
+180. TEST-REPOSITORIES.md
+
+    @DataJpaTest
+    Base de datos en memoria (H2)
+    Testing queries
+
+181. TEST-INTEGRATION.md
+
+    @SpringBootTest
+    TestContainers
+    Testing de flujos completos
+
+182. TESTCONTAINERS.md
+
+    Contenedores Docker para tests
+    PostgreSQL en tests
+    Configuración
+
+183. COBERTURA-CODIGO.md
+
+    JaCoCo
+    Métricas de cobertura
+    Qué porcentaje es bueno
+
+184. TDD-TEST-DRIVEN-DEVELOPMENT.md
+
+    Red-Green-Refactor
+    Ventajas
+    Cuándo aplicar
+
+📁 CARPETA: /docs/26-PERFORMANCE-BACKEND
+185. CACHING.md
+
+    @Cacheable
+    Redis
+    Estrategias de caché
+    Invalidación
+
+186. ASYNC-PROCESSING.md
+
+    @Async
+    CompletableFuture
+    Thread pools
+    Cuando usar asincronía
+
+187. CONNECTION-POOLING.md
+
+    HikariCP
+    Configuración de pool
+    Optimización
+
+188. LAZY-VS-EAGER-LOADING.md
+
+    Estrategias de carga
+    Performance implications
+    Cuándo usar cada una
+
+189. QUERY-OPTIMIZATION.md
+
+    EXPLAIN ANALYZE
+    Índices
+    Evitar SELECT *
+
+190. MONITORING-APM.md
+
+    Application Performance Monitoring
+    New Relic, Datadog
+    Métricas importantes
+
+📁 CARPETA: /docs/27-DEPLOYMENT-BACKEND
+191. MAVEN-VS-GRADLE.md
+
+    Build tools
+    pom.xml
+    Dependencias
+    Plugins
+
+192. PACKAGING-JAR.md
+
+    mvn clean package
+    Executable JAR
+    Fat JAR vs Thin JAR
+
+193. DOCKER-BACKEND.md
+
+    Dockerfile
+    Multi-stage builds
+    Docker Compose
+    Variables de entorno
+
+194. CI-CD.md
+
+    Jenkins, GitHub Actions, GitLab CI
+    Pipeline de despliegue
+    Automatización
+
+195. CLOUD-DEPLOYMENT.md
+
+    AWS (EC2, ECS, Elastic Beanstalk)
+    Azure
+    Google Cloud
+    Heroku
+
+196. ENVIRONMENT-VARIABLES.md
+
+    Configuración por ambiente
+    Secrets
+    .env files
+
+📁 CARPETA: /docs/28-API-BEST-PRACTICES
+197. REST-API-DESIGN.md
+
+    Convenciones RESTful
+    Nombres de recursos (plural)
+    Anidamiento de recursos
+
+198. VERSIONADO-API.md
+
+    /api/v1/
+    Headers de versión
+    Deprecación
+
+199. HTTP-METHODS-IDEMPOTENCIA.md
+
+    GET, POST, PUT, PATCH, DELETE
+    Idempotencia
+    Safe methods
+
+200. RESPONSE-STRUCTURE.md
+
+    Estructura consistente
+    Envelope vs no envelope
+    Metadata
+
+201. ERROR-RESPONSES.md
+
+    Estructura de errores
+    Códigos de error personalizados
+    Mensajes descriptivos
+
+202. HATEOAS.md
+
+    Hypermedia
+    Links en respuestas
+    Spring HATEOAS
+
+203. API-RATE-LIMITING.md
+
+    Headers: X-RateLimit-Limit
+    Throttling
+    Respuestas 429
+
+204. API-AUTHENTICATION.md
+
+    Bearer tokens
+    API Keys
+    OAuth2
+
+📁 CARPETA: /docs/29-CODIGO-MANTENIBLE
+205. REFACTORING.md
+
+    Cuándo refactorizar
+    Técnicas comunes
+    Extract method
+    Rename
+
+206. CODE-SMELLS.md
+
+    Long method
+    Large class
+    Duplicated code
+    Feature envy
+    Cómo detectarlos en el proyecto
+
+207. TECHNICAL-DEBT.md
+
+    Qué es deuda técnica
+    Cómo gestionarla
+    TODO comments
+
+208. DOCUMENTATION-CODE.md
+
+    README.md
+    Comentarios útiles
+    Documentación de API
+    Diagramas
+
+📁 CARPETA: /docs/30-GIT-Y-CONTROL-VERSIONES
+209. GIT-WORKFLOW.md
+
+    Gitflow
+    Feature branches
+    Pull requests
+
+210. COMMITS-SEMANTICOS.md
+
+    Conventional Commits
+    feat:, fix:, docs:, refactor:
+    Mensajes descriptivos
+
+211. GITIGNORE.md
+
+    Qué ignorar
+    Archivos sensibles
+    Target/build folders
+
+212. CODE-REVIEW.md
+
+    Qué revisar
+    Checklist
+    Feedback constructivo
+
+AHORA EL FRONTEND 🚀
+📁 CARPETA: /docs/31-FUNDAMENTOS-REACT
+213. REACT-DESDE-CERO.md
+
+    Qué es React
+    Virtual DOM
+    Reconciliation
+    One-way data flow
+
+214. JSX-SINTAXIS.md
+
+    Qué es JSX
+    Expresiones en JSX
+    Atributos
+    Children
+
+215. COMPONENTES-FUNCIONALES.md
+
+    Function components
+    Props
+    Composición
+    Ejemplos del proyecto
+
+216. PROPS-Y-PROPTYPES.md
+
+    Paso de props
+    Validación con TypeScript
+    Default props
+    Children prop
+
+217. STATE-CONCEPTO.md
+
+    Qué es el state
+    Diferencia con props
+    Inmutabilidad
+
+218. EVENTOS-REACT.md
+
+    Manejo de eventos
+    onClick, onChange, onSubmit
+    Event object
+    preventDefault
+
+219. RENDERIZADO-CONDICIONAL.md
+
+    if/else
+    Ternary operator
+    && operator
+    Switch
+
+220. LISTAS-Y-KEYS.md
+
+    map()
+    Importancia de keys
+    key única
+    Performance
+
+221. FORMULARIOS-CONTROLADOS.md
+
+    Controlled components
+    value + onChange
+    Single source of truth
+
+📁 CARPETA: /docs/32-HOOKS-REACT
+222. USESTATE-DETALLADO.md
+
+    Declaración
+    Actualización
+    Estado con objetos/arrays
+    Múltiples estados
+    Ejemplos del proyecto
+
+223. USEEFFECT-DETALLADO.md
+
+    Ciclo de vida
+    Dependency array
+    Cleanup function
+    Casos de uso
+
+224. USECONTEXT.md
+
+    Context API
+    Provider y Consumer
+    useContext hook
+    Cuándo usar
+
+225. USEREDUCER.md
+
+    Alternativa a useState
+    Reducer function
+    Dispatch actions
+    Estado complejo
+
+226. USEMEMO.md
+
+    Memoización
+    Optimización
+    Cuándo usar
+    Anti-patterns
+
+227. USECALLBACK.md
+
+    Memoización de funciones
+    Prevenir re-renders
+    Dependencias
+
+228. USEREF.md
+
+    Referencias
+    DOM access
+    Valores mutables
+    forwardRef
+
+229. CUSTOM-HOOKS.md
+
+    Crear hooks propios
+    Reutilización de lógica
+    Ejemplos: useAuth, useFetch
+    Convenciones (use...)
+
+📁 CARPETA: /docs/33-TYPESCRIPT-REACT
+230. TYPESCRIPT-BASICO.md
+
+    Tipos primitivos
+    Interfaces
+    Types
+    Union types
+
+231. TYPESCRIPT-REACT-COMPONENTES.md
+
+    Tipado de props
+    React.FC vs function
+    Children typing
+    Event handlers typing
+
+232. TYPESCRIPT-HOOKS.md
+
+    useState con tipos
+    useEffect typing
+    Custom hooks typing
+
+233. INTERFACES-VS-TYPES.md
+
+    Diferencias
+    Cuándo usar cada uno
+    Extensión
+
+234. GENERICS-TYPESCRIPT.md
+
+    Tipos genéricos
+    Componentes genéricos
+    Funciones genéricas
+
+235. UTILITY-TYPES.md
+
+    Partial, Required
+    Pick, Omit
+    Record, Readonly
+
+📁 CARPETA: /docs/34-TAILWIND-CSS
+236. TAILWIND-INTRODUCCION.md
+
+    Utility-first
+    Ventajas
+    Configuración
+
+237. LAYOUT-TAILWIND.md
+
+    Flexbox utilities
+    Grid utilities
+    Container
+    Spacing (padding, margin)
+
+238. RESPONSIVE-DESIGN.md
+
+    Breakpoints: sm, md, lg, xl
+    Mobile-first
+    Ejemplos del proyecto
+
+239. COLORES-TAILWIND.md
+
+    Paleta de colores
+    bg-, text-, border-
+    Opacity
+
+240. TIPOGRAFIA.md
+
+    text-size
+    font-weight
+    line-height
+    letter-spacing
+
+241. ESTADOS-HOVER-FOCUS.md
+
+    hover:
+    focus:
+    active:
+    disabled:
+
+242. CUSTOMIZACION-TAILWIND.md
+
+    tailwind.config.js
+    Colores personalizados
+    Fuentes
+    Plugins
+
+243. COMPONENTES-REUTILIZABLES.md
+
+    Clases reutilizables
+    @apply
+    Component patterns
+
+📁 CARPETA: /docs/35-ROUTING-REACT-ROUTER
+244. REACT-ROUTER-SETUP.md
+
+    Instalación
+    BrowserRouter
+    Configuración básica
+
+245. ROUTES-Y-ROUTE.md
+
+    Definir rutas
+    path y element
+    Rutas anidadas
+
+246. LINK-Y-NAVLINK.md
+
+    Navegación
+    NavLink active
+    Estilos
+
+247. USENAVIGATE.md
+
+    Navegación programática
+    navigate()
+    Redirect
+
+248. USEPARAMS.md
+
+    Parámetros de ruta
+    /user/:id
+    Extraer params
+
+249. USELOCATON.md
+
+    Ubicación actual
+    Search params
+    State
+
+250. RUTAS-PROTEGIDAS.md
+
+    ProtectedRoute component
+    Autenticación
+    Redirects
+
+251. LAZY-LOADING-ROUTES.md
+
+    React.lazy
+    Suspense
+    Code splitting
+
+📁 CARPETA: /docs/36-GESTION-ESTADO
+252. CONTEXT-API-AVANZADO.md
+
+    Múltiples contexts
+    AuthContext
+    ThemeContext
+    Organización
+
+253. ZUSTAND.md (si lo usas)
+
+    Store global
+    Actions
+    Selectors
+
+254. REDUX-TOOLKIT.md (si lo usas)
+
+    Store
+    Slices
+    Actions y Reducers
+    useSelector, useDispatch
+
+255. ESTADO-LOCAL-VS-GLOBAL.md
+
+    Cuándo usar cada uno
+    Prop drilling
+    Soluciones
+
+📁 CARPETA: /docs/37-PETICIONES-HTTP
+256. FETCH-API.md
+
+    fetch()
+    then/catch
+    async/await
+    Manejo de errores
+
+257. AXIOS.md
+
+    Instalación
+    axios.get, .post, .put, .delete
+    Interceptors
+    Configuración global
+
+258. AUTENTICACION-FRONTEND.md
+
+    Guardar token
+    localStorage vs sessionStorage
+    Headers de autorización
+    Refresh token
+
+259. LOADING-STATES.md
+
+    isLoading
+    Spinners
+    Skeleton screens
+
+260. ERROR-HANDLING-FRONTEND.md
+
+    Try-catch
+    Error boundaries
+    Toast notifications
+    Mensajes de usuario
+
+261. AXIOS-INTERCEPTORS.md
+
+    Request interceptors
+    Response interceptors
+    Auto-attach token
+    Auto-refresh token
+
+📁 CARPETA: /docs/38-FORMULARIOS-FRONTEND
+262. FORMULARIOS-NATIVOS.md
+
+    Controlled inputs
+    onChange, onSubmit
+    Validación
+
+263. REACT-HOOK-FORM.md (si lo usas)
+
+    register
+    handleSubmit
+    errors
+    Validaciones
+
+264. VALIDACION-FRONTEND.md
+
+    Validación en tiempo real
+    Mensajes de error
+    Regex patterns
+
+265. FILE-UPLOADS.md
+
+    Input file
+    FormData
+    Preview de imágenes
+    Envío al backend
+
+📁 CARPETA: /docs/39-COMPONENTES-UI
+266. COMPONENTES-ATOMICOS.md
+
+    Botones
+    Inputs
+    Cards
+    Badges
+
+267. COMPONENTES-MOLECULAS.md
+
+    FormField
+    SearchBar
+    Navbar
+    Sidebar
+
+268. COMPONENTES-ORGANISMOS.md
+
+    LoginForm
+    UserTable
+    Dashboard
+
+269. LAYOUT-COMPONENTS.md
+
+    Header
+    Footer
+    Main
+    Container
+
+270. MODAL-DIALOG.md
+
+    Portal
+    Overlay
+    Accesibilidad
+    Animaciones
+
+271. TOAST-NOTIFICATIONS.md
+
+    react-toastify
+    Posiciones
+    Tipos: success, error, info
+    Auto-dismiss
+
+272. LOADING-SPINNERS.md
+
+    CSS spinners
+    Componente reutilizable
+    Skeleton loaders
+
+📁 CARPETA: /docs/40-BUENAS-PRACTICAS-REACT
+273. ESTRUCTURA-PROYECTO-FRONTEND.md
+
+    Carpetas: components, pages, services
+    utils, hooks, contexts
+    Convenciones
+
+274. COMPOSICION-VS-HERENCIA.md
+
+    Favor composition
+    Children prop
+    Render props
+    HOCs
+
+275. PROPS-DRILLING-SOLUCION.md
+
+    Context
+    Composición
+    State management
+
+276. COMPONENTIZATION.md
+
+    Cuándo crear componente
+    Single Responsibility
+    Reutilización
+
+277. NAMING-CONVENTIONS-REACT.md
+
+    PascalCase para componentes
+    camelCase para funciones
+    UPPER_CASE para constantes
+
+278. KEYS-EN-LISTAS.md
+
+    Por qué son importantes
+    Qué NO usar como key (index)
+    ID únicas
+
+279. CONDITIONAL-RENDERING-PATTERNS.md
+
+    Patrones comunes
+    Early returns
+    Ternarios vs &&
+
+280. EVITAR-RE-RENDERS.md
+
+    React.memo
+    useMemo
+    useCallback
+    Optimización
+
+📁 CARPETA: /docs/41-PERFORMANCE-FRONTEND
+281. REACT-MEMO.md
+
+    Memoización de componentes
+    Cuándo usar
+    Comparación shallow
+
+282. CODE-SPLITTING.md
+
+    React.lazy
+    Suspense
+    Dynamic imports
+    Chunks
+
+283. LAZY-LOADING-IMAGES.md
+
+    loading="lazy"
+    Intersection Observer
+    Librerías
+
+284. VIRTUALIZATION.md
+
+    react-window
+    react-virtualized
+    Listas largas
+
+285. DEBOUNCE-THROTTLE.md
+
+    Optimizar búsquedas
+    useDebounce hook
+    Ejemplos
+
+286. WEB-VITALS.md
+
+    LCP, FID, CLS
+    Lighthouse
+    Optimización
+
+📁 CARPETA: /docs/42-TESTING-FRONTEND
+287. TESTING-LIBRARY.md
+
+    @testing-library/react
+    render, screen
+    Queries
+
+288. JEST-CONFIGURACION.md
+
+    Setup
+    Matchers
+    Mocks
+
+289. TESTING-COMPONENTES.md
+
+    Unit tests de componentes
+    Props testing
+    Estado
+
+290. TESTING-HOOKS.md
+
+    @testing-library/react-hooks
+    renderHook
+    Ejemplos
+
+291. TESTING-INTEGRACION-FRONTEND.md
+
+    User interactions
+    Flujos completos
+    MSW para mocks
+
+292. E2E-TESTING.md
+
+    Cypress
+    Playwright
+    Tests end-to-end
+
+📁 CARPETA: /docs/43-ACCESIBILIDAD
+293. A11Y-BASICOS.md
+
+    ARIA labels
+    alt en imágenes
+    Roles semánticos
+
+294. NAVEGACION-TECLADO.md
+
+    Tab navigation
+    Focus management
+    Shortcuts
+
+295. LECTORES-PANTALLA.md
+
+    Screen readers
+    ARIA live regions
+    Testing con NVDA/JAWS
+
+296. CONTRASTE-COLORES.md
+
+    WCAG guidelines
+    Tools de testing
+    Ratios mínimos
+
+📁 CARPETA: /docs/44-SEO-FRONTEND
+297. META-TAGS.md
+
+    react-helmet
+    Title, description
+    Open Graph
+
+298. SEMANTIC-HTML.md
+
+    nav, main, article, section
+    Heading hierarchy
+    Footer, header
+
+299. SITEMAP-ROBOTS.md
+
+    sitemap.xml
+    robots.txt
+    SEO para SPAs
+
+📁 CARPETA: /docs/45-DEPLOYMENT-FRONTEND
+300. BUILD-PRODUCCION.md
+
+    npm run build
+    Optimizaciones
+    Minificación
+
+301. VARIABLES-ENTORNO-FRONTEND.md
+
+    .env
+    REACT_APP_
+    Configuración por ambiente
+
+302. HOSTING-OPTIONS.md
+
+    Vercel
+    Netlify
+    AWS S3 + CloudFront
+    GitHub Pages
+
+303. CI-CD-FRONTEND.md
+
+    GitHub Actions
+    Automatizar builds
+    Deploy automático
+
+304. CDN-Y-ASSETS.md
+
+    CDN para assets
+    Cloudflare
+    Optimización de imágenes
+
+📁 CARPETA: /docs/46-SEGURIDAD-FRONTEND
+305. XSS-PREVENTION-REACT.md
+
+    Escape automático de React
+    dangerouslySetInnerHTML
+    Sanitización
+
+306. ALMACENAMIENTO-TOKENS.md
+
+    localStorage seguridad
+    httpOnly cookies
+
+Continue
+📁 CARPETA: /docs/46-SEGURIDAD-FRONTEND (continuación)
+306. ALMACENAMIENTO-TOKENS.md (continuación)
+
+    httpOnly cookies
+    sessionStorage
+    Comparación de seguridad
+    Best practices
+
+307. CONTENT-SECURITY-POLICY-FRONTEND.md
+
+    CSP headers
+    Inline scripts
+    Configuración
+
+308. SANITIZACION-INPUTS.md
+
+    DOMPurify
+    Validación client-side
+    No confiar solo en frontend
+
+309. DEPENDENCY-VULNERABILITIES.md
+
+    npm audit
+    Dependabot
+    Actualización de paquetes
+
+310. HTTPS-ENFORCEMENT.md
+
+    Forzar HTTPS
+    Redirecciones
+    Mixed content
+
+📁 CARPETA: /docs/47-INTEGRACION-BACKEND-FRONTEND
+311. ARQUITECTURA-COMPLETA.md
+
+    Flujo de datos completo
+    Frontend → Backend → DB
+    Diagrama de integración
+
+312. API-CLIENT-SERVICE.md
+
+    Organización de llamadas API
+    Services folder
+    Axios instance centralizada
+
+313. MANEJO-ERRORES-INTEGRACION.md
+
+    Errores de red
+    Errores 4xx, 5xx
+    Retry logic
+    Feedback al usuario
+
+314. CORS-EXPLICADO.md
+
+    Qué es CORS
+    Por qué ocurre
+    Solución backend
+    Configuración frontend
+
+315. SINCRONIZACION-DATOS.md
+
+    Estado local vs servidor
+    Optimistic updates
+    Pesimistic updates
+    Polling vs WebSockets
+
+316. MANEJO-SESIONES.md
+
+    Login flow completo
+    Persistencia de sesión
+    Refresh token flow
+    Logout
+
+317. PROXY-DESARROLLO.md
+
+    package.json proxy
+    Evitar CORS en desarrollo
+    Configuración
+
+📁 CARPETA: /docs/48-ESTADO-AVANZADO-FRONTEND
+318. OPTIMISTIC-UI-UPDATES.md
+
+    Actualizar UI antes de respuesta
+    Rollback en error
+    UX mejorada
+
+319. CACHE-FRONTEND.md
+
+    React Query
+    SWR
+    Cache de peticiones
+    Invalidación
+
+320. REACT-QUERY.md (si lo usas)
+
+    useQuery
+    useMutation
+    Cache automático
+    Refetch strategies
+
+321. SWR.md (si lo usas)
+
+    Stale-While-Revalidate
+    useSWR hook
+    Mutación optimista
+
+322. WEBSOCKETS-FRONTEND.md
+
+    Socket.io client
+    Eventos en tiempo real
+    Reconexión automática
+
+📁 CARPETA: /docs/49-PATRONES-REACT
+323. COMPOUND-COMPONENTS.md
+
+    Componentes compuestos
+    Context implícito
+    Ejemplo: Tabs, Accordion
+
+324. RENDER-PROPS.md
+
+    Patrón render props
+    Compartir lógica
+    Ejemplos
+
+325. HIGHER-ORDER-COMPONENTS.md
+
+    HOCs
+    withAuth, withLoading
+    Cuándo usar
+
+326. CONTAINER-PRESENTATIONAL.md
+
+    Smart vs Dumb components
+    Separación de lógica
+    Testability
+
+327. CONTROLLED-UNCONTROLLED.md
+
+    Controlled components
+    Uncontrolled con ref
+    Cuándo usar cada uno
+
+328. PORTAL-PATTERN.md
+
+    ReactDOM.createPortal
+    Modales
+    Tooltips fuera del DOM tree
+
+📁 CARPETA: /docs/50-ANIMACIONES-FRONTEND
+329. CSS-ANIMATIONS.md
+
+    transition
+    keyframes
+    Animaciones Tailwind
+
+330. FRAMER-MOTION.md (si lo usas)
+
+    motion components
+    Variants
+    Animaciones complejas
+
+331. REACT-SPRING.md (si lo usas)
+
+    Physics-based animations
+    useSpring
+    Transiciones
+
+332. LOADING-ANIMATIONS.md
+
+    Skeletons
+    Spinners
+    Progress bars
+
+333. PAGE-TRANSITIONS.md
+
+    Transiciones entre rutas
+    Fade, slide
+    Animaciones con Router
+
+📁 CARPETA: /docs/51-INTERNACIONALIZACION
+334. I18N-REACT.md
+
+    react-i18next
+    Múltiples idiomas
+    Traducción de textos
+
+335. FORMATO-FECHAS-NUMEROS.md
+
+    Intl API
+    date-fns
+    Localización
+
+336. RTL-SUPPORT.md
+
+    Right-to-left
+    Idiomas RTL
+    CSS ajustes
+
+📁 CARPETA: /docs/52-FORMS-AVANZADO
+337. MULTI-STEP-FORMS.md
+
+    Wizard forms
+    Estado entre pasos
+    Validación por paso
+
+338. DYNAMIC-FORMS.md
+
+    Campos dinámicos
+    Array fields
+    Agregar/remover campos
+
+339. FILE-UPLOAD-AVANZADO.md
+
+    Drag and drop
+    Multiple files
+    Progress bar
+    Validación de tipo/tamaño
+
+340. AUTOCOMPLETE-SEARCH.md
+
+    Debounced search
+    Dropdown results
+    Keyboard navigation
+
+📁 CARPETA: /docs/53-DATA-VISUALIZATION
+341. CHARTS-RECHARTS.md (si lo usas)
+
+    LineChart, BarChart
+    Configuración
+    Datos del backend
+
+342. TABLES-REACT-TABLE.md (si lo usas)
+
+    TanStack Table
+    Sorting, filtering
+    Pagination
+
+343. DATA-GRID.md
+
+    AG Grid / MUI DataGrid
+    Edición inline
+    Export
+
+📁 CARPETA: /docs/54-ERROR-BOUNDARIES
+344. ERROR-BOUNDARIES-REACT.md
+
+    componentDidCatch
+    Capturar errores
+    Fallback UI
+
+345. ERROR-MONITORING.md
+
+    Sentry
+    LogRocket
+    Error tracking
+
+📁 CARPETA: /docs/55-PROGRESSIVE-WEB-APP
+346. PWA-BASICS.md
+
+    Service Workers
+    manifest.json
+    Instalable
+
+347. OFFLINE-SUPPORT.md
+
+    Cache strategies
+    Offline first
+    Sync cuando online
+
+348. PUSH-NOTIFICATIONS.md
+
+    Notification API
+    Push subscription
+    Backend integration
+
+📁 CARPETA: /docs/56-MOBILE-RESPONSIVE
+349. MOBILE-FIRST-DESIGN.md
+
+    Principios mobile-first
+    Breakpoints
+    Touch targets
+
+350. RESPONSIVE-IMAGES.md
+
+    srcset
+    picture element
+    Lazy loading
+
+351. HAMBURGER-MENU.md
+
+    Mobile navigation
+    Drawer/Sidebar
+    Animaciones
+
+352. TOUCH-GESTURES.md
+
+    Swipe
+    Pinch to zoom
+    Touch events
+
+📁 CARPETA: /docs/57-DESARROLLO-FRONTEND
+353. VITE-CONFIGURATION.md (o Create React App)
+
+    Dev server
+    Hot Module Replacement
+    Plugins
+
+354. ESLINT-PRETTIER.md
+
+    Linting rules
+    Formatting
+    Configuración
+    Pre-commit hooks
+
+355. HUSKY-LINT-STAGED.md
+
+    Git hooks
+    Pre-commit checks
+    Automatización
+
+356. STORYBOOK.md (si lo usas)
+
+    Component library
+    Documentación visual
+    Testing en aislamiento
+
+357. DEBUGGING-REACT.md
+
+    React DevTools
+    Console debugging
+    Breakpoints
+    Error messages
+
+📁 CARPETA: /docs/58-ARQUITECTURA-FRONTEND
+358. FEATURE-BASED-ARCHITECTURE.md
+
+    Organización por features
+    Colocation
+    Escalabilidad
+
+359. ATOMIC-DESIGN.md
+
+    Atoms, Molecules, Organisms
+    Templates, Pages
+    Aplicación al proyecto
+
+360. SEPARATION-CONCERNS.md
+
+    Lógica vs presentación
+    Business logic
+    UI logic
+
+361. MODULE-FEDERATION.md (si aplica)
+
+    Micro-frontends
+    Shared dependencies
+    Remote modules
+
+📁 CARPETA: /docs/59-UTILS-Y-HELPERS
+362. CUSTOM-HOOKS-PROYECTO.md
+
+    useAuth
+    useFetch
+    useLocalStorage
+    useDebounce
+    Explicación de cada uno
+
+363. UTILIDADES-FECHA.md
+
+    Formateo de fechas
+    Comparaciones
+    date-fns functions
+
+364. UTILIDADES-STRING.md
+
+    capitalize
+    truncate
+    slug
+    Funciones útiles
+
+365. VALIDACIONES-UTILS.md
+
+    isEmail
+    isValidPassword
+    Regex patterns
+
+366. FORMATEO-MONEDA.md
+
+    Intl.NumberFormat
+    Símbolos de moneda
+    Localización
+
+367. CONSTANTS-ENUMS.md
+
+    Constantes del proyecto
+    Enums TypeScript
+    Centralización
+
+📁 CARPETA: /docs/60-DEVTOOLS-Y-DEBUGGING
+368. REACT-DEVTOOLS.md
+
+    Inspeccionar componentes
+    Profiler
+    Debugging state
+
+369. REDUX-DEVTOOLS.md (si usas Redux)
+
+    Time travel debugging
+    State inspection
+    Action history
+
+370. NETWORK-TAB.md
+
+    Chrome DevTools Network
+    Inspeccionar requests
+    Headers, payload, response
+
+371. CONSOLE-TRICKS.md
+
+    console.log avanzado
+    console.table
+    console.group
+    console.time
+
+372. SOURCE-MAPS.md
+
+    Debugging código compilado
+    Configuración
+    Production source maps
+
+📁 CARPETA: /docs/61-MIGRACIÓN-Y-UPGRADES
+373. ACTUALIZAR-REACT.md
+
+    Versiones de React
+    Breaking changes
+    Codemods
+
+374. ACTUALIZAR-DEPENDENCIAS.md
+
+    npm outdated
+    npm update
+    Major version changes
+
+375. DEPRECATIONS.md
+
+    Features deprecados
+    Alternativas
+    Migration guides
+
+📁 CARPETA: /docs/62-MONOREPO (si aplica)
+376. MONOREPO-STRUCTURE.md
+
+    Packages organization
+    Shared code
+    Workspaces
+
+377. SHARED-COMPONENTS.md
+
+    UI library compartida
+    Versioning
+    Publishing
+
+📁 CARPETA: /docs/63-CASOS-USO-PROYECTO
+378. FLUJO-LOGIN-COMPLETO.md
+
+    Frontend + Backend
+    Paso a paso detallado
+    Código explicado
+
+379. FLUJO-REGISTRO-COMPLETO.md
+
+    Formulario
+    Validaciones
+    Envío al backend
+    Manejo de respuesta
+
+380. FLUJO-CRUD-COMPLETO.md
+
+    Create, Read, Update, Delete
+    Cada operación explicada
+    Frontend + Backend
+
+381. FLUJO-PAGINACION.md
+
+    Request con page/size
+    Backend response
+    UI de paginación
+
+382. FLUJO-BUSQUEDA-FILTROS.md
+
+    Input de búsqueda
+    Query params
+    Debounce
+    Backend filtering
+
+383. FLUJO-CARGA-ARCHIVOS.md
+
+    File input
+    FormData
+    Multipart request
+    Backend storage
+
+📁 CARPETA: /docs/64-GLOSARIO-FRONTEND
+384. GLOSARIO-REACT.md
+
+    Términos de React
+    Definiciones
+    Ejemplos
+
+385. GLOSARIO-TYPESCRIPT.md
+
+    Términos TypeScript
+    Conceptos clave
+
+386. GLOSARIO-WEB.md
+
+    HTTP
+    DOM
+    Browser APIs
+
+387. GLOSARIO-CSS.md
+
+    Flexbox
+    Grid
+    Box model
+
+📁 CARPETA: /docs/65-COMPARACIONES-TECNOLOGIAS
+388. REACT-VS-OTROS-FRAMEWORKS.md
+
+    React vs Vue
+    React vs Angular
+    Por qué React
+
+389. TYPESCRIPT-VS-JAVASCRIPT.md
+
+    Ventajas de TypeScript
+    Type safety
+    Developer experience
+
+390. TAILWIND-VS-CSS-MODULES.md
+
+    Pros y contras
+    Por qué Tailwind
+
+391. SPA-VS-SSR-VS-SSG.md
+
+    Single Page App
+    Server Side Rendering
+    Static Site Generation
+    Cuándo usar cada uno
+
+📁 CARPETA: /docs/66-TROUBLESHOOTING-FRONTEND
+392. ERRORES-COMUNES-REACT.md
+
+    "Cannot read property of undefined"
+    "Too many re-renders"
+    "Invalid hook call"
+    Soluciones
+
+393. ERRORES-TYPESCRIPT.md
+
+    Type errors comunes
+    any vs unknown
+    Casting
+
+394. ERRORES-BUILD.md
+
+    Failed to compile
+    Module not found
+    Dependency issues
+
+395. PROBLEMAS-CORS.md
+
+    Diagnóstico
+    Soluciones
+    Desarrollo vs producción
+
+396. PROBLEMAS-PERFORMANCE.md
+
+    App lenta
+    Re-renders excesivos
+    Memory leaks
+    Diagnóstico
+
+📁 CARPETA: /docs/67-CLEAN-CODE-FRONTEND
+397. COMPONENTES-LIMPIOS.md
+
+    Componentes pequeños
+    Single responsibility
+    Extraer lógica
+
+398. NOMBRES-DESCRIPTIVOS-FRONTEND.md
+
+    Variables
+    Funciones
+    Componentes
+    Props
+
+399. EVITAR-MAGIC-NUMBERS.md
+
+    Constantes
+    Named values
+    Legibilidad
+
+400. COMENTARIOS-JSX.md
+
+    Cuándo comentar
+    Comentarios útiles
+    Auto-documentación
+
+401. DESTRUCTURING.md
+
+    Props destructuring
+    Object destructuring
+    Array destructuring
+    Legibilidad
+
+402. EARLY-RETURNS.md
+
+    Guard clauses
+    Reducir nesting
+    Legibilidad
+
+📁 CARPETA: /docs/68-DOCUMENTACIÓN-COMPONENTES
+
+Aquí documenta cada componente importante:
+403. LoginForm-componente.md
+404. Header-componente.md
+405. Sidebar-componente.md
+406. UserTable-componente.md
+407. Button-componente.md
+408. Input-componente.md
+409. Card-componente.md
+410. Modal-componente.md
+
+... (uno por cada componente importante)
+
+Cada documento debe incluir:
+
+    Props que recibe
+    Qué hace el componente
+    Eventos que emite
+    Dependencias
+    Ejemplo de uso
+    Screenshot (opcional)
+
+📁 CARPETA: /docs/69-HOOKS-PROYECTO
+430. useAuth-hook.md
+
+    Qué hace
+    Código completo explicado
+    Cómo usarlo
+    Ejemplos
+
+431. useFetch-hook.md
+432. useLocalStorage-hook.md
+433. useDebounce-hook.md
+434. useToggle-hook.md
+435. useForm-hook.md
+
+... (uno por cada custom hook)
+📁 CARPETA: /docs/70-SERVICIOS-API
+440. authService-js.md
+
+    login()
+    register()
+    logout()
+    Código explicado
+
+441. userService-js.md
+
+    getUsers()
+    createUser()
+    updateUser()
+    deleteUser()
+
+442. apiClient-js.md
+
+    Configuración Axios
+    Interceptors
+    Base URL
+
+... (uno por cada service)
+📁 CARPETA: /docs/71-CONTEXTS
+450. AuthContext-explicado.md
+
+    Provider setup
+    Values expuestos
+    Cómo consumir
+
+451. ThemeContext-explicado.md
+452. NotificationContext-explicado.md
+
+... (uno por cada Context)
+📁 CARPETA: /docs/72-PAGES-RUTAS
+460. LoginPage.md
+
+    Qué muestra
+    Componentes usados
+    Flujo de datos
+
+461. HomePage.md
+462. DashboardPage.md
+463. UserListPage.md
+464. UserDetailPage.md
+
+... (una por cada página/ruta)
+📁 CARPETA: /docs/73-GUIAS-PASO-A-PASO
+470. COMO-AGREGAR-NUEVO-COMPONENTE.md
+
+    Paso a paso
+    Dónde crearlo
+    Cómo nombrarlo
+    Export/Import
+
+471. COMO-AGREGAR-NUEVA-RUTA.md
+
+    Añadir a Router
+    Crear página
+    Añadir navegación
+
+472. COMO-AGREGAR-NUEVO-SERVICE.md
+
+    Estructura
+    Axios calls
+    Error handling
+
+473. COMO-AGREGAR-VALIDACION.md
+
+    Frontend validation
+    Backend validation
+    Mensajes de error
+
+474. COMO-AGREGAR-NUEVO-CONTEXT.md
+
+    Crear Context
+    Provider
+    Custom hook
+
+475. COMO-DEBUGGEAR-PROBLEMA.md
+
+    Checklist
+    Tools
+    Proceso sistemático
+
+📁 CARPETA: /docs/74-CHEATSHEETS
+476. REACT-CHEATSHEET.md
+
+    Hooks resumen
+    Patrones comunes
+    Snippets útiles
+
+477. TYPESCRIPT-CHEATSHEET.md
+
+    Tipos comunes
+    Interfaces
+    Utility types
+
+478. TAILWIND-CHEATSHEET.md
+
+    Clases más usadas
+    Responsive
+    Estados
+
+479. GIT-COMMANDS-CHEATSHEET.md
+
+    Comandos frecuentes
+    Flujo de trabajo
+
+480. NPM-COMMANDS-CHEATSHEET.md
+
+    install, update, audit
+    Scripts
+
+📁 CARPETA: /docs/75-RECURSOS-APRENDIZAJE
+481. RECURSOS-REACT.md
+
+    Documentación oficial
+    Tutoriales
+    Videos
+    Blogs
+
+482. RECURSOS-TYPESCRIPT.md
+483. RECURSOS-JAVA-SPRING.md
+484. RECURSOS-POSTGRESQL.md
+485. RECURSOS-GIT.md
+📁 CARPETA: /docs/76-PREPARACION-EXPOSICION
+486. SCRIPT-INTRODUCCION.md
+
+    Qué decir primero
+    Presentación del equipo
+    Overview del proyecto
+
+487. SCRIPT-DEMO-FUNCIONALIDAD.md
+
+    Orden de demostración
+    Qué mostrar
+    Qué explicar
+
+488. SCRIPT-ARQUITECTURA.md
+
+    Cómo explicar capas
+    Diagramas a mostrar
+    Términos técnicos
+
+489. SCRIPT-TECNOLOGIAS.md
+
+    Por qué cada tecnología
+    Ventajas
+    Alternativas consideradas
+
+490. PREGUNTAS-DIFICILES-RESPUESTAS.md
+
+    "¿Por qué no usaron X?"
+    "¿Cómo escala esto?"
+    "¿Qué pasa si...?"
+    Respuestas preparadas
+
+491. QUE-NO-DECIR.md
+
+    Frases a evitar
+    No admitir que no saben
+    Cómo desviar preguntas difíciles
+
+492. LENGUAJE-CORPORAL.md
+
+    Confianza
+    Contacto visual
+    Postura
+
+493. MANEJO-NERVIOS.md
+
+    Técnicas de respiración
+    Preparación mental
+    Práctica
+
+📁 CARPETA: /docs/77-DIAGRAMAS-VISUALES
+494. DIAGRAMA-ARQUITECTURA-GENERAL.md
+
+    Frontend → Backend → DB
+    Tecnologías en cada capa
+    Flujo de datos
+
+495. DIAGRAMA-ENTIDAD-RELACION.md
+
+    Tablas de BD
+    Relaciones
+    Campos importantes
+
+496. DIAGRAMA-CLASES-BACKEND.md
+
+    Principales clases
+    Relaciones
+    Herencia
+
+497. DIAGRAMA-COMPONENTES-FRONTEND.md
+
+    Jerarquía de componentes
+    Props flow
+    State management
+
+498. DIAGRAMA-FLUJO-AUTENTICACION.md
+
+    Login flow
+    Token generation
+    Token validation
+
+499. DIAGRAMA-FLUJO-USUARIO.md
+
+    User journey
+    Pantallas
+    Decisiones
+
+500. DIAGRAMA-SECUENCIA-OPERACIONES.md
+
+    CREATE operation
+    READ operation
+    UPDATE operation
+    DELETE operation
+
+📁 CARPETA: /docs/78-GLOSARIO-COMPLETO
+501. GLOSARIO-COMPLETO-AZ.md
+
+    Todos los términos del proyecto
+    Orden alfabético
+    Definiciones simples
+    Referencias cruzadas
+
+📁 CARPETA: /docs/79-CHECKLIST-PROYECTO
+502. CHECKLIST-FUNCIONALIDADES.md
+
+    ✅ Login
+    ✅ Registro
+    ✅ CRUD usuarios
+    ... todas las funcionalidades
+
+503. CHECKLIST-DOCUMENTACION.md
+
+    Qué documentar
+    Prioridades
+    Estado actual
+
+504. CHECKLIST-TESTING.md
+
+    Tests a realizar
+    Coverage mínimo
+    Escenarios
+
+505. CHECKLIST-PRE-EXPOSICION.md
+
+    Preparar laptop
+    Tener backup
+    Probar internet
+    Ensayar demo
+
+📁 CARPETA: /docs/80-FAQ-PROYECTO-ESPECIFICO
+506. FAQ-DECISIONES-ARQUITECTURA.md
+
+    ¿Por qué Java y no Node?
+    ¿Por qué PostgreSQL?
+    ¿Por qué React?
+
+507. FAQ-PROBLEMAS-ENCONTRADOS.md
+
+    Problemas durante desarrollo
+    Cómo se resolvieron
+    Lecciones aprendidas
+
+508. FAQ-MEJORAS-FUTURAS.md
+
+    Qué se podría mejorar
+    Features faltantes
+    Refactoring necesario
+
+📁 CARPETA: /docs/81-COMANDOS-PROYECTO
+509. COMANDOS-BACKEND.md
+
+    mvn clean install
+    mvn spring-boot:run
+    mvn test
+    Cada comando explicado
+
+510. COMANDOS-FRONTEND.md
+
+    npm install
+    npm start
+    npm run build
+    npm test
+
+511. COMANDOS-BASE-DATOS.md
+
+    Conectar a PostgreSQL
+    Crear database
+    Queries útiles
+
+512. COMANDOS-GIT-PROYECTO.md
+
+    git clone
+    git pull
+    git add/commit/push
+    Workflow específico
+
+📁 CARPETA: /docs/82-INSTALACION-Y-SETUP
+513. SETUP-COMPLETO-DESDE-CERO.md
+
+    Instalar Java JDK
+    Instalar Node.js
+    Instalar PostgreSQL
+    Instalar IDE
+    Clonar proyecto
+    Configurar
+
+514. TROUBLESHOOTING-INSTALACION.md
+
+    Problemas comunes
+    Soluciones
+    Verificar instalación
+
+515. VARIABLES-ENTORNO-SETUP.md
+
+    Qué configurar
+    Valores para desarrollo
+    Valores para producción
+
+📁 CARPETA: /docs/83-BACKUP-Y-RECOVERY
+516. BACKUP-BASE-DATOS.md
+
+    pg_dump
+    Restauración
+    Frecuencia
+
+517. BACKUP-CODIGO.md
+
+    Git como backup
+    Branches
+    Tags
+📁 CARPETA: /docs/85-FUNDAMENTOS-BASE-DATOS
+518. QUE-ES-UNA-BASE-DATOS.md
+
+Definición
+Datos estructurados
+Persistencia
+Por qué necesitamos BD
+
+519. BASES-DATOS-RELACIONALES.md
+
+Modelo relacional
+Tablas, filas, columnas
+Relaciones
+Integridad referencial
+
+520. SQL-LENGUAJE.md
+
+Structured Query Language
+DDL, DML, DCL, TCL
+Tipos de comandos
+
+521. POSTGRESQL-INTRODUCCION.md
+
+Qué es PostgreSQL
+Ventajas sobre otros RDBMS
+Características
+Versión usada en el proyecto
+
+522. CLIENTE-SERVIDOR-BD.md
+
+Arquitectura cliente-servidor
+Conexiones
+Sesiones
+Transacciones
+
+
+📁 CARPETA: /docs/86-CONCEPTOS-SQL-BASICOS
+523. TIPOS-DATOS-SQL.md
+
+INTEGER, BIGINT, SMALLINT
+VARCHAR, TEXT, CHAR
+BOOLEAN
+DATE, TIMESTAMP, TIME
+DECIMAL, NUMERIC
+UUID
+JSON, JSONB
+Cuándo usar cada uno
+
+524. PRIMARY-KEY.md
+
+Qué es una clave primaria
+Unicidad
+Not null
+AUTO_INCREMENT / SERIAL
+Convenciones de nombres (id)
+
+525. FOREIGN-KEY.md
+
+Qué es una clave foránea
+Referencias entre tablas
+ON DELETE CASCADE/SET NULL/RESTRICT
+ON UPDATE CASCADE
+Integridad referencial
+
+526. CONSTRAINTS.md
+
+NOT NULL
+UNIQUE
+CHECK
+DEFAULT
+Ejemplos del proyecto
+
+527. INDICES.md
+
+Qué son los índices
+B-Tree, Hash, GiST, GIN
+Cuándo crear índices
+Impacto en performance
+Índices en el proyecto
+
+528. SECUENCIAS.md
+
+SEQUENCE en PostgreSQL
+Auto-incremento
+SERIAL vs BIGSERIAL
+Gestión de secuencias
+
+
+📁 CARPETA: /docs/87-COMANDOS-SQL-DDL
+529. CREATE-TABLE.md
+
+Sintaxis completa
+Definición de columnas
+Constraints inline
+Ejemplos del proyecto
+
+530. ALTER-TABLE.md
+
+ADD COLUMN
+DROP COLUMN
+MODIFY COLUMN
+RENAME
+ADD CONSTRAINT
+
+531. DROP-TABLE.md
+
+Eliminar tablas
+CASCADE
+Precauciones
+
+532. TRUNCATE-TABLE.md
+
+Vaciar tabla
+vs DELETE
+RESTART IDENTITY
+
+533. CREATE-INDEX.md
+
+Crear índices
+Índices únicos
+Índices compuestos
+Parciales
+
+534. DROP-INDEX.md
+
+Eliminar índices
+Cuándo hacerlo
+
+
+📁 CARPETA: /docs/88-COMANDOS-SQL-DML
+535. SELECT-BASICO.md
+
+SELECT * FROM
+SELECT columnas específicas
+Aliases (AS)
+DISTINCT
+
+536. WHERE-CLAUSE.md
+
+Filtrado de datos
+Operadores: =, !=, <, >, <=, >=
+AND, OR, NOT
+IN, NOT IN
+BETWEEN
+LIKE, ILIKE
+IS NULL, IS NOT NULL
+
+537. INSERT-INTO.md
+
+Insertar una fila
+Insertar múltiples filas
+INSERT ... RETURNING
+Valores por defecto
+
+538. UPDATE.md
+
+Actualizar registros
+WHERE en UPDATE
+Actualizar múltiples columnas
+UPDATE ... RETURNING
+
+539. DELETE.md
+
+Eliminar registros
+WHERE en DELETE
+DELETE vs TRUNCATE
+Soft delete
+
+540. ORDER-BY.md
+
+Ordenamiento
+ASC, DESC
+Múltiples columnas
+NULLS FIRST/LAST
+
+541. LIMIT-OFFSET.md
+
+Paginación
+LIMIT
+OFFSET
+Performance considerations
+
+542. GROUP-BY.md
+
+Agrupación
+COUNT, SUM, AVG, MIN, MAX
+HAVING
+Ejemplos del proyecto
+
+543. JOINS.md
+
+INNER JOIN
+LEFT JOIN (LEFT OUTER JOIN)
+RIGHT JOIN
+FULL OUTER JOIN
+CROSS JOIN
+Self JOIN
+Ejemplos del proyecto
+
+544. SUBQUERIES.md
+
+Subconsultas en WHERE
+Subconsultas en FROM
+Subconsultas en SELECT
+Correlacionadas vs no correlacionadas
+
+545. UNION-INTERSECT-EXCEPT.md
+
+Combinar resultados
+UNION vs UNION ALL
+INTERSECT
+EXCEPT
+
+
+📁 CARPETA: /docs/89-FUNCIONES-AGREGACION
+546. COUNT.md
+
+Contar registros
+COUNT(*)
+COUNT(columna)
+COUNT(DISTINCT)
+
+547. SUM-AVG.md
+
+Suma de valores
+Promedio
+Null handling
+
+548. MIN-MAX.md
+
+Valores mínimos
+Valores máximos
+Con fechas
+
+549. STRING-FUNCTIONS.md
+
+CONCAT
+UPPER, LOWER
+TRIM, LTRIM, RTRIM
+SUBSTRING
+LENGTH
+REPLACE
+
+550. DATE-FUNCTIONS.md
+
+CURRENT_DATE
+CURRENT_TIMESTAMP
+NOW()
+DATE_TRUNC
+EXTRACT
+AGE
+Intervalos
+
+551. CAST-CONVERT.md
+
+Conversión de tipos
+CAST(x AS tipo)
+
+
+
+TO_CHAR, TO_DATE, TO_NUMBER
+
+
+📁 CARPETA: /docs/90-TRANSACCIONES
+552. QUE-SON-TRANSACCIONES.md
+
+Definición
+ACID properties
+Atomicidad, Consistencia, Aislamiento, Durabilidad
+
+553. BEGIN-COMMIT-ROLLBACK.md
+
+Iniciar transacción
+Confirmar cambios
+Revertir cambios
+Ejemplos
+
+554. ISOLATION-LEVELS.md
+
+READ UNCOMMITTED
+READ COMMITTED (default PostgreSQL)
+REPEATABLE READ
+SERIALIZABLE
+Problemas: Dirty reads, Non-repeatable reads, Phantom reads
+
+555. LOCKS.md
+
+Table locks
+Row locks
+Advisory locks
+LOCK TABLE
+
+556. DEADLOCKS.md
+
+Qué son deadlocks
+Cómo evitarlos
+Detección y resolución
+
+
+📁 CARPETA: /docs/91-VISTAS
+557. QUE-SON-VISTAS.md
+
+Views en PostgreSQL
+Virtual tables
+Ventajas
+Casos de uso
+
+558. CREATE-VIEW.md
+
+Sintaxis
+Simple views
+Complex views
+OR REPLACE
+
+559. MATERIALIZED-VIEWS.md
+
+Vistas materializadas
+Diferencia con vistas normales
+REFRESH MATERIALIZED VIEW
+Performance
+
+560. VISTAS-DEL-PROYECTO.md
+
+Lista de todas las vistas
+Para qué sirve cada una
+SQL de creación
+Cómo se usan
+
+
+📁 CARPETA: /docs/92-STORED-PROCEDURES-FUNCTIONS
+561. FUNCIONES-POSTGRESQL.md
+
+CREATE FUNCTION
+Lenguajes: SQL, PL/pgSQL
+Parámetros
+RETURNS
+Ejemplos
+
+562. PROCEDURES.md
+
+CREATE PROCEDURE
+CALL procedure
+IN, OUT, INOUT parameters
+Diferencia con functions
+
+563. PLPGSQL.md
+
+Lenguaje procedural
+Variables
+Estructuras de control (IF, LOOP, WHILE)
+RETURN
+RAISE (excepciones)
+
+564. FUNCIONES-DEL-PROYECTO.md
+
+Cada función explicada
+Parámetros
+Lógica
+Uso desde aplicación
+
+
+📁 CARPETA: /docs/93-TRIGGERS
+565. QUE-SON-TRIGGERS.md
+
+Disparadores automáticos
+BEFORE vs AFTER
+INSERT, UPDATE, DELETE
+Casos de uso
+
+566. CREATE-TRIGGER.md
+
+Sintaxis completa
+Trigger function
+FOR EACH ROW vs FOR EACH STATEMENT
+NEW y OLD
+
+567. TRIGGERS-AUDITORIA.md
+
+Audit trails
+Registrar cambios
+Tablas de auditoría
+Timestamp automático
+
+568. TRIGGERS-DEL-PROYECTO.md
+
+Cada trigger explicado
+Qué hace
+En qué tabla
+Cuándo se ejecuta
+SQL completo
+
+
+📁 CARPETA: /docs/94-DISEÑO-BASE-DATOS
+569. NORMALIZACION.md
+
+Primera forma normal (1NF)
+Segunda forma normal (2NF)
+Tercera forma normal (3NF)
+Cuándo desnormalizar
+
+570. ENTIDAD-RELACION.md
+
+Diagrama ER
+Entidades
+Atributos
+Relaciones 1:1, 1:N, N:M
+
+571. RELACIONES-PROYECTO.md
+
+Cada relación explicada
+Por qué existe
+Cardinalidad
+Opcionalidad
+
+572. NAMING-CONVENTIONS-BD.md
+
+Nombres de tablas (snake_case, plural)
+Nombres de columnas
+Nombres de constraints
+Nombres de índices
+Estándares del proyecto
+
+573. CAMPOS-AUDITORIA.md
+
+created_at
+updated_at
+created_by
+updated_by
+deleted_at (soft delete)
+is_active
+
+
+📁 CARPETA: /docs/95-TABLAS-DEL-PROYECTO
+574. TABLA-USERS.md
+
+Propósito
+Columnas (cada una explicada)
+Tipo de dato de cada columna
+Constraints
+Índices
+Relaciones con otras tablas
+SQL de creación
+Ejemplos de datos
+
+575. TABLA-ROLES.md
+(igual estructura que anterior)
+576. TABLA-PERMISSIONS.md
+577. TABLA-USER-ROLES.md (tabla intermedia)
+578. TABLA-[NOMBRE].md
+... Una por cada tabla del proyecto
+IMPORTANTE: Necesitas decirme cuáles son las tablas de tu proyecto para crear cada documento específico.
+
+📁 CARPETA: /docs/96-RELACIONES-DETALLADAS
+590. RELACION-USER-ROLE.md
+
+Tipo de relación (Many-to-Many)
+Tabla intermedia
+Diagrama
+Queries comunes
+Cómo se usa en JPA
+
+591. RELACION-[TABLA1-TABLA2].md
+... Una por cada relación
+
+📁 CARPETA: /docs/97-QUERIES-COMUNES-PROYECTO
+600. QUERY-LISTAR-USUARIOS.md
+
+SQL completo
+Con paginación
+Con filtros
+Con JOIN a roles
+
+601. QUERY-BUSCAR-USUARIO-EMAIL.md
+
+SQL
+Índices usados
+Performance
+
+602. QUERY-CREAR-USUARIO.md
+
+INSERT
+Valores
+Secuencias
+
+603. QUERY-ACTUALIZAR-USUARIO.md
+
+UPDATE
+WHERE
+Campos de auditoría
+
+604. QUERY-ELIMINAR-USUARIO.md
+
+Soft delete vs hard delete
+SQL para cada caso
+
+605. QUERY-[OPERACION].md
+... Una por cada operación importante
+
+📁 CARPETA: /docs/98-MIGRACIONES
+620. QUE-SON-MIGRACIONES.md
+
+Control de versiones de BD
+Flyway vs Liquibase
+Por qué son importantes
+
+621. FLYWAY-CONFIGURACION.md
+
+Dependencia Maven
+application.properties
+Ubicación de scripts
+
+622. NAMING-MIGRACIONES.md
+
+V1__Initial_schema.sql
+V2__Add_user_table.sql
+Convenciones
+
+623. MIGRACIONES-DEL-PROYECTO.md
+
+Lista de todas las migraciones
+Orden
+Qué hace cada una
+SQL completo
+
+624. ROLLBACK-MIGRACIONES.md
+
+Revertir cambios
+Scripts down
+Precauciones
+
+
+📁 CARPETA: /docs/99-SCRIPTS-SQL
+625. SCRIPT-CREACION-COMPLETA.md
+
+SQL completo para crear toda la BD
+Todas las tablas
+Todas las constraints
+Todos los índices
+En orden correcto
+
+626. SCRIPT-DATOS-PRUEBA.md
+
+INSERT de datos de ejemplo
+Para testing
+Para demostración
+
+627. SCRIPT-USUARIOS-INICIALES.md
+
+Admin user
+Test users
+Passwords
+
+628. SCRIPT-LIMPIEZA.md
+
+DROP todas las tablas
+Orden correcto
+CASCADE
+
+629. SCRIPT-BACKUP.md
+
+pg_dump completo
+Solo estructura
+Solo datos
+
+
+📁 CARPETA: /docs/100-INDICES-PROYECTO
+630. INDICE-USERS-EMAIL.md
+
+Por qué existe
+Tipo de índice
+Impacto en performance
+SQL de creación
+
+631. INDICE-[TABLA-CAMPO].md
+... Uno por cada índice
+
+📁 CARPETA: /docs/101-CONSTRAINTS-PROYECTO
+640. CONSTRAINT-UNIQUE-EMAIL.md
+
+Tabla
+Columna
+Por qué
+SQL
+
+641. CONSTRAINT-FK-[NOMBRE].md
+... Uno por cada constraint importante
+
+📁 CARPETA: /docs/102-PERFORMANCE-BD
+650. EXPLAIN-ANALYZE.md
+
+Cómo usarlo
+Interpretar resultados
+Seq Scan vs Index Scan
+Cost
+
+651. OPTIMIZACION-QUERIES.md
+
+Evitar SELECT *
+Usar LIMIT
+Índices apropiados
+JOINs eficientes
+
+652. VACUUM-ANALYZE.md
+
+Mantenimiento de PostgreSQL
+VACUUM
+ANALYZE
+VACUUM FULL
+
+653. CONEXION-POOL.md
+
+HikariCP en Spring
+Configuración
+max-pool-size
+connection-timeout
+
+654. SLOW-QUERY-LOG.md
+
+Identificar queries lentas
+Configuración de logging
+Análisis
+
+
+📁 CARPETA: /docs/103-SEGURIDAD-BD
+655. USUARIOS-BD.md
+
+Usuario de aplicación
+Usuario admin
+Principio de mínimo privilegio
+
+656. ROLES-PERMISOS-BD.md
+
+CREATE ROLE
+GRANT
+REVOKE
+Permisos por tabla
+
+657. SQL-INJECTION-PREVENCION.md
+
+Qué es SQL Injection
+Prepared statements
+JPA/Hibernate protección
+Ejemplos de ataques
+
+658. ENCRIPTACION-DATOS.md
+
+pgcrypto extension
+Passwords (backend)
+Datos sensibles
+At rest encryption
+
+659. BACKUP-SEGURIDAD.md
+
+Estrategia de backups
+Frecuencia
+Ubicación segura
+Restauración
+
+660. SSL-CONEXION.md
+
+Conexión segura
+Certificados
+Configuración
+
+
+📁 CARPETA: /docs/104-EXTENSIONES-POSTGRESQL
+661. EXTENSION-UUID-OSSP.md
+
+Para generar UUIDs
+CREATE EXTENSION
+uuid_generate_v4()
+
+662. EXTENSION-PGCRYPTO.md
+
+Encriptación
+Funciones criptográficas
+gen_salt, crypt
+
+663. EXTENSION-HSTORE.md
+
+Key-value storage
+Uso en columnas
+Queries
+
+664. EXTENSIONES-DEL-PROYECTO.md
+
+Lista de extensiones usadas
+Por qué cada una
+Cómo habilitarlas
+
+
+📁 CARPETA: /docs/105-TIPOS-DATOS-AVANZADOS
+665. ARRAYS-POSTGRESQL.md
+
+Columnas de tipo array
+INTEGER[]
+TEXT[]
+Queries con arrays
+
+666. JSON-JSONB.md
+
+Diferencia JSON vs JSONB
+Almacenar JSON
+Queries en JSON
+Índices en JSONB
+
+667. ENUM-TYPES.md
+
+CREATE TYPE
+Enumeraciones
+Ventajas
+Uso en proyecto
+
+668. TIMESTAMP-TIMEZONE.md
+
+TIMESTAMP vs TIMESTAMPTZ
+Zonas horarias
+NOW()
+Best practices
+
+669. UUID-TYPE.md
+
+Cuándo usar UUID como PK
+vs BIGSERIAL
+Performance
+Ventajas/desventajas
+
+
+📁 CARPETA: /docs/106-QUERIES-AVANZADAS
+670. WINDOW-FUNCTIONS.md
+
+ROW_NUMBER()
+RANK()
+DENSE_RANK()
+PARTITION BY
+Ejemplos
+
+671. CTE-COMMON-TABLE-EXPRESSIONS.md
+
+WITH clause
+CTEs recursivos
+Legibilidad
+Performance
+
+672. LATERAL-JOINS.md
+
+LATERAL keyword
+Joins correlacionados
+Casos de uso
+
+673. FULL-TEXT-SEARCH.md
+
+tsvector, tsquery
+GIN indexes
+Búsqueda de texto
+Ranking
+
+674. RECURSIVE-QUERIES.md
+
+WITH RECURSIVE
+Jerarquías
+Árboles
+Grafos
+
+
+📁 CARPETA: /docs/107-PARTICIONAMIENTO
+675. TABLE-PARTITIONING.md
+
+Qué es particionamiento
+Range partitioning
+List partitioning
+Hash partitioning
+Cuándo usar
+
+676. PARTITION-PRUNING.md
+
+Optimización
+Query planning
+Performance
+
+
+📁 CARPETA: /docs/108-REPLICACION-HA
+677. REPLICACION-POSTGRESQL.md
+
+Master-Slave
+Streaming replication
+Async vs sync
+Configuración básica
+
+678. HIGH-AVAILABILITY.md
+
+Failover
+Load balancing
+pgpool, patroni
+Conceptos
+
+
+📁 CARPETA: /docs/109-MONITORING-BD
+679. PG-STAT-STATEMENTS.md
+
+Extension para estadísticas
+Query performance
+Análisis
+
+680. LOGGING-POSTGRESQL.md
+
+postgresql.conf
+log_statement
+log_duration
+Análisis de logs
+
+681. MONITORING-CONNECTIONS.md
+
+pg_stat_activity
+Ver conexiones activas
+Queries en ejecución
+Kill queries
+
+682. DISK-USAGE.md
+
+pg_database_size
+pg_table_size
+pg_indexes_size
+Monitoreo de espacio
+
+
+📁 CARPETA: /docs/110-ADMINISTRACION-BD
+683. CREAR-BASE-DATOS.md
+
+CREATE DATABASE
+Encoding
+Collation
+Template
+
+684. CREAR-USUARIOS.md
+
+CREATE USER
+ALTER USER
+Passwords
+Permisos
+
+685. PERMISOS-TABLAS.md
+
+GRANT SELECT
+GRANT INSERT, UPDATE, DELETE
+GRANT ALL
+Por usuario/rol
+
+686. CONECTAR-BD.md
+
+psql
+pgAdmin
+DBeaver
+Connection strings
+
+687. IMPORT-EXPORT-DATOS.md
+
+COPY
+CSV import/export
+pg_dump
+pg_restore
+
+
+📁 CARPETA: /docs/111-JPA-HIBERNATE-BD
+688. MAPEO-ENTIDADES.md
+
+@Entity → Tabla
+@Column → Columna
+@Table(name)
+Naming strategies
+
+689. GENERACION-ID.md
+
+@GeneratedValue
+GenerationType.IDENTITY
+GenerationType.SEQUENCE
+GenerationType.AUTO
+
+690. RELACIONES-JPA-BD.md
+
+@OneToMany → FK
+@ManyToOne → FK
+@ManyToMany → Join table
+Cómo se traduce a SQL
+
+691. CASCADE-JPA.md
+
+CascadeType.ALL
+CascadeType.PERSIST
+CascadeType.REMOVE
+Impacto en BD
+
+692. LAZY-EAGER-BD.md
+
+FetchType.LAZY → Queries separadas
+FetchType.EAGER → JOIN
+N+1 problem
+Optimización
+
+693. QUERIES-JPQL.md
+
+JPQL vs SQL
+Sintaxis
+Traducción a SQL
+Ejemplos del proyecto
+
+694. NATIVE-QUERIES.md
+
+@Query con nativeQuery=true
+SQL directo
+Cuándo usar
+Ejemplos
+
+
+📁 CARPETA: /docs/112-SCHEMA-PROYECTO
+695. SCHEMA-COMPLETO-VISUAL.md
+
+Diagrama completo
+Todas las tablas
+Todas las relaciones
+Leyenda
+
+696. SCHEMA-SQL-COMPLETO.md
+
+Script SQL completo
+CREATE TABLE de todo
+En orden de dependencias
+Listo para ejecutar
+
+697. SCHEMA-VERSIONES.md
+
+Cambios por versión
+Historia del schema
+Evolución
+
+
+📁 CARPETA: /docs/113-DATA-SEEDING
+698. DATOS-INICIALES.md
+
+Datos necesarios al inicio
+Roles por defecto
+Configuraciones
+Admin user
+
+699. DATOS-DEMO.md
+
+Datos para demostración
+Usuarios de prueba
+Ejemplos de cada entidad
+
+700. SCRIPTS-INSERT.md
+
+INSERT statements completos
+Orden correcto
+Manejo de FKs
+
+
+📁 CARPETA: /docs/114-BACKUP-RESTORE
+701. ESTRATEGIA-BACKUP.md
+
+Backups diarios
+Backups antes de deploy
+Backups antes de migraciones
+Retención
+
+702. PG-DUMP-COMPLETO.md
+
+Comando completo
+Opciones
+Formato custom
+Compresión
+
+703. PG-RESTORE-COMPLETO.md
+
+Restaurar BD
+Opciones
+Verificación
+Rollback
+
+704. BACKUP-SCRIPT-AUTOMATICO.md
+
+Bash script
+Cron job
+Notificaciones
+Limpieza de backups antiguos
+
+
+📁 CARPETA: /docs/115-TROUBLESHOOTING-BD
+705. ERRORES-COMUNES-SQL.md
+
+"relation does not exist"
+"column does not exist"
+"duplicate key value"
+"foreign key violation"
+Soluciones
+
+706. PROBLEMAS-CONEXION.md
+
+"could not connect to server"
+"password authentication failed"
+"too many connections"
+Diagnóstico
+
+707. PROBLEMAS-PERFORMANCE.md
+
+Queries lentas
+Falta de índices
+Locks
+Análisis y solución
+
+708. PROBLEMAS-MIGRACIONES.md
+
+Migraciones fallidas
+Versiones inconsistentes
+Rollback
+Repair
+
+
+📁 CARPETA: /docs/116-DICCIONARIO-DATOS
+709. DICCIONARIO-COMPLETO.md
+
+Cada tabla
+Cada columna
+Tipo de dato
+Descripción
+Constraints
+Valores posibles
+Relaciones
+
+
+📁 CARPETA: /docs/117-CONSULTAS-REPORTES
+710. REPORTE-USUARIOS-ACTIVOS.md
+
+Query SQL
+Explicación
+Resultado esperado
+
+711. REPORTE-ACTIVIDAD-POR-FECHA.md
+712. REPORTE-[NOMBRE].md
+... Uno por cada reporte del sistema
+
+📁 CARPETA: /docs/118-INTEGRIDAD-DATOS
+720. VALIDACIONES-BD.md
+
+CHECK constraints
+Validación de email
+Validación de ranges
+Ejemplos del proyecto
+
+721. CONSTRAINT-UNIQUE-COMPUESTO.md
+
+UNIQUE en múltiples columnas
+Casos de uso
+Ejemplos
+
+722. FOREIGN-KEY-CASCADE.md
+
+ON DELETE CASCADE
+ON UPDATE CASCADE
+Cuándo usar
+Riesgos
+
+
+📁 CARPETA: /docs/119-TESTING-BD
+723. TESTS-UNITARIOS-BD.md
+
+@DataJpaTest
+H2 en memoria
+TestContainers con PostgreSQL
+
+724. TESTS-INTEGRACION-BD.md
+
+Testing con BD real
+Setup y teardown
+Transacciones en tests
+
+725. VERIFICAR-CONSTRAINTS.md
+
+Tests para constraints
+Tests para triggers
+Tests para validaciones

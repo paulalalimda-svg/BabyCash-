@@ -1,0 +1,555 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import {
+  User,
+  Edit3,
+  Save,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Package,
+  Heart,
+  Settings,
+  LogOut,
+  ShoppingBag,
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { orderService, userService, type Order, type UserStats, type UpdateProfileData } from '../services/api';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/input';
+import Card from '../components/ui/Card';
+import LinkButton from '../components/ui/LinkButton';
+import toast from 'react-hot-toast';
+
+const Perfil: React.FC = () => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [loadingStats, setLoadingStats] = useState(true);
+  
+  const [editData, setEditData] = useState({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    phone: user?.phone || '',
+    address: '',
+  });
+
+  // Cargar órdenes del usuario
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!isAuthenticated) {
+        setLoadingOrders(false);
+        return;
+      }
+
+      try {
+        setLoadingOrders(true);
+        const userOrders = await orderService.getMyOrders();
+        setOrders(userOrders || []);
+      } catch (error: any) {
+        console.error('Error al cargar órdenes:', error);
+        // No mostrar error si simplemente no hay órdenes
+        if (error.response?.status !== 404) {
+          toast.error('No se pudieron cargar tus órdenes');
+        }
+        setOrders([]);
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+
+    fetchOrders();
+  }, [isAuthenticated]);
+
+  // Cargar estadísticas del usuario
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!isAuthenticated) {
+        setLoadingStats(false);
+        return;
+      }
+
+      try {
+        setLoadingStats(true);
+        const userStats = await userService.getStats();
+        setStats(userStats);
+      } catch (error: any) {
+        console.error('Error al cargar estadísticas:', error);
+        // Usar valores por defecto si falla
+        setStats({
+          totalOrders: orders.length,
+          totalProducts: 0,
+          totalSpent: orders.reduce((sum, o) => sum + o.total, 0),
+          memberSince: user?.email ? '2024' : '2025'
+        });
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    fetchStats();
+  }, [isAuthenticated, orders, user]);
+
+  const handleSave = async () => {
+    try {
+      const profileData: UpdateProfileData = {
+        firstName: editData.firstName,
+        lastName: editData.lastName,
+        phone: editData.phone,
+        address: editData.address,
+      };
+
+      await userService.updateProfile(profileData);
+      setIsEditing(false);
+      toast.success('Perfil actualizado correctamente');
+      
+      // Actualizar usuario en localStorage
+      const updatedUser = { ...user, ...profileData };
+      localStorage.setItem('baby-cash-user', JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error('Error al actualizar perfil:', error);
+      toast.error('No se pudo actualizar el perfil');
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  // Si no está autenticado, mostrar mensaje
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-baby-light pt-20 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="text-center px-4"
+        >
+          <Card className="max-w-md mx-auto p-8">
+            <User className="w-20 h-20 mx-auto mb-6 text-gray-300" />
+            <h2 className="text-2xl font-bold font-poppins text-baby-gray mb-4">Inicia Sesión</h2>
+            <p className="text-gray-600 font-inter mb-8">Debes iniciar sesión para ver tu perfil</p>
+            <Button size="lg" className="bg-gradient-to-r from-baby-blue to-baby-pink text-white">
+              Iniciar Sesión
+            </Button>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
+  const stats = [
+    { 
+      label: 'Pedidos realizados', 
+      value: loadingStats ? '...' : String(stats?.totalOrders || orders.length), 
+      icon: Package 
+    },
+    { 
+      label: 'Total gastado', 
+      value: loadingStats ? '...' : `$${(stats?.totalSpent || 0).toLocaleString('es-CO')}`, 
+      icon: Heart 
+    },
+    { 
+      label: 'Años con nosotros', 
+      value: loadingStats ? '...' : String(stats ? new Date().getFullYear() - parseInt(stats.memberSince) : 0), 
+      icon: Calendar 
+    },
+  ];
+
+  const statusColors = {
+    PENDING: 'bg-yellow-100 text-yellow-800',
+    PAID: 'bg-green-100 text-green-800',
+    SHIPPED: 'bg-blue-100 text-blue-800',
+    DELIVERED: 'bg-purple-100 text-purple-800',
+    CANCELLED: 'bg-red-100 text-red-800',
+  };
+
+  const statusLabels = {
+    PENDING: 'Pendiente',
+    PAID: 'Pagada',
+    SHIPPED: 'Enviada',
+    DELIVERED: 'Entregada',
+    CANCELLED: 'Cancelada',
+  };
+
+  return (
+    <div className="min-h-screen bg-baby-light pt-20">
+      {/* Header */}
+      <section className="py-8 px-4 bg-gradient-to-r from-baby-blue/10 to-baby-pink/10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-center mb-4 sm:mb-0">
+              <div className="w-16 h-16 bg-gradient-to-br from-baby-blue to-baby-pink rounded-full flex items-center justify-center mr-4">
+                <User className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold font-poppins text-baby-gray">
+                  Mi Perfil
+                </h1>
+                <p className="text-gray-600 font-inter">
+                  Bienvenid@ de nuevo, {editData.firstName || user?.firstName}
+                </p>
+              </div>
+            </div>
+
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="text-red-600 border-red-200 hover:bg-red-50"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Cerrar Sesión
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Profile Info */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="p-6 mb-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold font-poppins text-baby-gray">
+                    Información Personal
+                  </h2>
+                  <Button
+                    onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {isEditing ? (
+                      <>
+                        <Save className="w-4 h-4 mr-2" />
+                        Guardar
+                      </>
+                    ) : (
+                      <>
+                        <Edit3 className="w-4 h-4 mr-2" />
+                        Editar
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nombre
+                    </label>
+                    {isEditing ? (
+                      <Input
+                        value={editData.firstName}
+                        onChange={(e) => setEditData({ ...editData, firstName: e.target.value })}
+                        placeholder="Nombre"
+                      />
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <User className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">{editData.firstName}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Apellido
+                    </label>
+                    {isEditing ? (
+                      <Input
+                        value={editData.lastName}
+                        onChange={(e) => setEditData({ ...editData, lastName: e.target.value })}
+                        placeholder="Apellido"
+                      />
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <User className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">{editData.lastName}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <div className="flex items-center p-3 bg-gray-100 rounded-lg">
+                      <Mail className="w-5 h-5 text-gray-400 mr-3" />
+                      <span className="font-inter text-gray-600">{user?.email}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">El email no se puede modificar</p>
+                  </div>
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <Mail className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">{editData.email}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+                    {isEditing ? (
+                      <Input
+                        value={editData.phone}
+                        onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
+                        placeholder="Número de teléfono"
+                      />
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <Phone className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">{editData.phone}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Fecha de Nacimiento
+                    </label>
+                    {isEditing ? (
+                      <Input
+                        type="date"
+                        value={editData.birthDate}
+                        onChange={(e) => setEditData({ ...editData, birthDate: e.target.value })}
+                      />
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <Calendar className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">
+                          {new Date(editData.birthDate).toLocaleDateString('es-CO')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Dirección
+                    </label>
+                    {isEditing ? (
+                      <Input
+                        value={editData.address}
+                        onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+                        placeholder="Dirección completa"
+                      />
+                    ) : (
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <MapPin className="w-5 h-5 text-gray-400 mr-3" />
+                        <span className="font-inter">{editData.address}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Order History */}
+              <Card className="p-6">
+                <h2 className="text-xl font-bold font-poppins text-baby-gray mb-6">
+                  Historial de Órdenes
+                </h2>
+                {loadingOrders ? (
+                  <div className="flex justify-center py-8">
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-baby-blue"></div>
+                  </div>
+                ) : orders.length === 0 ? (
+                  <div className="text-center py-8">
+                    <ShoppingBag className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                    <p className="text-gray-600 mb-4">No tienes órdenes aún</p>
+                    <LinkButton
+                      href="/productos"
+                      className="bg-baby-blue text-white hover:bg-baby-blue/90"
+                    >
+                      Explorar Productos
+                    </LinkButton>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.slice(0, 5).map((order) => (
+                      <div
+                        key={order.id}
+                        className="border rounded-lg p-4 hover:border-baby-blue transition cursor-pointer"
+                        onClick={() => navigate(`/order-confirmation/${order.id}`)}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="font-semibold text-baby-gray">
+                              Orden #{order.id}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {new Date(order.createdAt).toLocaleDateString('es-CO', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              })}
+                            </p>
+                          </div>
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              statusColors[order.status]
+                            }`}
+                          >
+                            {statusLabels[order.status]}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center pt-2 border-t">
+                          <p className="text-sm text-gray-600">
+                            {order.items.length} producto{order.items.length !== 1 ? 's' : ''}
+                          </p>
+                          <p className="font-bold text-baby-pink">
+                            ${order.total.toLocaleString('es-CO')}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                    {orders.length > 5 && (
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          /* Navigate to full orders page */
+                        }}
+                      >
+                        Ver todas las órdenes ({orders.length})
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </Card>
+
+              {/* Quick Actions */}
+              <Card className="p-6">
+                <h2 className="text-xl font-bold font-poppins text-baby-gray mb-6">
+                  Acciones Rápidas
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <LinkButton
+                    href="/productos"
+                    variant="outline"
+                    className="justify-center"
+                    size="md"
+                  >
+                    <Package className="w-5 h-5 mr-2" />
+                    Ver Productos
+                  </LinkButton>
+                  <LinkButton
+                    href="/carrito"
+                    variant="outline"
+                    className="justify-center"
+                    size="md"
+                  >
+                    <Heart className="w-5 h-5 mr-2" />
+                    Ver Carrito
+                  </LinkButton>
+                  <LinkButton
+                    href="/contacto"
+                    variant="outline"
+                    className="justify-center"
+                    size="md"
+                  >
+                    <Mail className="w-5 h-5 mr-2" />
+                    Contactar Soporte
+                  </LinkButton>
+                  <Button variant="outline" className="justify-center">
+                    <Settings className="w-5 h-5 mr-2" />
+                    Configuración
+                  </Button>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Stats & Quick Info */}
+          <div className="lg:col-span-1">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              {/* Stats */}
+              <Card className="p-6 bg-gradient-to-br from-baby-blue/5 to-baby-pink/5 border-baby-blue/20">
+                <h3 className="text-lg font-bold font-poppins text-baby-gray mb-4">Tu Actividad</h3>
+                <div className="space-y-4">
+                  {stats.map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      className="flex items-center justify-between p-3 bg-white rounded-lg"
+                    >
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 bg-gradient-to-br from-baby-blue to-baby-pink rounded-full flex items-center justify-center mr-3">
+                          <stat.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="font-inter text-gray-600 text-sm">{stat.label}</span>
+                      </div>
+                      <span className="font-bold font-poppins text-baby-pink text-xl">
+                        {stat.value}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Account Info */}
+              <Card className="p-6">
+                <h3 className="text-lg font-bold font-poppins text-baby-gray mb-4">Tu Cuenta</h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Tipo de cuenta:</span>
+                    <span className="font-medium text-baby-pink">Premium</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Miembro desde:</span>
+                    <span className="font-medium">Marzo 2022</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Estado:</span>
+                    <span className="font-medium text-green-600">Activo</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Loyalty Program */}
+              <Card className="p-6 bg-gradient-to-br from-baby-mint/10 to-baby-blue/10 border-baby-mint/20">
+                <h3 className="text-lg font-bold font-poppins text-baby-gray mb-4">
+                  Programa de Fidelidad
+                </h3>
+                <div className="text-center">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-baby-mint to-baby-blue rounded-full flex items-center justify-center">
+                    <Heart className="w-10 h-10 text-white" />
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">Puntos acumulados</p>
+                  <p className="text-2xl font-bold font-poppins text-baby-mint">1,250</p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    ¡750 puntos más para tu próximo descuento!
+                  </p>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Perfil;
