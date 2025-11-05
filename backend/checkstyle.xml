@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+  "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+    Checkstyle configuration for Baby Cash Backend
+    Based on Google Java Style Guide with custom adjustments
+    
+    🔒 REGLAS CRÍTICAS DE SEGURIDAD Y MANTENIBILIDAD
+    
+    Niveles de severidad:
+    - error: Bloquea el build, debe corregirse inmediatamente
+    - warning: Debe corregirse antes de merge
+    - info: Sugerencia de mejora
+-->
+
+<module name="Checker">
+    <!-- Configuración general -->
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="warning"/>
+    <property name="fileExtensions" value="java, properties, xml"/>
+
+    <!-- Suprimir advertencias con anotaciones -->
+    <module name="SuppressWarningsFilter"/>
+
+    <!-- Tamaño de línea -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+    </module>
+
+    <!-- Verificar que los archivos terminen con nueva línea -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+
+    <!-- Verificar espacios en blanco al final -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+
+    <!-- TreeWalker para verificaciones de código Java -->
+    <module name="TreeWalker">
+        
+        <!-- ================================================================== -->
+        <!-- 🔒 REGLAS CRÍTICAS DE SEGURIDAD (ERROR)                          -->
+        <!-- ================================================================== -->
+        
+        <!-- Prevenir inyección SQL -->
+        <module name="IllegalType">
+            <property name="illegalClassNames" value="java.sql.Statement"/>
+            <property name="severity" value="error"/>
+            <message key="illegal.type" 
+                value="No usar Statement directamente, usar PreparedStatement para prevenir SQL injection"/>
+        </module>
+        
+        <!-- Prevenir deserialización insegura -->
+        <module name="IllegalImport">
+            <property name="illegalPkgs" value="sun, com.sun"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Prevenir uso de Random inseguro para criptografía -->
+        <module name="Regexp">
+            <property name="format" value="new Random\(\)"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Usar SecureRandom para operaciones criptográficas"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- ================================================================== -->
+        <!-- 🛡️ REGLAS CRÍTICAS DE SEGURIDAD WEB/API                          -->
+        <!-- ================================================================== -->
+        
+        <!-- Validar que los endpoints tienen @PreAuthorize o similar -->
+        <!-- (Esto se verifica mejor con análisis manual o SonarQube) -->
+        
+        <!-- ================================================================== -->
+        <!-- 🔧 REGLAS CRÍTICAS DE MANTENIBILIDAD (ERROR/WARNING)             -->
+        <!-- ================================================================== -->
+        
+        <!-- Anotaciones -->
+        <module name="AnnotationLocation">
+            <property name="allowSamelineMultipleAnnotations" value="false"/>
+            <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- @Override obligatorio -->
+        <module name="MissingOverride">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Imports (CRÍTICO para mantenibilidad) -->
+        <module name="AvoidStarImport">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="RedundantImport">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="UnusedImports">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="ImportOrder">
+            <property name="groups" value="java,javax,jakarta,org,com"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="top"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Prevenir imports ilegales -->
+        <module name="IllegalImport">
+            <property name="illegalPkgs" value="sun, com.sun, org.junit.jupiter.api.Assertions"/>
+            <property name="illegalClasses" value="org.junit.Assert"/>
+            <property name="severity" value="error"/>
+            <message key="import.illegal" 
+                value="Import ilegal detectado. Usar AssertJ en lugar de JUnit assertions"/>
+        </module>
+
+        <!-- ================================================================== -->
+        <!-- 📝 NOMENCLATURA (ERROR - Crítico para legibilidad)                -->
+        <!-- ================================================================== -->
+        
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+            <message key="name.invalidPattern" 
+                value="Los nombres de clases deben usar PascalCase (ej: UserService, ProductDTO)"/>
+        </module>
+        
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+            <message key="name.invalidPattern" 
+                value="Los nombres de métodos deben usar camelCase (ej: getUserById, validateEmail)"/>
+        </module>
+        
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+            <property name="severity" value="error"/>
+            <message key="name.invalidPattern" 
+                value="Las constantes deben usar UPPER_CASE (ej: MAX_RETRY_COUNT, DEFAULT_TIMEOUT)"/>
+        </module>
+        
+        <module name="LocalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Parámetros deben usar camelCase -->
+        <module name="ParameterName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- ================================================================== -->
+        <!-- 📏 TAMAÑO Y COMPLEJIDAD (ERROR - Crítico para mantenibilidad)    -->
+        <!-- ================================================================== -->
+        
+        <!-- Longitud máxima de métodos -->
+        <module name="MethodLength">
+            <property name="max" value="150"/>
+            <property name="countEmpty" value="false"/>
+            <property name="severity" value="error"/>
+            <message key="maxLen.method" 
+                value="Método demasiado largo ({0} líneas). Máximo: {1}. Refactorizar en métodos más pequeños"/>
+        </module>
+        
+        <!-- Número máximo de parámetros -->
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="severity" value="error"/>
+            <message key="maxParam" 
+                value="Demasiados parámetros ({0}). Máximo: {1}. Considerar usar un objeto DTO"/>
+        </module>
+        
+        <!-- Longitud máxima de archivos -->
+        <module name="FileLength">
+            <property name="max" value="500"/>
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Complejidad ciclomática (CRÍTICO) -->
+        <module name="CyclomaticComplexity">
+            <property name="max" value="15"/>
+            <property name="severity" value="error"/>
+            <message key="cyclomaticComplexity" 
+                value="Complejidad ciclomática muy alta ({0}). Máximo: {1}. Simplificar la lógica"/>
+        </module>
+        
+        <!-- Profundidad de anidación -->
+        <module name="NestedIfDepth">
+            <property name="max" value="3"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <module name="NestedTryDepth">
+            <property name="max" value="2"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Espacios en blanco -->
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+        </module>
+        <module name="GenericWhitespace"/>
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround"/>
+
+        <!-- Modificadores -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+
+        <!-- Bloques -->
+        <module name="EmptyBlock"/>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- ================================================================== -->
+        <!-- ✅ BUENAS PRÁCTICAS (ERROR - Prevenir bugs comunes)              -->
+        <!-- ================================================================== -->
+        
+        <!-- Statements vacíos -->
+        <module name="EmptyStatement">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- equals() y hashCode() deben implementarse juntos -->
+        <module name="EqualsHashCode">
+            <property name="severity" value="error"/>
+            <message key="equals.noHashCode" 
+                value="La clase implementa equals() pero no hashCode(). Implementar ambos"/>
+        </module>
+        
+        <!-- No instanciar clases que deberían ser singleton -->
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Simplificar expresiones booleanas -->
+        <module name="SimplifyBooleanExpression">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="SimplifyBooleanReturn">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- No usar == para comparar Strings -->
+        <module name="StringLiteralEquality">
+            <property name="severity" value="error"/>
+            <message key="string.literal.equality" 
+                value="Usar .equals() para comparar Strings, no =="/>
+        </module>
+        
+        <!-- Una declaración por línea -->
+        <module name="OneStatementPerLine">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Una variable por declaración -->
+        <module name="MultipleVariableDeclarations">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- No asignar parámetros -->
+        <module name="ParameterAssignment">
+            <property name="severity" value="error"/>
+            <message key="parameter.assignment" 
+                value="No modificar parámetros directamente. Crear una variable local"/>
+        </module>
+        
+        <!-- Prevenir catch de Exception genérico -->
+        <module name="IllegalCatch">
+            <property name="illegalClassNames" value="java.lang.Exception, java.lang.Throwable, java.lang.RuntimeException"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- Prevenir throw de Exception genérico -->
+        <module name="IllegalThrows">
+            <property name="illegalClassNames" value="java.lang.Exception, java.lang.Throwable, java.lang.RuntimeException"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- No usar System.out.println (usar logger) -->
+        <module name="Regexp">
+            <property name="format" value="System\.(out|err)\.print"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="No usar System.out/err, usar logger (slf4j)"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- Prevenir números mágicos -->
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2"/>
+            <property name="ignoreHashCodeMethod" value="true"/>
+            <property name="ignoreAnnotation" value="true"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- Fall through en switch debe tener comentario -->
+        <module name="FallThrough">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Switch debe tener default -->
+        <module name="MissingSwitchDefault">
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- No modificar variables de control en for -->
+        <module name="ModifiedControlVariable">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- Variables finales -->
+        <module name="FinalLocalVariable">
+            <property name="severity" value="ignore"/>
+        </module>
+        
+        <!-- Clases con solo métodos estáticos deben ser final -->
+        <module name="FinalClass">
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- Clases de utilidad no deben tener constructor público -->
+        <module name="HideUtilityClassConstructor">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Javadoc (opcional, nivel warning) -->
+        <module name="JavadocMethod">
+            <property name="severity" value="ignore"/>
+            <property name="accessModifiers" value="public"/>
+        </module>
+        <module name="JavadocType">
+            <property name="severity" value="ignore"/>
+        </module>
+
+        <!-- Suprimir warnings con @SuppressWarnings -->
+        <module name="SuppressWarningsHolder"/>
+    </module>
+</module>
