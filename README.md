@@ -202,7 +202,85 @@ VITE_API_URL=http://localhost:8080/api
 
 ---
 
-## 📄 Licencia
+## �️ Code Quality & Git Hooks
+
+Este proyecto tiene configurado un sistema de **linters y formatters** que actúan como guardianes del código limpio.
+
+### Formato Automático
+- **Al guardar** (Ctrl+S): ESLint y Prettier formatean automáticamente
+- **VS Code**: Configuración en `.vscode/settings.json`
+
+### Pre-commit Hooks
+- **Antes de cada commit**: Husky ejecuta validación automática
+- **Código con errores**: El commit es bloqueado automáticamente
+- **Código limpio**: El commit se permite
+
+### Herramientas
+
+| Tool | Propósito | Estado |
+|------|-----------|--------|
+| **ESLint** | Linting de TypeScript/React | ✅ Activo |
+| **Prettier** | Formateo de código | ✅ Activo |
+| **Checkstyle** | Linting de Java | ✅ Activo |
+| **Husky** | Git hooks manager | ✅ Activo |
+| **lint-staged** | Validación de staged files | ✅ Activo |
+
+### Comandos de Verificación
+
+```bash
+# Frontend - Linting
+cd frontend
+npm run lint          # Ver errores
+npm run lint:fix      # Auto-corregir
+npm run format        # Formatear todo
+
+# Backend - Checkstyle
+cd backend
+./mvnw checkstyle:check
+
+# Verificar versiones instaladas
+./check-versions.sh
+
+# Verificar código completo (frontend + backend)
+./check-code.sh
+```
+
+### Documentación de Linters
+
+- **[LINTERS-FORMATTERS.md](LINTERS-FORMATTERS.md)** - Guía completa
+- **[REGLAS-CRITICAS.md](REGLAS-CRITICAS.md)** - Reglas configuradas
+- **[GIT-HOOKS-AUTOMATIZACION.md](GIT-HOOKS-AUTOMATIZACION.md)** - Configuración de hooks
+- **[RESULTADO-PRUEBAS-HOOKS.md](RESULTADO-PRUEBAS-HOOKS.md)** - Pruebas realizadas
+
+### Ejemplo de Uso
+
+```bash
+# 1. Escribir código con errores
+echo "const x: any = 1;" > frontend/src/test.tsx
+
+# 2. Intentar commit
+git add frontend/src/test.tsx
+git commit -m "test"
+
+# Resultado:
+# ❌ Commit bloqueado: Errores de linting encontrados
+# Error: Unexpected any. Specify a different type
+
+# 3. Corregir error
+echo "const x: number = 1;" > frontend/src/test.tsx
+
+# 4. Reintentar commit
+git add frontend/src/test.tsx
+git commit -m "test"
+
+# Resultado:
+# ✅ Código verificado exitosamente
+# [master abc1234] test
+```
+
+---
+
+## �📄 Licencia
 
 Este proyecto fue desarrollado como parte del programa de formación del SENA.
 

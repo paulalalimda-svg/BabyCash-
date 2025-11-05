@@ -1,0 +1,13 @@
+echo "🔍 Verificando código antes del commit..."
+
+# Run lint-staged (configured in package.json at root)
+npx lint-staged --relative
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Commit bloqueado: Errores de linting encontrados"
+  echo "💡 Corrige los errores y vuelve a intentar"
+  exit 1
+fi
+
+echo "✅ Código verificado exitosamente"

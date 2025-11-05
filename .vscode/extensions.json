@@ -1,0 +1,33 @@
+{{
+
+  "recommendations": [  "recommendations": [
+
+    // Frontend - Linting y Formateo    // Frontend
+
+    "dbaeumer.vscode-eslint",    "dbaeumer.vscode-eslint",
+
+    "esbenp.prettier-vscode",    "esbenp.prettier-vscode",
+
+    "bradlc.vscode-tailwindcss",    "bradlc.vscode-tailwindcss",
+
+        
+
+    // Backend - Java    // Backend
+
+    "vscjava.vscode-java-pack",    "vscjava.vscode-java-pack",
+
+    "shengchen.vscode-checkstyle",    "shengchen.vscode-checkstyle",
+
+        
+
+    // General    // General
+
+    "editorconfig.editorconfig",    "editorconfig.editorconfig",
+
+    "eamodio.gitlens",    "eamodio.gitlens"
+
+    "usernamehw.errorlens"  ]
+
+  ]}
+
+}

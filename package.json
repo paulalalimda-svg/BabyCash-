@@ -1,0 +1,38 @@
+{
+  "name": "babycash",
+  "version": "1.0.0",
+  "description": "E-commerce de productos para bebés desarrollado con Spring Boot y React.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanEstebanMartinezM/babycash-java.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JuanEstebanMartinezM/babycash-java/issues"
+  },
+  "homepage": "https://github.com/JuanEstebanMartinezM/babycash-java#readme",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{ts,tsx}": [
+      "npx --prefix frontend eslint --fix",
+      "npx --prefix frontend prettier --write"
+    ],
+    "frontend/src/**/*.{json,css,md}": [
+      "npx --prefix frontend prettier --write"
+    ]
+  }
+}
