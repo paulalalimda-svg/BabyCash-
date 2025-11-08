@@ -7,6 +7,7 @@ E-commerce de productos para bebés desarrollado con Spring Boot y React.
 ## 🚀 Tecnologías
 
 ### Backend
+
 - **Java 17**
 - **Spring Boot 3.2**
 - **PostgreSQL 14**
@@ -14,6 +15,7 @@ E-commerce de productos para bebés desarrollado con Spring Boot y React.
 - **JWT Authentication**
 
 ### Frontend
+
 - **React 18.3**
 - **TypeScript 5.3**
 - **Vite 5.0**
@@ -35,12 +37,14 @@ psql --version      # PostgreSQL 14+
 ## ⚡ Instalación
 
 ### 1. Clonar repositorio
+
 ```bash
 git clone https://github.com/tu-usuario/babycash.git
 cd babycash
 ```
 
 ### 2. Base de datos
+
 ```bash
 # Crear base de datos
 psql -U postgres
@@ -56,6 +60,7 @@ docker run --name babycash-db \
 ```
 
 ### 3. Backend
+
 ```bash
 cd backend
 ./mvnw clean install
@@ -65,6 +70,7 @@ cd backend
 **Backend estará en:** http://localhost:8080
 
 ### 4. Frontend
+
 ```bash
 cd frontend
 npm install
@@ -142,6 +148,7 @@ La documentación completa está en la carpeta `docs/`:
 - **[Testing](docs/05-testing/)** - Tests y comandos
 
 ### 🎯 Quick Links
+
 - [HTTP y REST Básico](docs/01-introduccion/HTTP-REST-BASICS.md)
 - [React Básico](docs/01-introduccion/REACT-BASICS.md)
 - [SQL Básico](docs/01-introduccion/SQL-BASICS.md)
@@ -178,6 +185,7 @@ docker-compose down
 ## 📝 Variables de Entorno
 
 ### Backend (`application.properties`)
+
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/babycash
 spring.datasource.username=postgres
@@ -186,6 +194,7 @@ jwt.secret=tu-secret-key
 ```
 
 ### Frontend (`.env`)
+
 ```env
 VITE_API_URL=http://localhost:8080/api
 ```
@@ -207,23 +216,25 @@ VITE_API_URL=http://localhost:8080/api
 Este proyecto tiene configurado un sistema de **linters y formatters** que actúan como guardianes del código limpio.
 
 ### Formato Automático
+
 - **Al guardar** (Ctrl+S): ESLint y Prettier formatean automáticamente
 - **VS Code**: Configuración en `.vscode/settings.json`
 
 ### Pre-commit Hooks
+
 - **Antes de cada commit**: Husky ejecuta validación automática
 - **Código con errores**: El commit es bloqueado automáticamente
 - **Código limpio**: El commit se permite
 
 ### Herramientas
 
-| Tool | Propósito | Estado |
-|------|-----------|--------|
-| **ESLint** | Linting de TypeScript/React | ✅ Activo |
-| **Prettier** | Formateo de código | ✅ Activo |
-| **Checkstyle** | Linting de Java | ✅ Activo |
-| **Husky** | Git hooks manager | ✅ Activo |
-| **lint-staged** | Validación de staged files | ✅ Activo |
+| Tool            | Propósito                   | Estado    |
+| --------------- | --------------------------- | --------- |
+| **ESLint**      | Linting de TypeScript/React | ✅ Activo |
+| **Prettier**    | Formateo de código          | ✅ Activo |
+| **Checkstyle**  | Linting de Java             | ✅ Activo |
+| **Husky**       | Git hooks manager           | ✅ Activo |
+| **lint-staged** | Validación de staged files  | ✅ Activo |
 
 ### Comandos de Verificación
 
@@ -306,5 +317,3 @@ Este proyecto fue desarrollado como parte del programa de formación del SENA.
 - ✅ Testing completo (Unit, Integration, E2E)
 
 ---
-
-

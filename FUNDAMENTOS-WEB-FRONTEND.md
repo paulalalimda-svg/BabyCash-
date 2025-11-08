@@ -13,9 +13,7 @@ Guía exhaustiva de HTML, CSS, JavaScript, TypeScript, React y desarrollo web mo
 5. [TypeScript - Tipado Estático](#typescript---tipado-estático)
 6. [React - Librer
 
-ía UI](#react---librería-ui)
-7. [HTTP y APIs](#http-y-apis)
-8. [Herramientas Modernas](#herramientas-modernas)
+ía UI](#react---librería-ui) 7. [HTTP y APIs](#http-y-apis) 8. [Herramientas Modernas](#herramientas-modernas)
 
 ---
 
@@ -36,11 +34,13 @@ Cliente (Navegador)          Servidor
 ### Componentes Principales
 
 1. **Cliente (Frontend)**
+
    - Navegador web (Chrome, Firefox, Safari)
    - Renderiza HTML, CSS, JavaScript
    - Interactúa con el usuario
 
 2. **Servidor (Backend)**
+
    - Procesa peticiones
    - Accede a base de datos
    - Devuelve respuestas
@@ -65,10 +65,10 @@ Cliente (Navegador)          Servidor
 <html lang="es">
   <head>
     <!-- Metadatos -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baby Cash - E-commerce</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <!-- Contenido visible -->
@@ -79,18 +79,18 @@ Cliente (Navegador)          Servidor
         <a href="/products">Productos</a>
       </nav>
     </header>
-    
+
     <main>
       <h2>Productos Destacados</h2>
       <div class="products">
         <!-- Contenido dinámico -->
       </div>
     </main>
-    
+
     <footer>
       <p>&copy; 2025 Baby Cash</p>
     </footer>
-    
+
     <script src="app.js"></script>
   </body>
 </html>
@@ -133,8 +133,10 @@ Cliente (Navegador)          Servidor
 <mark>Texto resaltado</mark>
 
 <!-- Saltos y líneas -->
-<br>  <!-- Salto de línea -->
-<hr>  <!-- Línea horizontal -->
+<br />
+<!-- Salto de línea -->
+<hr />
+<!-- Línea horizontal -->
 
 <!-- Citas -->
 <blockquote>Cita en bloque</blockquote>
@@ -177,8 +179,8 @@ Cliente (Navegador)          Servidor
 <a href="mailto:info@babycash.com">Contacto</a>
 
 <!-- Imágenes -->
-<img src="product.jpg" alt="Descripción del producto">
-<img src="logo.png" alt="Logo" width="200" height="100">
+<img src="product.jpg" alt="Descripción del producto" />
+<img src="logo.png" alt="Logo" width="200" height="100" />
 ```
 
 #### Formularios
@@ -187,33 +189,33 @@ Cliente (Navegador)          Servidor
 <form action="/api/products" method="POST">
   <!-- Input de texto -->
   <label for="name">Nombre:</label>
-  <input type="text" id="name" name="name" required>
-  
+  <input type="text" id="name" name="name" required />
+
   <!-- Input de email -->
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email" required>
-  
+  <input type="email" id="email" name="email" required />
+
   <!-- Input de contraseña -->
   <label for="password">Contraseña:</label>
-  <input type="password" id="password" name="password" required>
-  
+  <input type="password" id="password" name="password" required />
+
   <!-- Input de número -->
   <label for="age">Edad:</label>
-  <input type="number" id="age" name="age" min="18" max="100">
-  
+  <input type="number" id="age" name="age" min="18" max="100" />
+
   <!-- Checkbox -->
   <label>
-    <input type="checkbox" name="terms" required>
+    <input type="checkbox" name="terms" required />
     Acepto términos y condiciones
   </label>
-  
+
   <!-- Radio buttons -->
   <fieldset>
     <legend>Género:</legend>
-    <label><input type="radio" name="gender" value="M"> Masculino</label>
-    <label><input type="radio" name="gender" value="F"> Femenino</label>
+    <label><input type="radio" name="gender" value="M" /> Masculino</label>
+    <label><input type="radio" name="gender" value="F" /> Femenino</label>
   </fieldset>
-  
+
   <!-- Select (desplegable) -->
   <label for="category">Categoría:</label>
   <select id="category" name="category">
@@ -222,11 +224,11 @@ Cliente (Navegador)          Servidor
     <option value="2">Ropa</option>
     <option value="3">Juguetes</option>
   </select>
-  
+
   <!-- Textarea -->
   <label for="description">Descripción:</label>
   <textarea id="description" name="description" rows="4"></textarea>
-  
+
   <!-- Botones -->
   <button type="submit">Enviar</button>
   <button type="reset">Limpiar</button>
@@ -291,7 +293,7 @@ Cliente (Navegador)          Servidor
 
 <!-- 3. Externo (archivo separado) - RECOMENDADO -->
 <head>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 ```
 
@@ -358,14 +360,14 @@ p::before {
 ```css
 .elemento {
   /* Colores */
-  color: #333;                    /* Hexadecimal */
-  color: rgb(51, 51, 51);         /* RGB */
-  color: rgba(51, 51, 51, 0.5);   /* RGB con transparencia */
-  color: hsl(0, 0%, 20%);         /* HSL */
-  
+  color: #333; /* Hexadecimal */
+  color: rgb(51, 51, 51); /* RGB */
+  color: rgba(51, 51, 51, 0.5); /* RGB con transparencia */
+  color: hsl(0, 0%, 20%); /* HSL */
+
   /* Fondos */
   background-color: #f0f0f0;
-  background-image: url('bg.jpg');
+  background-image: url("bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -376,14 +378,14 @@ p::before {
 
 ```css
 .texto {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   font-size: 16px;
-  font-weight: bold;              /* normal, bold, 100-900 */
+  font-weight: bold; /* normal, bold, 100-900 */
   font-style: italic;
   line-height: 1.5;
-  text-align: center;             /* left, right, center, justify */
+  text-align: center; /* left, right, center, justify */
   text-decoration: underline;
-  text-transform: uppercase;      /* lowercase, capitalize */
+  text-transform: uppercase; /* lowercase, capitalize */
   letter-spacing: 2px;
   word-spacing: 5px;
 }
@@ -398,26 +400,27 @@ p::before {
   height: 200px;
   max-width: 100%;
   min-height: 100px;
-  
+
   /* Espaciado interno */
-  padding: 20px;                  /* Todos los lados */
-  padding: 10px 20px;             /* Vertical | Horizontal */
-  padding: 10px 20px 15px 25px;   /* Top | Right | Bottom | Left */
-  
+  padding: 20px; /* Todos los lados */
+  padding: 10px 20px; /* Vertical | Horizontal */
+  padding: 10px 20px 15px 25px; /* Top | Right | Bottom | Left */
+
   /* Margen externo */
   margin: 20px;
-  margin: 0 auto;                 /* Centrar horizontalmente */
-  
+  margin: 0 auto; /* Centrar horizontalmente */
+
   /* Borde */
   border: 2px solid #333;
   border-radius: 8px;
-  
+
   /* Sombra */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 ```
 
 **Box Model Visual**:
+
 ```
 ┌─────── margin ───────┐
 │ ┌───── border ─────┐ │
@@ -433,32 +436,33 @@ p::before {
 ```css
 .container {
   display: flex;
-  
+
   /* Dirección */
-  flex-direction: row;            /* row, column, row-reverse, column-reverse */
-  
+  flex-direction: row; /* row, column, row-reverse, column-reverse */
+
   /* Alineación horizontal */
-  justify-content: center;        /* flex-start, flex-end, center, space-between, space-around */
-  
+  justify-content: center; /* flex-start, flex-end, center, space-between, space-around */
+
   /* Alineación vertical */
-  align-items: center;            /* flex-start, flex-end, center, stretch, baseline */
-  
+  align-items: center; /* flex-start, flex-end, center, stretch, baseline */
+
   /* Envolver elementos */
-  flex-wrap: wrap;                /* nowrap, wrap, wrap-reverse */
-  
+  flex-wrap: wrap; /* nowrap, wrap, wrap-reverse */
+
   /* Espacio entre elementos */
   gap: 20px;
 }
 
 .item {
-  flex: 1;                        /* Grow | Shrink | Basis */
-  flex-grow: 1;                   /* Crecer para llenar espacio */
-  flex-shrink: 0;                 /* No encoger */
-  flex-basis: 200px;              /* Tamaño base */
+  flex: 1; /* Grow | Shrink | Basis */
+  flex-grow: 1; /* Crecer para llenar espacio */
+  flex-shrink: 0; /* No encoger */
+  flex-basis: 200px; /* Tamaño base */
 }
 ```
 
 **Ejemplo Práctico**:
+
 ```html
 <div class="nav">
   <div class="logo">Logo</div>
@@ -469,19 +473,19 @@ p::before {
 </div>
 
 <style>
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #333;
-  color: white;
-}
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+  }
 
-.links {
-  display: flex;
-  gap: 20px;
-}
+  .links {
+    display: flex;
+    gap: 20px;
+  }
 </style>
 ```
 
@@ -490,19 +494,19 @@ p::before {
 ```css
 .grid-container {
   display: grid;
-  
+
   /* Columnas */
-  grid-template-columns: 1fr 1fr 1fr;     /* 3 columnas iguales */
+  grid-template-columns: 1fr 1fr 1fr; /* 3 columnas iguales */
   grid-template-columns: 200px auto 200px; /* Fija | Auto | Fija */
-  grid-template-columns: repeat(4, 1fr);   /* 4 columnas iguales */
-  
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+
   /* Filas */
   grid-template-rows: 100px auto;
-  
+
   /* Espacio entre celdas */
   gap: 20px;
-  grid-gap: 20px;                          /* Deprecated */
-  
+  grid-gap: 20px; /* Deprecated */
+
   /* Áreas nombradas */
   grid-template-areas:
     "header header header"
@@ -510,28 +514,36 @@ p::before {
     "footer footer footer";
 }
 
-.header { grid-area: header; }
-.sidebar { grid-area: sidebar; }
-.main { grid-area: main; }
-.footer { grid-area: footer; }
+.header {
+  grid-area: header;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.main {
+  grid-area: main;
+}
+.footer {
+  grid-area: footer;
+}
 ```
 
 #### Posicionamiento
 
 ```css
 .elemento {
-  position: static;               /* Por defecto */
-  position: relative;             /* Relativo a su posición original */
-  position: absolute;             /* Relativo al padre posicionado */
-  position: fixed;                /* Relativo al viewport */
-  position: sticky;               /* Híbrido relativo/fijo */
-  
+  position: static; /* Por defecto */
+  position: relative; /* Relativo a su posición original */
+  position: absolute; /* Relativo al padre posicionado */
+  position: fixed; /* Relativo al viewport */
+  position: sticky; /* Híbrido relativo/fijo */
+
   top: 10px;
   right: 20px;
   bottom: 10px;
   left: 20px;
-  
-  z-index: 100;                   /* Orden de apilamiento */
+
+  z-index: 100; /* Orden de apilamiento */
 }
 ```
 
@@ -561,7 +573,7 @@ p::before {
 }
 
 /* Breakpoints comunes */
-/* 
+/*
   Mobile: < 768px
   Tablet: 768px - 1024px
   Desktop: > 1024px
@@ -580,18 +592,18 @@ p::before {
 
 ```javascript
 // Variables
-let nombre = "Juan";           // Variable que puede cambiar
-const PI = 3.14159;            // Constante (no cambia)
-var antigua = "evitar";        // Forma antigua (no usar)
+let nombre = "Juan"; // Variable que puede cambiar
+const PI = 3.14159; // Constante (no cambia)
+var antigua = "evitar"; // Forma antigua (no usar)
 
 // Tipos de datos
-let numero = 42;               // Number
-let texto = "Hola";            // String
-let booleano = true;           // Boolean
-let nulo = null;               // Null
-let indefinido = undefined;    // Undefined
+let numero = 42; // Number
+let texto = "Hola"; // String
+let booleano = true; // Boolean
+let nulo = null; // Null
+let indefinido = undefined; // Undefined
 let objeto = { nombre: "Juan" }; // Object
-let array = [1, 2, 3];         // Array
+let array = [1, 2, 3]; // Array
 ```
 
 ### Funciones
@@ -613,34 +625,34 @@ const calcular = (a, b) => {
 
 // Función como parámetro (callback)
 const numeros = [1, 2, 3, 4, 5];
-const dobles = numeros.map(n => n * 2);  // [2, 4, 6, 8, 10]
+const dobles = numeros.map((n) => n * 2); // [2, 4, 6, 8, 10]
 ```
 
 ### Manipulación del DOM
 
 ```javascript
 // Seleccionar elementos
-const elemento = document.getElementById('miId');
-const elementos = document.getElementsByClassName('miClase');
-const primero = document.querySelector('.miClase');
-const todos = document.querySelectorAll('.miClase');
+const elemento = document.getElementById("miId");
+const elementos = document.getElementsByClassName("miClase");
+const primero = document.querySelector(".miClase");
+const todos = document.querySelectorAll(".miClase");
 
 // Modificar contenido
 elemento.textContent = "Nuevo texto";
 elemento.innerHTML = "<strong>HTML</strong>";
 
 // Modificar atributos
-elemento.setAttribute('class', 'nueva-clase');
-elemento.classList.add('activo');
-elemento.classList.remove('inactivo');
-elemento.classList.toggle('visible');
+elemento.setAttribute("class", "nueva-clase");
+elemento.classList.add("activo");
+elemento.classList.remove("inactivo");
+elemento.classList.toggle("visible");
 
 // Modificar estilos
-elemento.style.color = 'blue';
-elemento.style.backgroundColor = '#f0f0f0';
+elemento.style.color = "blue";
+elemento.style.backgroundColor = "#f0f0f0";
 
 // Crear elementos
-const nuevoDiv = document.createElement('div');
+const nuevoDiv = document.createElement("div");
 nuevoDiv.textContent = "Nuevo elemento";
 document.body.appendChild(nuevoDiv);
 
@@ -652,33 +664,33 @@ elemento.remove();
 
 ```javascript
 // Event listeners
-const boton = document.querySelector('#miBoton');
+const boton = document.querySelector("#miBoton");
 
-boton.addEventListener('click', function() {
-  console.log('Click!');
+boton.addEventListener("click", function () {
+  console.log("Click!");
 });
 
 // Arrow function
-boton.addEventListener('click', () => {
-  console.log('Click con arrow function');
+boton.addEventListener("click", () => {
+  console.log("Click con arrow function");
 });
 
 // Evento con parámetro
-boton.addEventListener('click', (event) => {
-  event.preventDefault();  // Prevenir comportamiento por defecto
-  console.log('Target:', event.target);
+boton.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevenir comportamiento por defecto
+  console.log("Target:", event.target);
 });
 
 // Eventos comunes
-element.addEventListener('click', handler);
-element.addEventListener('dblclick', handler);
-element.addEventListener('mouseenter', handler);
-element.addEventListener('mouseleave', handler);
-input.addEventListener('change', handler);
-input.addEventListener('input', handler);  // En tiempo real
-input.addEventListener('focus', handler);
-input.addEventListener('blur', handler);
-form.addEventListener('submit', handler);
+element.addEventListener("click", handler);
+element.addEventListener("dblclick", handler);
+element.addEventListener("mouseenter", handler);
+element.addEventListener("mouseleave", handler);
+input.addEventListener("change", handler);
+input.addEventListener("input", handler); // En tiempo real
+input.addEventListener("focus", handler);
+input.addEventListener("blur", handler);
+form.addEventListener("submit", handler);
 ```
 
 ### Async/Await y Promesas
@@ -695,17 +707,17 @@ function obtenerDatos() {
 
 // .then()
 obtenerDatos()
-  .then(datos => console.log(datos))
-  .catch(error => console.error(error));
+  .then((datos) => console.log(datos))
+  .catch((error) => console.error(error));
 
 // async/await (RECOMENDADO)
 async function cargarUsuario() {
   try {
-    const respuesta = await fetch('/api/user/1');
+    const respuesta = await fetch("/api/user/1");
     const datos = await respuesta.json();
     console.log(datos);
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   }
 }
 ```
@@ -715,19 +727,19 @@ async function cargarUsuario() {
 ```javascript
 // GET
 async function obtenerProductos() {
-  const respuesta = await fetch('http://localhost:8080/api/products');
+  const respuesta = await fetch("http://localhost:8080/api/products");
   const productos = await respuesta.json();
   return productos;
 }
 
 // POST
 async function crearProducto(producto) {
-  const respuesta = await fetch('http://localhost:8080/api/products', {
-    method: 'POST',
+  const respuesta = await fetch("http://localhost:8080/api/products", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(producto)
+    body: JSON.stringify(producto),
   });
   const nuevoProducto = await respuesta.json();
   return nuevoProducto;
@@ -736,11 +748,11 @@ async function crearProducto(producto) {
 // PUT
 async function actualizarProducto(id, producto) {
   const respuesta = await fetch(`http://localhost:8080/api/products/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(producto)
+    body: JSON.stringify(producto),
   });
   return await respuesta.json();
 }
@@ -748,7 +760,7 @@ async function actualizarProducto(id, producto) {
 // DELETE
 async function eliminarProducto(id) {
   await fetch(`http://localhost:8080/api/products/${id}`, {
-    method: 'DELETE'
+    method: "DELETE",
   });
 }
 ```
@@ -765,23 +777,23 @@ const [primero, segundo] = numeros;
 
 // Spread operator
 const arr1 = [1, 2, 3];
-const arr2 = [...arr1, 4, 5];  // [1, 2, 3, 4, 5]
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
 
 const obj1 = { a: 1, b: 2 };
-const obj2 = { ...obj1, c: 3 };  // { a: 1, b: 2, c: 3 }
+const obj2 = { ...obj1, c: 3 }; // { a: 1, b: 2, c: 3 }
 
 // Template literals
 const nombre = "Juan";
-const saludo = `Hola, ${nombre}!`;  // "Hola, Juan!"
+const saludo = `Hola, ${nombre}!`; // "Hola, Juan!"
 
 // Optional chaining
 const usuario = { perfil: { nombre: "Juan" } };
-const nombre = usuario?.perfil?.nombre;  // "Juan"
-const apellido = usuario?.perfil?.apellido;  // undefined (no error)
+const nombre = usuario?.perfil?.nombre; // "Juan"
+const apellido = usuario?.perfil?.apellido; // undefined (no error)
 
 // Nullish coalescing
-const valor = null ?? "default";  // "default"
-const valor2 = 0 ?? "default";    // 0 (solo null/undefined)
+const valor = null ?? "default"; // "default"
+const valor2 = 0 ?? "default"; // 0 (solo null/undefined)
 ```
 
 ---
@@ -811,7 +823,7 @@ let persona: [string, number] = ["Juan", 25];
 enum Color {
   Rojo,
   Verde,
-  Azul
+  Azul,
 }
 let color: Color = Color.Rojo;
 
@@ -839,15 +851,15 @@ interface Product {
   id: number;
   name: string;
   price: number;
-  description?: string;  // Opcional
-  readonly createdAt: Date;  // Solo lectura
+  description?: string; // Opcional
+  readonly createdAt: Date; // Solo lectura
 }
 
 const producto: Product = {
   id: 1,
   name: "Pañales",
   price: 29.99,
-  createdAt: new Date()
+  createdAt: new Date(),
 };
 
 // Interface de función
@@ -865,7 +877,7 @@ const calcular: CalcularDescuento = (precio, descuento) => {
 ```typescript
 // Type alias
 type ID = number | string;
-type Status = 'pending' | 'shipped' | 'delivered';
+type Status = "pending" | "shipped" | "delivered";
 
 // Union types
 let id: ID = 123;
@@ -884,7 +896,7 @@ type Admin = Usuario & {
 const admin: Admin = {
   nombre: "Juan",
   email: "juan@example.com",
-  permisos: ["read", "write"]
+  permisos: ["read", "write"],
 };
 ```
 
@@ -896,7 +908,7 @@ function primero<T>(array: T[]): T {
   return array[0];
 }
 
-const num = primero([1, 2, 3]);      // number
+const num = primero([1, 2, 3]); // number
 const str = primero(["a", "b", "c"]); // string
 
 // Interface genérica
@@ -909,7 +921,7 @@ interface ApiResponse<T> {
 const response: ApiResponse<Product> = {
   data: { id: 1, name: "Producto", price: 29.99 },
   status: 200,
-  message: "Success"
+  message: "Success",
 };
 ```
 
@@ -920,7 +932,7 @@ const response: ApiResponse<Product> = {
 ### Componentes Funcionales
 
 ```tsx
-import React from 'react';
+import React from "react";
 
 // Componente simple
 function Saludo() {
@@ -937,21 +949,21 @@ function Saludo({ nombre }: SaludoProps) {
 }
 
 // Uso
-<Saludo nombre="Juan" />
+<Saludo nombre="Juan" />;
 ```
 
 ### useState (Estado)
 
 ```tsx
-import { useState } from 'react';
+import { useState } from "react";
 
 function Contador() {
   const [contador, setContador] = useState(0);
-  
+
   const incrementar = () => {
     setContador(contador + 1);
   };
-  
+
   return (
     <div>
       <p>Contador: {contador}</p>
@@ -964,29 +976,29 @@ function Contador() {
 ### useEffect (Efectos Secundarios)
 
 ```tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     // Se ejecuta después del render
     async function fetchProducts() {
-      const response = await fetch('/api/products');
+      const response = await fetch("/api/products");
       const data = await response.json();
       setProducts(data);
       setLoading(false);
     }
-    
+
     fetchProducts();
   }, []); // [] = solo una vez al montar
-  
+
   if (loading) return <p>Cargando...</p>;
-  
+
   return (
     <ul>
-      {products.map(product => (
+      {products.map((product) => (
         <li key={product.id}>{product.name}</li>
       ))}
     </ul>
@@ -997,7 +1009,7 @@ function ProductList() {
 ### Ejemplo Completo: Formulario
 
 ```tsx
-import { useState } from 'react';
+import { useState } from "react";
 
 interface Product {
   name: string;
@@ -1007,34 +1019,34 @@ interface Product {
 
 function ProductForm() {
   const [product, setProduct] = useState<Product>({
-    name: '',
+    name: "",
     price: 0,
-    description: ''
+    description: "",
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProduct(prev => ({
+    setProduct((prev) => ({
       ...prev,
-      [name]: name === 'price' ? parseFloat(value) : value
+      [name]: name === "price" ? parseFloat(value) : value,
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const response = await fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product)
+
+    const response = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
     });
-    
+
     if (response.ok) {
-      alert('Producto creado!');
-      setProduct({ name: '', price: 0, description: '' });
+      alert("Producto creado!");
+      setProduct({ name: "", price: 0, description: "" });
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -1045,7 +1057,7 @@ function ProductForm() {
         placeholder="Nombre"
         required
       />
-      
+
       <input
         type="number"
         name="price"
@@ -1054,7 +1066,7 @@ function ProductForm() {
         placeholder="Precio"
         required
       />
-      
+
       <input
         type="text"
         name="description"
@@ -1062,7 +1074,7 @@ function ProductForm() {
         onChange={handleChange}
         placeholder="Descripción"
       />
-      
+
       <button type="submit">Crear Producto</button>
     </form>
   );
@@ -1075,66 +1087,66 @@ function ProductForm() {
 
 ### Métodos HTTP
 
-| Método | Propósito | Ejemplo |
-|--------|-----------|---------|
-| GET | Obtener datos | `GET /api/products` |
-| POST | Crear nuevo | `POST /api/products` |
-| PUT | Actualizar completo | `PUT /api/products/1` |
-| PATCH | Actualizar parcial | `PATCH /api/products/1` |
-| DELETE | Eliminar | `DELETE /api/products/1` |
+| Método | Propósito           | Ejemplo                  |
+| ------ | ------------------- | ------------------------ |
+| GET    | Obtener datos       | `GET /api/products`      |
+| POST   | Crear nuevo         | `POST /api/products`     |
+| PUT    | Actualizar completo | `PUT /api/products/1`    |
+| PATCH  | Actualizar parcial  | `PATCH /api/products/1`  |
+| DELETE | Eliminar            | `DELETE /api/products/1` |
 
 ### Códigos de Estado
 
-| Código | Significado | Descripción |
-|--------|-------------|-------------|
-| 200 | OK | Petición exitosa |
-| 201 | Created | Recurso creado |
-| 204 | No Content | Éxito sin contenido |
-| 400 | Bad Request | Petición mal formada |
-| 401 | Unauthorized | No autenticado |
-| 403 | Forbidden | Sin permisos |
-| 404 | Not Found | Recurso no encontrado |
-| 500 | Internal Server Error | Error del servidor |
+| Código | Significado           | Descripción           |
+| ------ | --------------------- | --------------------- |
+| 200    | OK                    | Petición exitosa      |
+| 201    | Created               | Recurso creado        |
+| 204    | No Content            | Éxito sin contenido   |
+| 400    | Bad Request           | Petición mal formada  |
+| 401    | Unauthorized          | No autenticado        |
+| 403    | Forbidden             | Sin permisos          |
+| 404    | Not Found             | Recurso no encontrado |
+| 500    | Internal Server Error | Error del servidor    |
 
 ### REST API Example
 
 ```typescript
 // Service para productos
 class ProductService {
-  private baseURL = 'http://localhost:8080/api/products';
-  
+  private baseURL = "http://localhost:8080/api/products";
+
   async getAll(): Promise<Product[]> {
     const response = await fetch(this.baseURL);
     return await response.json();
   }
-  
+
   async getById(id: number): Promise<Product> {
     const response = await fetch(`${this.baseURL}/${id}`);
-    if (!response.ok) throw new Error('Producto no encontrado');
+    if (!response.ok) throw new Error("Producto no encontrado");
     return await response.json();
   }
-  
-  async create(product: Omit<Product, 'id'>): Promise<Product> {
+
+  async create(product: Omit<Product, "id">): Promise<Product> {
     const response = await fetch(this.baseURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
     });
     return await response.json();
   }
-  
+
   async update(id: number, product: Partial<Product>): Promise<Product> {
     const response = await fetch(`${this.baseURL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product)
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
     });
     return await response.json();
   }
-  
+
   async delete(id: number): Promise<void> {
     await fetch(`${this.baseURL}/${id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     });
   }
 }
@@ -1244,6 +1256,6 @@ git merge feature/nueva-funcionalidad
 
 ---
 
-**Documento creado**: 4 de Noviembre de 2025  
-**Propósito**: Fundamentos completos de desarrollo web y frontend  
+**Documento creado**: 4 de Noviembre de 2025
+**Propósito**: Fundamentos completos de desarrollo web y frontend
 **Proyecto**: Baby Cash - SENA

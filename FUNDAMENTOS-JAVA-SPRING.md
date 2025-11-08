@@ -39,32 +39,32 @@ import java.util.ArrayList;
  */
 // 4. Declaración de la clase
 public class Product {
-    
+
     // 5. Atributos (variables de instancia)
     private Long id;
     private String name;
     private double price;
-    
+
     // 6. Constructores
     public Product() {
         // Constructor vacío
     }
-    
+
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
     }
-    
+
     // 7. Métodos
     public void displayInfo() {
         System.out.println("Producto: " + name + ", Precio: $" + price);
     }
-    
+
     // 8. Getters y Setters
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -98,16 +98,16 @@ com.babycash
 
 ```java
 public class Ejemplo {
-    
+
     // PUBLIC: Accesible desde cualquier lugar
     public String publico = "Todos pueden acceder";
-    
+
     // PRIVATE: Solo accesible dentro de la clase
     private String privado = "Solo esta clase";
-    
+
     // PROTECTED: Accesible en la clase, subclases y mismo paquete
     protected String protegido = "Clase, hijos y paquete";
-    
+
     // DEFAULT (sin modificador): Accesible solo en el mismo paquete
     String porDefecto = "Solo en este paquete";
 }
@@ -116,11 +116,11 @@ public class Ejemplo {
 **Tabla de acceso**:
 
 | Modificador | Misma Clase | Mismo Paquete | Subclase | Otros |
-|-------------|-------------|---------------|----------|-------|
-| `public` | ✅ | ✅ | ✅ | ✅ |
-| `protected` | ✅ | ✅ | ✅ | ❌ |
-| default | ✅ | ✅ | ❌ | ❌ |
-| `private` | ✅ | ❌ | ❌ | ❌ |
+| ----------- | ----------- | ------------- | -------- | ----- |
+| `public`    | ✅          | ✅            | ✅       | ✅    |
+| `protected` | ✅          | ✅            | ✅       | ❌    |
+| default     | ✅          | ✅            | ❌       | ❌    |
+| `private`   | ✅          | ❌            | ❌       | ❌    |
 
 ### Modificadores No-Acceso
 
@@ -128,11 +128,11 @@ public class Ejemplo {
 // STATIC: Pertenece a la clase, no a instancias
 public class Contador {
     private static int total = 0;  // Compartido entre todas las instancias
-    
+
     public Contador() {
         total++;
     }
-    
+
     public static int getTotal() {
         return total;  // Método estático
     }
@@ -168,12 +168,12 @@ public synchronized void metodoSeguro() {
 public interface Calculable {
     double calcular();
     void mostrarResultado();
-    
+
     // Java 8+: Métodos default
     default void saludar() {
         System.out.println("Hola desde interface");
     }
-    
+
     // Java 8+: Métodos estáticos
     static double PI() {
         return 3.14159;
@@ -183,12 +183,12 @@ public interface Calculable {
 // Implementación
 public class Circulo implements Calculable {
     private double radio;
-    
+
     @Override
     public double calcular() {
         return Calculable.PI() * radio * radio;
     }
-    
+
     @Override
     public void mostrarResultado() {
         System.out.println("Área: " + calcular());
@@ -198,26 +198,26 @@ public class Circulo implements Calculable {
 
 **Interface vs Clase Abstracta**:
 
-| Interface | Clase Abstracta |
-|-----------|-----------------|
-| Solo constantes | Variables de instancia |
+| Interface                      | Clase Abstracta               |
+| ------------------------------ | ----------------------------- |
+| Solo constantes                | Variables de instancia        |
 | Métodos abstractos por defecto | Puede tener métodos concretos |
-| Herencia múltiple | Herencia simple |
-| `implements` | `extends` |
+| Herencia múltiple              | Herencia simple               |
+| `implements`                   | `extends`                     |
 
 ### Clases Anidadas
 
 ```java
 public class Externa {
     private String dato = "Externo";
-    
+
     // Clase interna
     public class Interna {
         public void acceder() {
             System.out.println(dato);  // Puede acceder a miembros privados
         }
     }
-    
+
     // Clase estática anidada
     public static class EstaticaAnidada {
         public void metodo() {
@@ -238,11 +238,11 @@ Externa.EstaticaAnidada estatica = new Externa.EstaticaAnidada();
 // Clase genérica
 public class Caja<T> {
     private T contenido;
-    
+
     public void guardar(T item) {
         this.contenido = item;
     }
-    
+
     public T obtener() {
         return contenido;
     }
@@ -280,19 +280,19 @@ public enum EstadoOrden {
     ENVIADA("Enviada", 3),
     ENTREGADA("Entregada", 4),
     CANCELADA("Cancelada", -1);
-    
+
     private final String descripcion;
     private final int codigo;
-    
+
     EstadoOrden(String descripcion, int codigo) {
         this.descripcion = descripcion;
         this.codigo = codigo;
     }
-    
+
     public String getDescripcion() {
         return descripcion;
     }
-    
+
     public int getCodigo() {
         return codigo;
     }
@@ -325,10 +325,10 @@ System.out.println(estado.getDescripcion());  // "Pagada"
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    
+
     @Autowired
     private ProductService productService;
-    
+
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.findAll();
@@ -438,30 +438,30 @@ baby-cash-backend/
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0">
-    
+
     <!-- Información del proyecto -->
     <groupId>com.babycash</groupId>
     <artifactId>backend</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
     <name>Baby Cash Backend</name>
     <description>E-commerce backend para Baby Cash</description>
-    
+
     <!-- Proyecto padre (Spring Boot) -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.7</version>
     </parent>
-    
+
     <!-- Propiedades -->
     <properties>
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
-    
+
     <!-- Dependencias -->
     <dependencies>
         <!-- Spring Boot Web (REST APIs) -->
@@ -469,27 +469,27 @@ baby-cash-backend/
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
+
         <!-- Spring Data JPA (Base de datos) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        
+
         <!-- PostgreSQL Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- Lombok (reduce boilerplate) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        
+
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -497,7 +497,7 @@ baby-cash-backend/
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <!-- Build plugins -->
     <build>
         <plugins>
@@ -582,6 +582,7 @@ mvn spring-boot:run     # Ejecutar aplicación Spring Boot
 ### ¿Qué es Spring?
 
 Spring es un **framework de desarrollo de aplicaciones Java** que proporciona:
+
 - Inversión de Control (IoC)
 - Inyección de Dependencias (DI)
 - Programación Orientada a Aspectos (AOP)
@@ -602,7 +603,7 @@ public class ProductService {
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    
+
     @Autowired  // Spring inyecta automáticamente
     public ProductService(ProductRepository repository) {
         this.repository = repository;
@@ -618,7 +619,7 @@ public class ProductService {
 // Configuración con anotaciones
 @Configuration
 public class AppConfig {
-    
+
     @Bean
     public ProductService productService() {
         return new ProductService();
@@ -640,7 +641,7 @@ ProductService service = context.getBean(ProductService.class);
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    
+
     @Autowired  // Opcional si solo hay un constructor
     public class ProductService(ProductRepository repository) {
         this.repository = repository;
@@ -649,6 +650,7 @@ public class ProductService {
 ```
 
 **Ventajas**:
+
 - ✅ Inmutabilidad (final)
 - ✅ Fácil de testear
 - ✅ Dependencias obligatorias claras
@@ -659,7 +661,7 @@ public class ProductService {
 @Service
 public class ProductService {
     private ProductRepository repository;
-    
+
     @Autowired
     public void setRepository(ProductRepository repository) {
         this.repository = repository;
@@ -723,6 +725,7 @@ public class ProductController {
 ### ¿Qué es Spring Boot?
 
 Spring Boot **simplifica** Spring Framework:
+
 - Configuración automática
 - Servidor embebido (Tomcat)
 - Starter POMs
@@ -733,7 +736,7 @@ Spring Boot **simplifica** Spring Framework:
 ```java
 @SpringBootApplication  // Incluye @Configuration, @EnableAutoConfiguration, @ComponentScan
 public class BabyCashApplication {
-    
+
     public static void main(String[] args) {
         SpringApplication.run(BabyCashApplication.class, args);
     }
@@ -765,25 +768,25 @@ public class BabyCashApplication {
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, length = 255)
     private String name;
-    
+
     @Column(nullable = false)
     private BigDecimal price;
-    
+
     private String description;
-    
+
     @Column(nullable = false)
     private Integer stock = 0;
-    
+
     @CreatedDate
     private LocalDateTime createdAt;
-    
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }
@@ -794,22 +797,22 @@ public class Product {
 ```java
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    
+
     // Métodos CRUD básicos ya incluidos:
     // - save(product)
     // - findById(id)
     // - findAll()
     // - deleteById(id)
-    
+
     // Métodos custom (Spring Data genera la consulta automáticamente)
     List<Product> findByNameContainingIgnoreCase(String name);
-    
+
     List<Product> findByPriceLessThan(BigDecimal price);
-    
+
     @Query("SELECT p FROM Product p WHERE p.stock > 0")
     List<Product> findInStock();
-    
-    @Query(value = "SELECT * FROM products WHERE price BETWEEN ?1 AND ?2", 
+
+    @Query(value = "SELECT * FROM products WHERE price BETWEEN ?1 AND ?2",
            nativeQuery = true)
     List<Product> findByPriceRange(double min, double max);
 }
@@ -821,24 +824,24 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 @Service
 @Transactional
 public class ProductService {
-    
+
     private final ProductRepository productRepository;
-    
+
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-    
+
     // Obtener todos
     public List<Product> findAll() {
         return productRepository.findAll();
     }
-    
+
     // Obtener por ID
     public Product findById(Long id) {
         return productRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
     }
-    
+
     // Crear
     public Product create(Product product) {
         // Validaciones
@@ -847,7 +850,7 @@ public class ProductService {
         }
         return productRepository.save(product);
     }
-    
+
     // Actualizar
     public Product update(Long id, Product productDetails) {
         Product product = findById(id);
@@ -857,13 +860,13 @@ public class ProductService {
         product.setStock(productDetails.getStock());
         return productRepository.save(product);
     }
-    
+
     // Eliminar
     public void delete(Long id) {
         Product product = findById(id);
         productRepository.delete(product);
     }
-    
+
     // Buscar por nombre
     public List<Product> searchByName(String name) {
         return productRepository.findByNameContainingIgnoreCase(name);
@@ -878,34 +881,34 @@ public class ProductService {
 @RequestMapping("/api/products")
 @CrossOrigin(origins = "*")  // CORS
 public class ProductController {
-    
+
     private final ProductService productService;
-    
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-    
+
     // GET /api/products
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.findAll();
         return ResponseEntity.ok(products);
     }
-    
+
     // GET /api/products/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.findById(id);
         return ResponseEntity.ok(product);
     }
-    
+
     // POST /api/products
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product product) {
         Product created = productService.create(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-    
+
     // PUT /api/products/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(
@@ -914,14 +917,14 @@ public class ProductController {
         Product updated = productService.update(id, product);
         return ResponseEntity.ok(updated);
     }
-    
+
     // DELETE /api/products/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     // GET /api/products/search?name=pañal
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProducts(
@@ -937,7 +940,7 @@ public class ProductController {
 ```java
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -947,7 +950,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
-    
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -1007,33 +1010,33 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CalculadoraTest {
-    
+
     private Calculadora calc;
-    
+
     @BeforeEach  // Se ejecuta antes de cada test
     void setUp() {
         calc = new Calculadora();
     }
-    
+
     @Test
     void testSuma() {
         int resultado = calc.sumar(2, 3);
         assertEquals(5, resultado);
     }
-    
+
     @Test
     void testDivision() {
         double resultado = calc.dividir(10, 2);
         assertEquals(5.0, resultado, 0.001);
     }
-    
+
     @Test
     void testDivisionPorCero() {
         assertThrows(ArithmeticException.class, () -> {
             calc.dividir(10, 0);
         });
     }
-    
+
     @AfterEach  // Se ejecuta después de cada test
     void tearDown() {
         calc = null;
@@ -1086,34 +1089,34 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
-    
+
     @Mock
     private ProductRepository productRepository;  // Mock del repositorio
-    
+
     @InjectMocks
     private ProductService productService;  // Inyecta los mocks
-    
+
     @Test
     void testFindById() {
         // Arrange (preparar)
         Product mockProduct = new Product(1L, "Pañales", new BigDecimal("29.99"));
         when(productRepository.findById(1L))
             .thenReturn(Optional.of(mockProduct));
-        
+
         // Act (actuar)
         Product result = productService.findById(1L);
-        
+
         // Assert (verificar)
         assertNotNull(result);
         assertEquals("Pañales", result.getName());
         verify(productRepository, times(1)).findById(1L);
     }
-    
+
     @Test
     void testFindByIdNotFound() {
         when(productRepository.findById(999L))
             .thenReturn(Optional.empty());
-        
+
         assertThrows(ResourceNotFoundException.class, () -> {
             productService.findById(999L);
         });
@@ -1127,13 +1130,13 @@ public class ProductServiceTest {
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ProductControllerIntegrationTest {
-    
+
     @Autowired
     private MockMvc mockMvc;
-    
+
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Test
     void testGetAllProducts() throws Exception {
         mockMvc.perform(get("/api/products"))
@@ -1141,11 +1144,11 @@ public class ProductControllerIntegrationTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$").isArray());
     }
-    
+
     @Test
     void testCreateProduct() throws Exception {
         Product product = new Product(null, "Nuevo Producto", new BigDecimal("19.99"));
-        
+
         mockMvc.perform(post("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(product)))
@@ -1181,21 +1184,21 @@ public void processOrder(Order order) {
     // Validar orden
     if (order == null) throw new Exception();
     if (order.getItems().isEmpty()) throw new Exception();
-    
+
     // Calcular total
     double total = 0;
     for (Item item : order.getItems()) {
         total += item.getPrice() * item.getQuantity();
     }
-    
+
     // Aplicar descuento
     if (total > 100) {
         total *= 0.9;
     }
-    
+
     // Guardar en BD
     orderRepository.save(order);
-    
+
     // Enviar email
     emailService.send(order.getCustomer().getEmail());
 }
@@ -1234,7 +1237,7 @@ String nombre;
 
 // ✅ BIEN: Comentarios que explican el POR QUÉ
 // Usamos ThreadLocal para evitar race conditions en ambientes multi-thread
-private ThreadLocal<DateFormat> formatter = ThreadLocal.withInitial(() -> 
+private ThreadLocal<DateFormat> formatter = ThreadLocal.withInitial(() ->
     new SimpleDateFormat("yyyy-MM-dd")
 );
 
@@ -1309,7 +1312,7 @@ public double calculateDiscountForVIPCustomer(double total) {
 public class User {
     private String name;
     private String email;
-    
+
     public void saveToDatabase() { }
     public void sendEmail() { }
     public void generateReport() { }
@@ -1380,7 +1383,7 @@ public class PremiumDiscount implements DiscountStrategy {
 
 public class DiscountCalculator {
     private DiscountStrategy strategy;
-    
+
     public double calculate(double amount) {
         return strategy.applyDiscount(amount);
     }
@@ -1396,15 +1399,15 @@ public class DiscountCalculator {
 public class Rectangle {
     protected int width;
     protected int height;
-    
+
     public void setWidth(int width) {
         this.width = width;
     }
-    
+
     public void setHeight(int height) {
         this.height = height;
     }
-    
+
     public int getArea() {
         return width * height;
     }
@@ -1416,7 +1419,7 @@ public class Square extends Rectangle {
         this.width = width;
         this.height = width;  // Rompe el comportamiento esperado
     }
-    
+
     @Override
     public void setHeight(int height) {
         this.width = height;
@@ -1438,7 +1441,7 @@ public interface Shape {
 public class Rectangle implements Shape {
     private int width;
     private int height;
-    
+
     public double getArea() {
         return width * height;
     }
@@ -1446,7 +1449,7 @@ public class Rectangle implements Shape {
 
 public class Square implements Shape {
     private int side;
-    
+
     public double getArea() {
         return side * side;
     }
@@ -1510,7 +1513,7 @@ public class Robot implements Workable {
 // ❌ MAL: Depende de implementación concreta
 public class ProductService {
     private MySQLProductRepository repository = new MySQLProductRepository();  // Acoplamiento
-    
+
     public Product findById(Long id) {
         return repository.findById(id);
     }
@@ -1531,11 +1534,11 @@ public class MySQLProductRepository implements ProductRepository {
 
 public class ProductService {
     private final ProductRepository repository;  // Abstracción
-    
+
     public ProductService(ProductRepository repository) {
         this.repository = repository;  // Inyección de dependencia
     }
-    
+
     public Product findById(Long id) {
         return repository.findById(id);
     }
@@ -1553,9 +1556,9 @@ public class ProductService {
 ```java
 public class DatabaseConnection {
     private static DatabaseConnection instance;
-    
+
     private DatabaseConnection() { }  // Constructor privado
-    
+
     public static DatabaseConnection getInstance() {
         if (instance == null) {
             instance = new DatabaseConnection();
@@ -1630,11 +1633,11 @@ public class ExpressShipping implements ShippingStrategy {
 
 public class Order {
     private ShippingStrategy shippingStrategy;
-    
+
     public void setShippingStrategy(ShippingStrategy strategy) {
         this.shippingStrategy = strategy;
     }
-    
+
     public double calculateShippingCost(double weight) {
         return shippingStrategy.calculateCost(weight);
     }
@@ -1652,7 +1655,7 @@ public interface Observer {
 
 public class Customer implements Observer {
     private String name;
-    
+
     public void update(String message) {
         System.out.println(name + " recibió: " + message);
     }
@@ -1661,18 +1664,18 @@ public class Customer implements Observer {
 public class ProductStock {
     private List<Observer> observers = new ArrayList<>();
     private int stock;
-    
+
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
-    
+
     public void setStock(int stock) {
         this.stock = stock;
         if (stock > 0) {
             notifyObservers("Producto disponible");
         }
     }
-    
+
     private void notifyObservers(String message) {
         for (Observer observer : observers) {
             observer.update(message);
@@ -1713,6 +1716,6 @@ public class ProductStock {
 
 ---
 
-**Documento creado**: 4 de Noviembre de 2025  
-**Propósito**: Fundamentos completos de Java y Spring Boot  
+**Documento creado**: 4 de Noviembre de 2025
+**Propósito**: Fundamentos completos de Java y Spring Boot
 **Proyecto**: Baby Cash - SENA

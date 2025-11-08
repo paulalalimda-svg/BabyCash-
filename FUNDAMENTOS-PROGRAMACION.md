@@ -22,22 +22,27 @@ Guía completa de conceptos básicos de programación para entender cualquier le
 ## 🎯 ¿Qué es la Programación?
 
 ### Definición
+
 **Programar** es el proceso de crear instrucciones que una computadora puede ejecutar para realizar tareas específicas. Es como escribir una receta detallada que la computadora sigue al pie de la letra.
 
 ### Componentes de un Programa
+
 ```
 Entrada → Procesamiento → Salida
 ```
 
 **Ejemplo Real**:
+
 - **Entrada**: Usuario escribe nombre y edad
 - **Procesamiento**: Programa calcula si es mayor de edad
 - **Salida**: Muestra "Eres mayor de edad" o "Eres menor de edad"
 
 ### Lenguajes de Programación
+
 Son idiomas que los humanos usan para comunicarse con las computadoras.
 
 **Tipos**:
+
 - **Bajo nivel**: Cercanos al lenguaje máquina (Ensamblador)
 - **Alto nivel**: Cercanos al lenguaje humano (Java, Python, JavaScript)
 
@@ -46,6 +51,7 @@ Son idiomas que los humanos usan para comunicarse con las computadoras.
 ## 🔤 Conceptos Básicos Fundamentales
 
 ### 1. Código Fuente
+
 **Definición**: El texto que escriben los programadores en un lenguaje de programación.
 
 ```java
@@ -60,6 +66,7 @@ public class Saludo {
 ### 2. Compilación vs Interpretación
 
 #### Lenguaje Compilado
+
 El código fuente se traduce completamente a lenguaje máquina ANTES de ejecutarse.
 
 ```
@@ -67,6 +74,7 @@ Código Fuente (.java) → Compilador → Código Máquina (.class) → Ejecuci�
 ```
 
 **Ventajas**:
+
 - ✅ Ejecución más rápida
 - ✅ Detecta errores antes de ejecutar
 - ✅ Mayor optimización
@@ -74,6 +82,7 @@ Código Fuente (.java) → Compilador → Código Máquina (.class) → Ejecuci�
 **Ejemplos**: C, C++, Java (parcialmente)
 
 #### Lenguaje Interpretado
+
 El código se traduce línea por línea MIENTRAS se ejecuta.
 
 ```
@@ -81,6 +90,7 @@ Código Fuente (.py) → Intérprete → Ejecución directa
 ```
 
 **Ventajas**:
+
 - ✅ Desarrollo más rápido
 - ✅ Más flexible
 - ✅ Multiplataforma sin recompilar
@@ -88,6 +98,7 @@ Código Fuente (.py) → Intérprete → Ejecución directa
 **Ejemplos**: Python, JavaScript, Ruby
 
 #### Java: Híbrido (Compilado e Interpretado)
+
 ```
 Código Java (.java) → Compilador → Bytecode (.class) → JVM (Intérprete) → Ejecución
 ```
@@ -95,6 +106,7 @@ Código Java (.java) → Compilador → Bytecode (.class) → JVM (Intérprete) 
 ### 3. Sintaxis y Semántica
 
 #### Sintaxis
+
 Las **reglas gramaticales** del lenguaje (cómo se escribe).
 
 ```java
@@ -106,6 +118,7 @@ int edad = 25  // Falta punto y coma
 ```
 
 #### Semántica
+
 El **significado** de lo que escribes (qué hace el código).
 
 ```java
@@ -170,6 +183,7 @@ long grande = 9000000000L;    // 64 bits: números muy grandes
 ```
 
 **Cuándo usar cada uno**:
+
 - `byte`: Ahorrar memoria con números pequeños (edad, mes)
 - `short`: Números medianos (año)
 - `int`: **Uso general** (contador, cantidad)
@@ -183,6 +197,7 @@ double muypreciso = 3.14159;  // 64 bits: 15-16 dígitos decimales (RECOMENDADO)
 ```
 
 **Cuándo usar**:
+
 - `float`: Gráficos 3D, cálculos que no requieren mucha precisión
 - `double`: **Uso general** (cálculos científicos, dinero)
 
@@ -234,6 +249,7 @@ int tamaño = numeros.length;  // 5
 ```
 
 **Características**:
+
 - ✅ Tamaño fijo
 - ✅ Acceso rápido por índice
 - ❌ No se puede cambiar el tamaño
@@ -256,18 +272,18 @@ PI = 3.14;  // ❌ Error de compilación
 public class Ejemplo {
     // Variable de clase (global a la clase)
     private int global = 10;
-    
+
     public void metodo() {
         // Variable local (solo existe dentro del método)
         int local = 5;
-        
+
         if (local > 0) {
             // Variable de bloque (solo existe dentro del if)
             int bloque = 3;
             System.out.println(local);   // ✅ Funciona
             System.out.println(global);  // ✅ Funciona
         }
-        
+
         System.out.println(bloque);  // ❌ Error: bloque no existe aquí
     }
 }
@@ -547,6 +563,7 @@ public int buscarNumero(int[] array, int objetivo) {
 Un **bloque de código reutilizable** que realiza una tarea específica.
 
 **Beneficios**:
+
 - ✅ Reutilización de código
 - ✅ Código más organizado
 - ✅ Más fácil de probar
@@ -732,12 +749,12 @@ for (String nombre : nombres) {
 
 **Arrays vs ArrayList**:
 
-| Arrays | ArrayList |
-|--------|-----------|
-| Tamaño fijo | Tamaño dinámico |
-| Más rápido | Más lento |
+| Arrays                   | ArrayList                      |
+| ------------------------ | ------------------------------ |
+| Tamaño fijo              | Tamaño dinámico                |
+| Más rápido               | Más lento                      |
 | Primitivos (int, double) | Solo objetos (Integer, Double) |
-| `array[i]` | `list.get(i)` |
+| `array[i]`               | `list.get(i)`                  |
 
 ### Maps (Diccionarios)
 
@@ -811,10 +828,12 @@ for (String fruta : frutas) {
 ### ¿Qué es un Objeto?
 
 Un objeto es una **entidad** que tiene:
+
 - **Atributos** (características)
 - **Métodos** (comportamientos)
 
 **Analogía**: Un carro
+
 - **Atributos**: color, marca, modelo, velocidad
 - **Métodos**: acelerar(), frenar(), girar()
 
@@ -827,35 +846,35 @@ public class Persona {
     // Atributos (estado)
     private String nombre;
     private int edad;
-    
+
     // Constructor
     public Persona(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
     }
-    
+
     // Métodos (comportamiento)
     public void saludar() {
         System.out.println("Hola, soy " + nombre);
     }
-    
+
     public boolean esMayorDeEdad() {
         return edad >= 18;
     }
-    
+
     // Getters y Setters
     public String getNombre() {
         return nombre;
     }
-    
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public int getEdad() {
         return edad;
     }
-    
+
     public void setEdad(int edad) {
         if (edad > 0) {
             this.edad = edad;
@@ -878,19 +897,19 @@ boolean esMayor = persona1.esMayorDeEdad();  // true
 ```java
 public class CuentaBancaria {
     private double saldo;  // Private: no se puede acceder directamente
-    
+
     public void depositar(double monto) {
         if (monto > 0) {
             saldo += monto;
         }
     }
-    
+
     public void retirar(double monto) {
         if (monto > 0 && monto <= saldo) {
             saldo -= monto;
         }
     }
-    
+
     public double getSaldo() {
         return saldo;  // Solo lectura, no modificación directa
     }
@@ -911,7 +930,7 @@ Una clase **hereda** atributos y métodos de otra clase.
 // Clase padre (superclase)
 public class Animal {
     protected String nombre;
-    
+
     public void comer() {
         System.out.println(nombre + " está comiendo");
     }
@@ -971,10 +990,10 @@ animal2.hacerSonido();  // Output: Miau miau
 ```java
 public abstract class FiguraGeometrica {
     protected String color;
-    
+
     // Método abstracto (sin implementación)
     public abstract double calcularArea();
-    
+
     // Método concreto
     public void pintar() {
         System.out.println("Pintando de color " + color);
@@ -983,7 +1002,7 @@ public abstract class FiguraGeometrica {
 
 public class Circulo extends FiguraGeometrica {
     private double radio;
-    
+
     @Override
     public double calcularArea() {
         return Math.PI * radio * radio;
@@ -993,7 +1012,7 @@ public class Circulo extends FiguraGeometrica {
 public class Rectangulo extends FiguraGeometrica {
     private double base;
     private double altura;
-    
+
     @Override
     public double calcularArea() {
         return base * altura;
@@ -1090,10 +1109,10 @@ public int busquedaLineal(int[] array, int objetivo) {
 public int busquedaBinaria(int[] array, int objetivo) {
     int izquierda = 0;
     int derecha = array.length - 1;
-    
+
     while (izquierda <= derecha) {
         int medio = (izquierda + derecha) / 2;
-        
+
         if (array[medio] == objetivo) {
             return medio;
         } else if (array[medio] < objetivo) {
@@ -1102,7 +1121,7 @@ public int busquedaBinaria(int[] array, int objetivo) {
             derecha = medio - 1;
         }
     }
-    
+
     return -1;
 }
 ```
@@ -1129,24 +1148,24 @@ public void ordenamientoBurbuja(int[] array) {
 
 ## ✅ Resumen de Conceptos Clave
 
-| Concepto | Definición Breve |
-|----------|------------------|
-| **Variable** | Contenedor con nombre que almacena un valor |
-| **Tipo de Dato** | Clasificación del tipo de valor (int, String, etc.) |
-| **Operador** | Símbolo que realiza operaciones (+, -, ==, etc.) |
-| **Condicional** | Ejecuta código según una condición (if, switch) |
-| **Bucle** | Repite código múltiples veces (for, while) |
-| **Función** | Bloque de código reutilizable |
-| **Array** | Colección de elementos del mismo tipo |
-| **Clase** | Plantilla para crear objetos |
-| **Objeto** | Instancia de una clase |
-| **Encapsulación** | Ocultar detalles internos |
-| **Herencia** | Clase hija hereda de clase padre |
-| **Polimorfismo** | Mismo método, diferentes comportamientos |
-| **Excepción** | Error en tiempo de ejecución |
+| Concepto          | Definición Breve                                    |
+| ----------------- | --------------------------------------------------- |
+| **Variable**      | Contenedor con nombre que almacena un valor         |
+| **Tipo de Dato**  | Clasificación del tipo de valor (int, String, etc.) |
+| **Operador**      | Símbolo que realiza operaciones (+, -, ==, etc.)    |
+| **Condicional**   | Ejecuta código según una condición (if, switch)     |
+| **Bucle**         | Repite código múltiples veces (for, while)          |
+| **Función**       | Bloque de código reutilizable                       |
+| **Array**         | Colección de elementos del mismo tipo               |
+| **Clase**         | Plantilla para crear objetos                        |
+| **Objeto**        | Instancia de una clase                              |
+| **Encapsulación** | Ocultar detalles internos                           |
+| **Herencia**      | Clase hija hereda de clase padre                    |
+| **Polimorfismo**  | Mismo método, diferentes comportamientos            |
+| **Excepción**     | Error en tiempo de ejecución                        |
 
 ---
 
-**Documento creado**: 4 de Noviembre de 2025  
-**Propósito**: Fundamentos de programación desde cero  
+**Documento creado**: 4 de Noviembre de 2025
+**Propósito**: Fundamentos de programación desde cero
 **Proyecto**: Baby Cash - SENA

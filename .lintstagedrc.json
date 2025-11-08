@@ -3,7 +3,5 @@
     "npx --prefix frontend eslint --fix",
     "npx --prefix frontend prettier --write"
   ],
-  "frontend/src/**/*.{json,css,md}": [
-    "npx --prefix frontend prettier --write"
-  ]
+  "frontend/src/**/*.{json,css,md}": ["npx --prefix frontend prettier --write"]
 }

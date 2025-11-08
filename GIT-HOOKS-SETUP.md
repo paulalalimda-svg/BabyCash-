@@ -20,33 +20,41 @@ Documentación completa para configurar el guardián de código limpio en Baby C
 #### VS Code (Recomendado)
 
 **Extensiones Frontend:**
+
 1. **ESLint** - `dbaeumer.vscode-eslint`
+
    - Ctrl+P → `ext install dbaeumer.vscode-eslint`
-   
+
 2. **Prettier** - `esbenp.prettier-vscode`
+
    - Ctrl+P → `ext install esbenp.prettier-vscode`
-   
+
 3. **Tailwind CSS IntelliSense** - `bradlc.vscode-tailwindcss`
    - Ctrl+P → `ext install bradlc.vscode-tailwindcss`
 
 **Extensiones Backend:**
+
 1. **Extension Pack for Java** - `vscjava.vscode-java-pack`
+
    - Ctrl+P → `ext install vscjava.vscode-java-pack`
-   
+
 2. **Checkstyle for Java** - `shengchen.vscode-checkstyle`
    - Ctrl+P → `ext install shengchen.vscode-checkstyle`
 
 **Extensiones Opcionales:**
+
 - **Error Lens** - `usernamehw.errorlens` (muestra errores inline)
 - **GitLens** - `eamodio.gitlens` (mejor integración Git)
 
 #### IntelliJ IDEA (Alternativa)
 
 **Para Frontend:**
+
 1. Settings → Plugins → Buscar "Prettier"
 2. Settings → Plugins → Buscar "ESLint"
 
 **Para Backend:**
+
 1. Settings → Plugins → Buscar "Checkstyle-IDEA"
 
 ---
@@ -61,16 +69,16 @@ Ya está configurado en `.vscode/settings.json`:
 {
   // Formato automático al guardar
   "editor.formatOnSave": true,
-  
+
   // Ejecutar ESLint y organizar imports al guardar
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
-  
+
   // Prettier como formateador por defecto
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  
+
   // Configuración específica por lenguaje
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -88,6 +96,7 @@ Ya está configurado en `.vscode/settings.json`:
 ```
 
 **¿Qué hace esta configuración?**
+
 - ✅ Formatea código automáticamente al presionar `Ctrl+S`
 - ✅ Ejecuta ESLint fix automáticamente
 - ✅ Organiza imports automáticamente
@@ -145,14 +154,14 @@ npm run lint:fix
 
 ### Tabla de Configuración
 
-| **Etapa del Commit** | **Comando/Script** | **Propósito de la Automatización** |
-|----------------------|--------------------|------------------------------------|
-| **1. Instalación de Hooks** | `npm install -D husky lint-staged` | Habilitar la intercepción del comando `git commit` |
-| **2. Inicialización** | `npx husky init` | Crear estructura de carpetas `.husky/` |
-| **3. Configurar lint-staged** | Ver `package.json` → `lint-staged` | Definir qué comandos ejecutar en archivos staged |
-| **4. Hook Pre-commit** | `.husky/pre-commit` → `npx lint-staged` | Ejecutar validaciones antes del commit |
-| **5. Ejecución del Formato** | `prettier --write` (via lint-staged) | Arreglar el estilo de los archivos antes de la validación |
-| **6. Validación Lógica** | `eslint --fix` (via lint-staged) | Detener el commit si hay errores fatales |
+| **Etapa del Commit**          | **Comando/Script**                      | **Propósito de la Automatización**                        |
+| ----------------------------- | --------------------------------------- | --------------------------------------------------------- |
+| **1. Instalación de Hooks**   | `npm install -D husky lint-staged`      | Habilitar la intercepción del comando `git commit`        |
+| **2. Inicialización**         | `npx husky init`                        | Crear estructura de carpetas `.husky/`                    |
+| **3. Configurar lint-staged** | Ver `package.json` → `lint-staged`      | Definir qué comandos ejecutar en archivos staged          |
+| **4. Hook Pre-commit**        | `.husky/pre-commit` → `npx lint-staged` | Ejecutar validaciones antes del commit                    |
+| **5. Ejecución del Formato**  | `prettier --write` (via lint-staged)    | Arreglar el estilo de los archivos antes de la validación |
+| **6. Validación Lógica**      | `eslint --fix` (via lint-staged)        | Detener el commit si hay errores fatales                  |
 
 ---
 
@@ -169,6 +178,7 @@ npx husky init
 ```
 
 **¿Qué hace esto?**
+
 - ✅ Instala Husky (gestor de Git hooks)
 - ✅ Instala lint-staged (ejecuta comandos solo en archivos modificados)
 - ✅ Crea carpeta `.husky/` con hooks
@@ -183,18 +193,14 @@ Archivo: `frontend/package.json`
 ```json
 {
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,css,md}": [
-      "prettier --write"
-    ]
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,css,md}": ["prettier --write"]
   }
 }
 ```
 
 **¿Qué hace esta configuración?**
+
 - ✅ Para archivos `.ts` y `.tsx`:
   1. Ejecuta `eslint --fix` (corrige errores)
   2. Ejecuta `prettier --write` (formatea)
@@ -237,6 +243,7 @@ exit 0
 ```
 
 **Flujo de ejecución:**
+
 1. Usuario ejecuta `git commit`
 2. Husky intercepta el comando
 3. Ejecuta `.husky/pre-commit`
@@ -269,7 +276,7 @@ Crear `TestError.tsx`:
 
 ```typescript
 // ❌ ERROR: Variable no usada
-const unusedVariable = 'esto causará error';
+const unusedVariable = "esto causará error";
 
 const TestComponent = () => {
   return <div>Test</div>;
@@ -350,10 +357,10 @@ git commit -m "test: archivo sin errores"
 #### Crear archivo con mal formato:
 
 ```typescript
-const  TestComponent  =  (  )  =>  {
-      return   <div>   Test   </div>  ;
-}  ;
-export   default   TestComponent  ;
+const TestComponent = () => {
+  return <div> Test </div>;
+};
+export default TestComponent;
 ```
 
 #### Stage y commit:
@@ -382,6 +389,7 @@ git commit -m "test: formato automático"
 **Síntoma**: El commit se hace sin ejecutar lint-staged
 
 **Solución**:
+
 ```bash
 # Verificar que Husky está instalado
 ls -la .husky/
@@ -400,6 +408,7 @@ chmod +x .husky/pre-commit
 **Síntoma**: Error al ejecutar git commit
 
 **Solución**:
+
 ```bash
 # Reinstalar Husky
 cd frontend
@@ -414,6 +423,7 @@ npx husky init
 **Síntoma**: Pre-commit falla pero no muestra errores claros
 
 **Solución**:
+
 ```bash
 # Ver todos los errores de ESLint
 npm run lint
@@ -433,6 +443,7 @@ git commit -m "tu mensaje"
 ### Problema 4: Quiero hacer commit SIN validación (emergencia)
 
 **Solución** (solo en casos extremos):
+
 ```bash
 git commit --no-verify -m "emergency: bypass hooks"
 ```
@@ -444,13 +455,17 @@ git commit --no-verify -m "emergency: bypass hooks"
 ### Problema 5: Format on Save no funciona en VS Code
 
 **Solución**:
+
 1. Verificar extensiones instaladas:
+
    - `Ctrl+Shift+X` → Buscar "Prettier" y "ESLint"
-   
+
 2. Verificar configuración:
+
    - `Ctrl+,` → Buscar "format on save" → Debe estar ☑️
 
 3. Verificar formateador por defecto:
+
    - Abrir archivo `.tsx`
    - Click derecho → "Format Document With..."
    - Seleccionar "Prettier" → "Configure Default Formatter"
@@ -480,12 +495,14 @@ git reflog | head -5
 ## ✅ Checklist de Configuración Completa
 
 ### IDE
+
 - [ ] Extensiones instaladas (ESLint + Prettier)
 - [ ] Format on save activado
 - [ ] Code actions on save configurado
 - [ ] Verificado con test manual
 
 ### Git Hooks
+
 - [ ] Husky instalado
 - [ ] lint-staged configurado
 - [ ] Pre-commit hook creado
@@ -493,6 +510,7 @@ git reflog | head -5
 - [ ] Prueba de fuego exitosa (commit bloqueado)
 
 ### Verificación
+
 - [ ] Commit con error bloqueado ✅
 - [ ] Commit sin error exitoso ✅
 - [ ] Formato automático funcionando ✅
