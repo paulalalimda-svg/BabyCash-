@@ -91,12 +91,16 @@ const ProductCard2: React.FC<ProductCardProps> = ({ product, onViewDetails }) =>
           <p className="text-sm text-gray-600 mt-1">{product.opciones}</p>
         </div>
 
-        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{product.descripcion_producto}</p>
+        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+          {product.descripcion_producto}
+        </p>
 
         {/* Precio y detalle */}
         <div className="space-y-2">
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-baby-gray">{formatPrice(product.precio_producto)}</span>
+            <span className="text-2xl font-bold text-baby-gray">
+              {formatPrice(product.precio_producto)}
+            </span>
             <span className="text-sm text-gray-500">{product.detalle_precio}</span>
           </div>
         </div>

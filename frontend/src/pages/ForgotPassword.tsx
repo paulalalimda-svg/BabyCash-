@@ -1,6 +1,6 @@
 // src/pages/ForgotPassword.tsx
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { authService } from '../services/api';
 
@@ -12,7 +12,7 @@ const ForgotPassword: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     setError('');
     setIsLoading(true);
 
@@ -50,14 +50,23 @@ const ForgotPassword: React.FC = () => {
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-baby-dark mb-4">¡Correo enviado!</h2>
+          <h2 className="text-2xl font-bold text-baby-dark mb-4">¡Código enviado!</h2>
           <p className="text-gray-600 mb-6">
-            Hemos enviado las instrucciones para restablecer tu contraseña a <strong>{email}</strong>.
-            Revisa tu bandeja de entrada y sigue los pasos indicados.
+            Hemos enviado un <strong>código de 6 dígitos</strong> a <strong>{email}</strong>. Revisa
+            tu bandeja de entrada e ingrésalo en la siguiente página.
+          </p>
+          <p className="text-sm text-gray-500 mb-6">
+            ⏰ El código es válido por <strong>15 minutos</strong>.
           </p>
           <Link
+            to="/reset-password"
+            className="inline-block w-full bg-baby-blue text-white py-3 rounded-xl font-bold shadow-lg hover:bg-baby-blue/90 transition-colors mb-3"
+          >
+            Ingresar código
+          </Link>
+          <Link
             to="/login"
-            className="inline-block w-full bg-baby-blue text-white py-3 rounded-xl font-bold shadow-lg hover:bg-baby-blue/90 transition-colors"
+            className="inline-block w-full bg-gray-200 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-300 transition-colors"
           >
             Volver a iniciar sesión
           </Link>
@@ -89,7 +98,7 @@ const ForgotPassword: React.FC = () => {
           transition={{ delay: 0.4 }}
           className="text-center text-gray-600 mb-6"
         >
-          No te preocupes, ingresa tu correo electrónico y te enviaremos instrucciones para
+          No te preocupes, ingresa tu correo electrónico y te enviaremos un código de 6 dígitos para
           restablecerla.
         </motion.p>
 
@@ -135,7 +144,7 @@ const ForgotPassword: React.FC = () => {
             disabled={isLoading}
             className="w-full bg-baby-pink text-white py-3 rounded-xl font-bold shadow-lg transition-colors duration-300 hover:bg-baby-pink/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Enviando...' : 'Enviar instrucciones'}
+            {isLoading ? 'Enviando código...' : 'Enviar código de recuperación'}
           </motion.button>
         </form>
 

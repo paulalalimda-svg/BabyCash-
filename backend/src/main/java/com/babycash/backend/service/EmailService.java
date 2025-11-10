@@ -99,14 +99,14 @@ public class EmailService {
                 <style>
                     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                    .header { background: linear-gradient(135deg, #93C5FD 0%, #FBB6CE 100%); 
+                    .header { background: linear-gradient(135deg, #93C5FD 0%, #FBB6CE 100%);
                               color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
                     .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
                     .field { margin-bottom: 20px; }
                     .label { font-weight: bold; color: #555; margin-bottom: 5px; }
                     .value { padding: 10px; background: white; border-left: 3px solid #93C5FD; margin-top: 5px; }
                     .footer { text-align: center; margin-top: 30px; color: #777; font-size: 12px; }
-                    .button { display: inline-block; padding: 12px 30px; background: #93C5FD; 
+                    .button { display: inline-block; padding: 12px 30px; background: #93C5FD;
                               color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
                 </style>
             </head>
@@ -150,7 +150,7 @@ public class EmailService {
                 request.getName(),
                 request.getEmail(),
                 request.getEmail(),
-                request.getPhone() != null ? 
+                request.getPhone() != null ?
                     "<div class=\"field\"><div class=\"label\">📱 Teléfono:</div><div class=\"value\">" + request.getPhone() + "</div></div>" : "",
                 request.getSubject(),
                 request.getMessage().replace("\n", "<br>"),
@@ -170,7 +170,7 @@ public class EmailService {
                 <style>
                     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                    .header { background: linear-gradient(135deg, #93C5FD 0%, #FBB6CE 100%); 
+                    .header { background: linear-gradient(135deg, #93C5FD 0%, #FBB6CE 100%);
                               color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
                     .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
                     .footer { text-align: center; margin-top: 30px; color: #777; font-size: 12px; }
@@ -204,8 +204,37 @@ public class EmailService {
     }
 
     /**
-     * Envía email de recuperación de contraseña
+     * Envía email de recuperación de contraseña con código de 6 dígitos
      */
+    @Async
+    public void sendPasswordResetCodeEmail(String toEmail, String name, String resetCode) {
+        try {
+            log.info("Sending password reset code email to: {}", toEmail);
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setFrom(fromEmail, fromName);
+            helper.setTo(toEmail);
+            helper.setSubject("🔐 Código de Recuperación - Baby Cash");
+
+            String htmlContent = buildPasswordResetCodeEmailHtml(name, resetCode);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(mimeMessage);
+            log.info("Password reset code email sent successfully to {}", toEmail);
+
+        } catch (Exception e) {
+            log.error("Error sending password reset code email: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al enviar el email de recuperación", e);
+        }
+    }
+
+    /**
+     * Envía email de recuperación de contraseña (método legacy con token largo)
+     * @deprecated Use sendPasswordResetCodeEmail instead
+     */
+    @Deprecated
     @Async
     public void sendPasswordResetEmail(String toEmail, String name, String resetToken, String baseUrl) {
         try {
@@ -342,7 +371,97 @@ public class EmailService {
     // ==================== EMAIL TEMPLATES ====================
 
     /**
-     * Template de email de recuperación de contraseña
+     * Template de email con código de 6 dígitos para recuperación
+     */
+    private String buildPasswordResetCodeEmailHtml(String name, String resetCode) {
+        return """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%);
+                              color: white; padding: 40px 30px; text-align: center; }
+                    .header h1 { margin: 0; font-size: 28px; }
+                    .content { padding: 40px 30px; background: #f8f9fa; }
+                    .message { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;
+                               box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    .code-container { text-align: center; margin: 30px 0; }
+                    .code { display: inline-block; font-size: 48px; font-weight: bold; letter-spacing: 8px;
+                            color: #93C5FD; background: #EEF2FF; padding: 20px 40px; border-radius: 12px;
+                            border: 3px dashed #93C5FD; font-family: 'Courier New', monospace; }
+                    .warning { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px;
+                               border-radius: 5px; margin: 20px 0; }
+                    .info-box { background: #DBEAFE; border-left: 4px solid #3B82F6; padding: 15px;
+                                border-radius: 5px; margin: 20px 0; }
+                    .footer { background: #374151; color: #9CA3AF; padding: 30px; text-align: center; font-size: 13px; }
+                    .footer a { color: #93C5FD; text-decoration: none; }
+                    .icon { font-size: 48px; margin-bottom: 20px; }
+                    .steps { margin: 20px 0; padding-left: 20px; }
+                    .steps li { margin: 10px 0; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <div class="icon">🔐</div>
+                        <h1>Código de Recuperación</h1>
+                        <p>Baby Cash - Sistema de Seguridad</p>
+                    </div>
+                    <div class="content">
+                        <div class="message">
+                            <p>Hola <strong>%s</strong>,</p>
+                            <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en Baby Cash.</p>
+                            <p>Usa el siguiente código de 6 dígitos para crear tu nueva contraseña:</p>
+
+                            <div class="code-container">
+                                <div class="code">%s</div>
+                            </div>
+
+                            <div class="info-box">
+                                <strong>📝 Pasos para restablecer tu contraseña:</strong>
+                                <ol class="steps">
+                                    <li>Ingresa el código de 6 dígitos en la página de recuperación</li>
+                                    <li>Crea tu nueva contraseña</li>
+                                    <li>Confirma tu nueva contraseña</li>
+                                    <li>¡Listo! Ya puedes iniciar sesión</li>
+                                </ol>
+                            </div>
+
+                            <div class="warning">
+                                <strong>⏰ Importante:</strong> Este código es válido por <strong>15 minutos</strong> solamente.
+                            </div>
+
+                            <div class="warning" style="background: #FEE2E2; border-left-color: #EF4444; margin-top: 20px;">
+                                <strong>🚨 ¿No solicitaste este cambio?</strong><br>
+                                Si no solicitaste restablecer tu contraseña, ignora este correo.
+                                Tu cuenta está segura y no se realizarán cambios.
+                                <br><br>
+                                Por seguridad, te recomendamos:
+                                <ul style="margin: 10px 0;">
+                                    <li>Cambiar tu contraseña inmediatamente</li>
+                                    <li>Revisar la actividad reciente de tu cuenta</li>
+                                    <li>Contactarnos si sospechas de acceso no autorizado</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p>Este correo fue enviado desde Baby Cash</p>
+                        <p>📧 <a href="mailto:mazoanas09@gmail.com">mazoanas09@gmail.com</a> |
+                           📱 <a href="tel:+573219297605">+57 321 929 7605</a></p>
+                        <p>&copy; 2025 Baby Cash. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """.formatted(name, resetCode);
+    }
+
+    /**
+     * Template de email de recuperación de contraseña (legacy con URL)
      */
     private String buildPasswordResetEmailHtml(String name, String resetUrl) {
         return """
@@ -353,18 +472,18 @@ public class EmailService {
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
                     .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%); 
+                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%);
                               color: white; padding: 40px 30px; text-align: center; }
                     .header h1 { margin: 0; font-size: 28px; }
                     .content { padding: 40px 30px; background: #f8f9fa; }
                     .message { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;
                                box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
                     .button-container { text-align: center; margin: 30px 0; }
-                    .button { display: inline-block; padding: 15px 40px; background: #93C5FD; 
-                              color: white !important; text-decoration: none; border-radius: 8px; 
+                    .button { display: inline-block; padding: 15px 40px; background: #93C5FD;
+                              color: white !important; text-decoration: none; border-radius: 8px;
                               font-weight: bold; font-size: 16px; transition: background 0.3s; }
                     .button:hover { background: #7DB4F8; }
-                    .warning { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px; 
+                    .warning { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px;
                                border-radius: 5px; margin: 20px 0; }
                     .footer { background: #374151; color: #9CA3AF; padding: 30px; text-align: center; font-size: 13px; }
                     .footer a { color: #93C5FD; text-decoration: none; }
@@ -383,28 +502,28 @@ public class EmailService {
                             <p>Hola <strong>%s</strong>,</p>
                             <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en Baby Cash.</p>
                             <p>Para crear una nueva contraseña, haz clic en el botón de abajo:</p>
-                            
+
                             <div class="button-container">
                                 <a href="%s" class="button">Restablecer Contraseña</a>
                             </div>
-                            
+
                             <div class="warning">
                                 <strong>⏰ Importante:</strong> Este enlace es válido por <strong>1 hora</strong> solamente.
                             </div>
-                            
+
                             <p>Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:</p>
                             <p style="word-break: break-all; color: #6B7280; font-size: 12px;">%s</p>
-                            
+
                             <div class="warning" style="background: #FEE2E2; border-left-color: #EF4444; margin-top: 30px;">
                                 <strong>🚨 ¿No solicitaste este cambio?</strong><br>
-                                Si no solicitaste restablecer tu contraseña, ignora este correo. 
+                                Si no solicitaste restablecer tu contraseña, ignora este correo.
                                 Tu cuenta está segura y no se realizarán cambios.
                             </div>
                         </div>
                     </div>
                     <div class="footer">
                         <p>Este correo fue enviado desde Baby Cash</p>
-                        <p>📧 <a href="mailto:mazoanas09@gmail.com">mazoanas09@gmail.com</a> | 
+                        <p>📧 <a href="mailto:mazoanas09@gmail.com">mazoanas09@gmail.com</a> |
                            📱 <a href="tel:+573219297605">+57 321 929 7605</a></p>
                         <p>&copy; 2025 Baby Cash. Todos los derechos reservados.</p>
                     </div>
@@ -426,11 +545,11 @@ public class EmailService {
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
                     .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-                    .header { background: linear-gradient(135deg, #10B981 0%%, #059669 100%%); 
+                    .header { background: linear-gradient(135deg, #10B981 0%%, #059669 100%%);
                               color: white; padding: 40px 30px; text-align: center; }
                     .content { padding: 40px 30px; background: #f8f9fa; }
                     .message { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-                    .warning { background: #FEE2E2; border-left: 4px solid #EF4444; padding: 15px; 
+                    .warning { background: #FEE2E2; border-left: 4px solid #EF4444; padding: 15px;
                                border-radius: 5px; margin: 20px 0; }
                     .footer { background: #374151; color: #9CA3AF; padding: 30px; text-align: center; font-size: 13px; }
                     .icon { font-size: 64px; margin-bottom: 10px; }
@@ -447,7 +566,7 @@ public class EmailService {
                             <p>Hola <strong>%s</strong>,</p>
                             <p>Te confirmamos que tu contraseña ha sido actualizada exitosamente.</p>
                             <p>Ya puedes iniciar sesión en Baby Cash con tu nueva contraseña.</p>
-                            
+
                             <div class="warning">
                                 <strong>🚨 ¿No realizaste este cambio?</strong><br>
                                 Si no fuiste tú quien cambió la contraseña, contáctanos inmediatamente:
@@ -477,7 +596,7 @@ public class EmailService {
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
                     .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%); 
+                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%);
                               color: white; padding: 40px 30px; text-align: center; }
                     .content { padding: 40px 30px; }
                     .message { background: #f8f9fa; padding: 30px; border-radius: 10px; margin-bottom: 20px; }
@@ -500,7 +619,7 @@ public class EmailService {
                             <p>¡Qué emoción tenerte con nosotros! Tu cuenta ha sido creada exitosamente.</p>
                             <p>En Baby Cash encontrarás todo lo que necesitas para tu bebé con la mejor calidad y a los mejores precios.</p>
                         </div>
-                        
+
                         <div class="benefits">
                             <div class="benefit">
                                 <strong>🚚 Envío Rápido</strong>
@@ -515,10 +634,10 @@ public class EmailService {
                                 <p style="margin: 5px 0 0 0; color: #666;">Descuentos especiales para miembros</p>
                             </div>
                         </div>
-                        
+
                         <p style="text-align: center; margin-top: 30px;">
-                            <a href="http://localhost:5173/productos" 
-                               style="display: inline-block; padding: 15px 40px; background: #93C5FD; 
+                            <a href="http://localhost:5173/productos"
+                               style="display: inline-block; padding: 15px 40px; background: #93C5FD;
                                       color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
                                 Explorar Productos
                             </a>
@@ -546,7 +665,7 @@ public class EmailService {
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
                     .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-                    .header { background: linear-gradient(135deg, #10B981 0%%, #059669 100%%); 
+                    .header { background: linear-gradient(135deg, #10B981 0%%, #059669 100%%);
                               color: white; padding: 40px 30px; text-align: center; }
                     .content { padding: 40px 30px; background: #f8f9fa; }
                     .message { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -567,13 +686,13 @@ public class EmailService {
                         <div class="message">
                             <p>Hola <strong>%s</strong>,</p>
                             <p>¡Gracias por tu compra en Baby Cash! Tu pedido ha sido recibido y está siendo procesado.</p>
-                            
+
                             <div class="order-info">
                                 <strong>📦 Detalles del Pedido:</strong>
                                 %s
                                 <div class="total">Total: $%,.0f COP</div>
                             </div>
-                            
+
                             <p>Te enviaremos actualizaciones sobre el estado de tu pedido.</p>
                             <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
                         </div>
@@ -599,7 +718,7 @@ public class EmailService {
             case "CANCELLED" -> "❌";
             default -> "📦";
         };
-        
+
         String statusText = switch (newStatus) {
             case "PROCESSING" -> "Tu pedido está siendo procesado";
             case "SHIPPED" -> "Tu pedido ha sido enviado";
@@ -607,7 +726,7 @@ public class EmailService {
             case "CANCELLED" -> "Tu pedido ha sido cancelado";
             default -> "Estado actualizado";
         };
-        
+
         return """
             <!DOCTYPE html>
             <html>
@@ -616,7 +735,7 @@ public class EmailService {
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
                     .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%); 
+                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%);
                               color: white; padding: 40px 30px; text-align: center; }
                     .content { padding: 40px 30px; background: #f8f9fa; }
                     .message { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -660,7 +779,7 @@ public class EmailService {
             message.setTo(to);
             message.setSubject(subject);
             message.setText(text);
-            
+
             mailSender.send(message);
             log.info("Simple email sent to: {}", to);
         } catch (Exception e) {

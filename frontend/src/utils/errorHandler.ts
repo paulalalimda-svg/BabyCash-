@@ -39,7 +39,7 @@ interface ErrorHandlerOptions {
 
 /**
  * Maneja errores de forma consistente
- * 
+ *
  * @example
  * try {
  *   await api.fetchData();
@@ -50,10 +50,7 @@ interface ErrorHandlerOptions {
  *   });
  * }
  */
-export const handleError = (
-  error: unknown,
-  options: ErrorHandlerOptions = {}
-): string => {
+export const handleError = (error: unknown, options: ErrorHandlerOptions = {}): string => {
   const {
     showToast = true,
     customMessage,
@@ -94,7 +91,7 @@ export const handleError = (
 
 /**
  * Wrapper para operaciones asíncronas con manejo de errores
- * 
+ *
  * @example
  * const data = await withErrorHandling(
  *   () => productService.getAll(),
@@ -115,10 +112,10 @@ export const withErrorHandling = async <T>(
 
 /**
  * Hook personalizado para manejo de errores en componentes
- * 
+ *
  * @example
  * const { executeWithErrorHandling } = useErrorHandler('ProductsPage');
- * 
+ *
  * const loadProducts = executeWithErrorHandling(
  *   async () => {
  *     const data = await productService.getAll();

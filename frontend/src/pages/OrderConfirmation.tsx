@@ -23,7 +23,7 @@ const OrderConfirmation = () => {
       try {
         const orderData = await orderService.getOrderById(Number(orderId));
         setOrder(orderData);
-        
+
         // Scroll to top when order loads
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (error) {
@@ -81,18 +81,18 @@ const OrderConfirmation = () => {
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, type: "spring" }}
+          transition={{ duration: 0.6, type: 'spring' }}
           className="bg-gradient-to-br from-white to-green-50 rounded-2xl shadow-2xl p-8 mb-6 text-center border border-green-100"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+            transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
             className="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
           >
             <CheckCircle className="w-14 h-14 text-white" strokeWidth={2.5} />
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,16 +101,17 @@ const OrderConfirmation = () => {
           >
             ¡Orden Confirmada!
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
             className="text-gray-700 text-lg mb-6 max-w-xl mx-auto"
           >
-            🎉 ¡Gracias por tu compra! Tu orden ha sido recibida exitosamente y está siendo procesada.
+            🎉 ¡Gracias por tu compra! Tu orden ha sido recibida exitosamente y está siendo
+            procesada.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -170,7 +171,7 @@ const OrderConfirmation = () => {
                 </p>
               </div>
             </div>
-            
+
             {order.shippingAddress && (
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -178,9 +179,7 @@ const OrderConfirmation = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 font-medium">Dirección de Envío</p>
-                  <p className="font-semibold text-gray-800 text-sm">
-                    {order.shippingAddress}
-                  </p>
+                  <p className="font-semibold text-gray-800 text-sm">{order.shippingAddress}</p>
                 </div>
               </div>
             )}
@@ -200,9 +199,7 @@ const OrderConfirmation = () => {
                     className="flex justify-between items-center bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition"
                   >
                     <div className="flex-1">
-                      <p className="font-semibold text-gray-800">
-                        {item.productName}
-                      </p>
+                      <p className="font-semibold text-gray-800">{item.productName}</p>
                       <p className="text-sm text-gray-600">
                         Cantidad: {item.quantity} × ${item.unitPrice.toLocaleString('es-CO')}
                       </p>
@@ -254,14 +251,14 @@ const OrderConfirmation = () => {
               <p className="text-sm text-gray-500">Seguimiento en tiempo real</p>
             </div>
           </div>
-          
+
           <div className="space-y-6">
             {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'].map((status, index) => {
               const statusKeys = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
               const currentIndex = statusKeys.indexOf(order.status);
               const isPast = currentIndex >= index;
               const isCurrent = order.status === status;
-              
+
               return (
                 <motion.div
                   key={status}
@@ -290,13 +287,11 @@ const OrderConfirmation = () => {
                   </div>
                   <div className="flex-1">
                     <p
-                      className={`font-bold text-lg transition-colors ${
-                        (() => {
-                          if (isCurrent) return 'text-baby-blue';
-                          if (isPast) return 'text-gray-800';
-                          return 'text-gray-400';
-                        })()
-                      }`}
+                      className={`font-bold text-lg transition-colors ${(() => {
+                        if (isCurrent) return 'text-baby-blue';
+                        if (isPast) return 'text-gray-800';
+                        return 'text-gray-400';
+                      })()}`}
                     >
                       {statusLabels[status as keyof typeof statusLabels]}
                     </p>

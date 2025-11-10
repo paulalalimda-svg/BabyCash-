@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Filter, Search, ShoppingBag } from 'lucide-react';
-import { productService, type Product } from '../services/api';
+import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/cards/ProductCard';
 import Button from '../components/ui/Button';
-import Input from '../components/ui/input';
 import Card from '../components/ui/Card';
-import toast from 'react-hot-toast';
+import Input from '../components/ui/input';
+import { productService, type Product } from '../services/api';
 import { handleError } from '../utils/errorHandler';
 
 const Productos: React.FC = () => {
@@ -30,15 +29,14 @@ const Productos: React.FC = () => {
     setError(null);
     try {
       const response = await productService.getAll(currentPage, productsPerPage);
-      
+
       setProductos(response.content);
       setTotalPages(response.totalPages);
       setTotalProducts(response.totalElements);
-      toast.success(`${response.content.length} productos cargados (página ${currentPage + 1} de ${response.totalPages})`);
     } catch (err) {
       const errorMessage = handleError(err, {
         customMessage: 'No se pudieron cargar los productos',
-        context: 'Productos.tsx loadProductos()'
+        context: 'Productos.tsx loadProductos()',
       });
       setError(errorMessage);
     } finally {
@@ -46,11 +44,15 @@ const Productos: React.FC = () => {
     }
   };
 
-  const categories = ['all', ...Array.from(new Set(productos.map(p => p.category).filter(Boolean)))];
+  const categories = [
+    'all',
+    ...Array.from(new Set(productos.map((p) => p.category).filter(Boolean))),
+  ];
 
-  const filteredProducts = productos.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.description?.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredProducts = productos.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -72,7 +74,9 @@ const Productos: React.FC = () => {
 
   const formatCategoryName = (category: string) => {
     if (category === 'all') return 'Todos';
-    return category.charAt(0).toUpperCase() + category.slice(1).replaceAll('-', ' ').replaceAll('_', ' ');
+    return (
+      category.charAt(0).toUpperCase() + category.slice(1).replaceAll('-', ' ').replaceAll('_', ' ')
+    );
   };
 
   return (
@@ -91,7 +95,9 @@ const Productos: React.FC = () => {
               Nuestros <span className="text-baby-pink">Productos</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed">
-              Descubre nuestra amplia selección de productos de alta calidad para el cuidado y bienestar de tu bebé. Cada artículo ha sido cuidadosamente seleccionado por nuestros expertos.
+              Descubre nuestra amplia selección de productos de alta calidad para el cuidado y
+              bienestar de tu bebé. Cada artículo ha sido cuidadosamente seleccionado por nuestros
+              expertos.
             </p>
           </motion.div>
         </div>
@@ -163,12 +169,8 @@ const Productos: React.FC = () => {
       {/* Products Grid */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          {loading && (
-            <div className="text-center py-16">Cargando productos...</div>
-          )}
-          {!loading && error && (
-            <div className="text-center py-16 text-red-500">{error}</div>
-          )}
+          {loading && <div className="text-center py-16">Cargando productos...</div>}
+          {!loading && error && <div className="text-center py-16 text-red-500">{error}</div>}
           {!loading && !error && sortedProducts.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -206,7 +208,7 @@ const Productos: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ y: -5 }}
-                  className="h-full border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+                  className="h-full"
                 >
                   <ProductCard product={product} />
                 </motion.div>
@@ -219,7 +221,7 @@ const Productos: React.FC = () => {
             <div className="mt-12 flex flex-col items-center gap-4">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                  onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
                   disabled={currentPage === 0}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     currentPage === 0
@@ -245,7 +247,7 @@ const Productos: React.FC = () => {
                 ))}
 
                 <button
-                  onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
                   disabled={currentPage === totalPages - 1}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     currentPage === totalPages - 1

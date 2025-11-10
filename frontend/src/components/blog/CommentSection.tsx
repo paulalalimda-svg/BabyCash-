@@ -147,7 +147,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
     if (diffMins < 60) return `Hace ${diffMins} min`;
     if (diffHours < 24) return `Hace ${diffHours} h`;
     if (diffDays < 7) return `Hace ${diffDays} días`;
-    
+
     return date.toLocaleDateString('es-CO', {
       year: 'numeric',
       month: 'short',
@@ -206,7 +206,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
                       <Check className="w-4 h-4 mr-1" />
                       Guardar
                     </Button>
-                    <Button size="sm" variant="outline" onClick={cancelEditing} disabled={submitting}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={cancelEditing}
+                      disabled={submitting}
+                    >
                       <X className="w-4 h-4 mr-1" />
                       Cancelar
                     </Button>
@@ -259,7 +264,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 ml-12"
             >
-              <form onSubmit={(e) => { e.preventDefault(); handleSubmitReply(comment.id); }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmitReply(comment.id);
+                }}
+              >
                 <textarea
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
@@ -269,19 +279,22 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
                   disabled={submitting}
                 />
                 <div className="flex gap-2 mt-2">
-                  <Button
-                    type="submit"
-                    size="sm"
-                    disabled={submitting || !replyContent.trim()}
-                  >
-                    {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  <Button type="submit" size="sm" disabled={submitting || !replyContent.trim()}>
+                    {submitting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
                     <span className="ml-1">Responder</span>
                   </Button>
                   <Button
                     type="button"
                     size="sm"
                     variant="outline"
-                    onClick={() => { setReplyingTo(null); setReplyContent(''); }}
+                    onClick={() => {
+                      setReplyingTo(null);
+                      setReplyContent('');
+                    }}
                     disabled={submitting}
                   >
                     Cancelar
@@ -294,9 +307,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
 
         {/* Render Replies */}
         {comment.replies && comment.replies.length > 0 && (
-          <div className="mt-2">
-            {comment.replies.map((reply) => renderComment(reply, true))}
-          </div>
+          <div className="mt-2">{comment.replies.map((reply) => renderComment(reply, true))}</div>
         )}
       </motion.div>
     );
@@ -373,7 +384,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
             </div>
           );
         }
-        
+
         if (comments.length === 0) {
           return (
             <div className="text-center py-12">
@@ -382,12 +393,10 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
             </div>
           );
         }
-        
+
         return (
           <AnimatePresence>
-            <div className="space-y-4">
-              {comments.map((comment) => renderComment(comment))}
-            </div>
+            <div className="space-y-4">{comments.map((comment) => renderComment(comment))}</div>
           </AnimatePresence>
         );
       })()}

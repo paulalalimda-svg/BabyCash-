@@ -79,4 +79,11 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
      * Find most viewed posts
      */
     List<BlogPost> findTop10ByPublishedTrueOrderByViewCountDesc();
+
+    /**
+     * Find all posts ordered by featured first, then by creation date (for admin panel)
+     * Featured posts appear first regardless of creation date
+     */
+    @Query("SELECT bp FROM BlogPost bp ORDER BY bp.featured DESC, bp.createdAt DESC")
+    Page<BlogPost> findAllOrderByFeaturedAndCreatedAt(Pageable pageable);
 }

@@ -30,17 +30,17 @@ const DevTools = () => {
   return (
     <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-xl p-4 text-xs font-mono border border-gray-200 z-50 max-w-xs">
       <h3 className="font-bold text-sm mb-2 text-gray-800">🛠️ Dev Tools</h3>
-      
+
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <span className="text-gray-600">Backend:</span>
-          <span className={`font-semibold ${
-            (() => {
+          <span
+            className={`font-semibold ${(() => {
               if (backendStatus === 'online') return 'text-green-600';
               if (backendStatus === 'offline') return 'text-red-600';
               return 'text-yellow-600';
-            })()
-          }`}>
+            })()}`}
+          >
             {(() => {
               if (backendStatus === 'online') return '✓ Online';
               if (backendStatus === 'offline') return '✗ Offline';

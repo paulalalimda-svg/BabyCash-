@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     setLoading(true);
     try {
       await login(email, password);
-      
+
       // Esperar actualización del contexto
       setTimeout(() => {
         // Redirige según tipo de usuario

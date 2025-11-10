@@ -1,4 +1,9 @@
-# 🍼 Baby Cash
+# 🍼 Baby Cash - E-commerce de Productos para Bebés
+
+> **Estado**: ✅ Proyecto funcional y listo para despliegue
+> **Última actualización**: 8 de Noviembre de 2025
+
+## 📋 Resumen del Proyecto
 
 E-commerce de productos para bebés desarrollado con Spring Boot y React.
 
@@ -138,6 +143,74 @@ babycash/
 ---
 
 ## 📚 Documentación
+
+### 📖 Guías de Aprendizaje (NUEVO ✨)
+
+Documentación exhaustiva para aprender desde cero:
+
+- **[FUNDAMENTOS-PROGRAMACION.md](FUNDAMENTOS-PROGRAMACION.md)** (~1000 líneas)
+
+  - Variables, tipos de datos, operadores
+  - Estructuras de control (if, loops, switch)
+  - Funciones, métodos, recursión
+  - POO completa (encapsulación, herencia, polimorfismo, abstracción)
+  - Manejo de errores y excepciones
+  - Algoritmos básicos
+
+- **[FUNDAMENTOS-JAVA-SPRING.md](FUNDAMENTOS-JAVA-SPRING.md)** (~1200 líneas)
+
+  - Estructura y sintaxis de Java
+  - Java avanzado (interfaces, generics, lambdas, streams, Optional)
+  - Maven (pom.xml, ciclo de vida, dependencias)
+  - Spring Framework (IoC, DI, estereotipos)
+  - Spring Boot (arquitectura, CRUD completo)
+  - Testing (JUnit 5, Mockito, integration tests)
+  - Clean Code y mejores prácticas
+  - SOLID (todos los principios con ejemplos)
+  - Patrones de diseño (Singleton, Factory, Strategy, Observer)
+
+- **[FUNDAMENTOS-WEB-FRONTEND.md](FUNDAMENTOS-WEB-FRONTEND.md)** (~1000 líneas)
+
+  - HTML (estructura, semántica, formularios)
+  - CSS (selectores, Flexbox, Grid, responsive)
+  - JavaScript ES6+ (async/await, fetch, DOM)
+  - TypeScript (tipos, interfaces, generics)
+  - React (componentes, hooks, state, lifecycle)
+  - HTTP y REST APIs
+  - Herramientas (NPM, Vite, Git)
+
+- **[CONCEPTOS-TECNICOS-FUNDAMENTALES.md](CONCEPTOS-TECNICOS-FUNDAMENTALES.md)**
+  - Overview de todas las tecnologías del proyecto
+  - Java, Spring Boot, React, TypeScript, PostgreSQL
+
+### 🔧 Guías Técnicas
+
+- **[INTEGRACION-FRONTEND-BACKEND.md](INTEGRACION-FRONTEND-BACKEND.md)** (NUEVO ✨)
+
+  - Cómo integrar el frontend React en el backend Spring Boot
+  - Arquitectura MVC híbrida
+  - Script de integración automática (`integrate-frontend.sh`)
+  - Troubleshooting completo
+
+- **[INSTRUCCIONES-RAPIDAS.md](INSTRUCCIONES-RAPIDAS.md)** (NUEVO ✨)
+
+  - Guía rápida de comandos
+  - Problemas resueltos y verificación
+  - FAQ y troubleshooting
+  - Checklist diario
+
+- **[GIT-HOOKS-SETUP.md](GIT-HOOKS-SETUP.md)**
+
+  - Configuración de Husky y lint-staged
+  - Pre-commit hooks automáticos
+  - Linters y formatters
+
+- **[LINTERS-FORMATTERS.md](LINTERS-FORMATTERS.md)**
+  - ESLint, Prettier, Checkstyle
+  - Reglas configuradas
+  - Comandos de verificación
+
+### 📂 Documentación del Proyecto
 
 La documentación completa está en la carpeta `docs/`:
 

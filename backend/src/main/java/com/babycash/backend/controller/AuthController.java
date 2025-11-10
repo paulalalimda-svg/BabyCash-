@@ -223,7 +223,7 @@ public class AuthController {
     })
     public ResponseEntity<Map<String, Boolean>> validateResetToken(@PathVariable String token) {
         try {
-            authService.validateResetToken(token);
+            authService.validateResetCode(token);
             return ResponseEntity.ok(Map.of("valid", true));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("valid", false));

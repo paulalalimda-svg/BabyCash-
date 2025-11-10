@@ -1,11 +1,11 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Eye } from 'lucide-react';
-import type { Product } from '../../services/api';
+import { Eye, ShoppingCart } from 'lucide-react';
+import React from 'react';
+import toast from 'react-hot-toast';
 import { useCart } from '../../contexts/CartContext';
+import type { Product } from '../../services/api';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
-import toast from 'react-hot-toast';
 
 interface ProductCardProps {
   product: Product;
@@ -17,12 +17,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (product.stock <= 0) {
       toast.error('Producto agotado');
       return;
     }
-    
+
     addToCart({
       id: String(product.id),
       name: product.name,
@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
       quantity: 1,
       image: product.imageUrl,
     });
-    
+
     // CartContext ya maneja el toast, no necesitamos uno aquí
   };
 
@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
 
   return (
     <Card
-      className="group overflow-hidden rounded-xl border border-gray-200 hover:shadow-md transition-all duration-300"
+      className="group overflow-hidden rounded-xl border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col min-h-[480px]"
       hover={true}
     >
       {/* Imagen del producto */}
@@ -89,7 +89,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
             {product.category}
           </span>
         </div>
-        
+
         {/* Badge de stock bajo */}
         {product.stock > 0 && product.stock < 10 && (
           <div className="absolute top-3 right-3">
@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
             </span>
           </div>
         )}
-        
+
         {/* Badge de agotado */}
         {product.stock <= 0 && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -108,19 +108,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
       </div>
 
       {/* Información del producto */}
-      <div className="space-y-3">
+      <div className="space-y-3 flex flex-col flex-1">
         <div>
-          <h3 className="font-poppins font-semibold text-lg text-baby-gray line-clamp-2">
+          <h3 className="font-poppins font-semibold text-lg text-baby-gray line-clamp-2 min-h-[3.5rem]">
             {product.name}
           </h3>
         </div>
 
-        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed min-h-[2.5rem]">
           {product.description}
         </p>
 
         {/* Precio y detalle */}
-        <div className="space-y-2">
+        <div className="space-y-2 mt-auto">
           <div className="flex items-baseline justify-between">
             {product.discountPrice ? (
               <>

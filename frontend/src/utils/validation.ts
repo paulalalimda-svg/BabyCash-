@@ -118,7 +118,9 @@ export function validateApiData<T>(schema: z.ZodSchema<T>, data: unknown): T {
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error('❌ Validation error:', error.errors);
-      throw new Error(`Datos inválidos recibidos de la API: ${error.errors.map(e => e.message).join(', ')}`);
+      throw new Error(
+        `Datos inválidos recibidos de la API: ${error.errors.map((e) => e.message).join(', ')}`
+      );
     }
     throw error;
   }
@@ -127,7 +129,10 @@ export function validateApiData<T>(schema: z.ZodSchema<T>, data: unknown): T {
 /**
  * Helper function para validación segura (no lanza errores)
  */
-export function safeValidateApiData<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: z.ZodError } {
+export function safeValidateApiData<T>(
+  schema: z.ZodSchema<T>,
+  data: unknown
+): { success: true; data: T } | { success: false; error: z.ZodError } {
   const result = schema.safeParse(data);
   if (result.success) {
     return { success: true, data: result.data };

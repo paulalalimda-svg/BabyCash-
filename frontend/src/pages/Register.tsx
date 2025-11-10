@@ -50,7 +50,7 @@ const Register: React.FC = () => {
         lastName,
         phone: phone || undefined,
       });
-      
+
       // Redirigir al home después de registro exitoso
       setTimeout(() => navigate('/'), 100);
     } catch (err: any) {
@@ -175,7 +175,10 @@ const Register: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Confirmar contraseña
             </label>
             <div className="relative">

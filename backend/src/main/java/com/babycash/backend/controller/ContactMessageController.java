@@ -42,12 +42,12 @@ public class ContactMessageController {
     public ResponseEntity<ContactMessageResponse> sendMessage(
             @Valid @RequestBody ContactMessageRequest request,
             HttpServletRequest servletRequest) {
-        
+
         log.info("POST /api/contact/send - New contact message from: {}", request.getEmail());
-        
+
         String ipAddress = getClientIpAddress(servletRequest);
         String userAgent = servletRequest.getHeader("User-Agent");
-        
+
         ContactMessageResponse response = contactMessageService.sendMessage(request, ipAddress, userAgent);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -57,7 +57,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages
      */
     @GetMapping("/admin/messages")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<List<ContactMessageResponse>> getAllMessages() {
         log.info("GET /api/contact/admin/messages - Fetching all messages");
         List<ContactMessageResponse> messages = contactMessageService.getAllMessages();
@@ -69,7 +69,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages/paged
      */
     @GetMapping("/admin/messages/paged")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<Page<ContactMessageResponse>> getAllMessagesPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -84,7 +84,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages/new
      */
     @GetMapping("/admin/messages/new")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<List<ContactMessageResponse>> getNewMessages() {
         log.info("GET /api/contact/admin/messages/new - Fetching new messages");
         List<ContactMessageResponse> messages = contactMessageService.getNewMessages();
@@ -96,7 +96,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages/new/count
      */
     @GetMapping("/admin/messages/new/count")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<Map<String, Long>> countNewMessages() {
         log.info("GET /api/contact/admin/messages/new/count");
         long count = contactMessageService.countNewMessages();
@@ -108,7 +108,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages/recent
      */
     @GetMapping("/admin/messages/recent")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<List<ContactMessageResponse>> getRecentMessages() {
         log.info("GET /api/contact/admin/messages/recent");
         List<ContactMessageResponse> messages = contactMessageService.getRecentMessages();
@@ -120,7 +120,7 @@ public class ContactMessageController {
      * GET /api/contact/admin/messages/{id}
      */
     @GetMapping("/admin/messages/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<ContactMessageResponse> getMessageById(@PathVariable Long id) {
         log.info("GET /api/contact/admin/messages/{} - Fetching message", id);
         ContactMessageResponse message = contactMessageService.getMessageById(id);
@@ -132,7 +132,7 @@ public class ContactMessageController {
      * POST /api/contact/admin/messages/{id}/read
      */
     @PostMapping("/admin/messages/{id}/read")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<ContactMessageResponse> markAsRead(@PathVariable Long id) {
         log.info("POST /api/contact/admin/messages/{}/read", id);
         ContactMessageResponse message = contactMessageService.markAsRead(id);
@@ -144,11 +144,11 @@ public class ContactMessageController {
      * POST /api/contact/admin/messages/{id}/reply
      */
     @PostMapping("/admin/messages/{id}/reply")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<ContactMessageResponse> markAsReplied(
             @PathVariable Long id,
             @RequestBody(required = false) Map<String, String> body) {
-        
+
         log.info("POST /api/contact/admin/messages/{}/reply", id);
         String adminNotes = body != null ? body.get("adminNotes") : null;
         ContactMessageResponse message = contactMessageService.markAsReplied(id, adminNotes);
@@ -160,7 +160,7 @@ public class ContactMessageController {
      * POST /api/contact/admin/messages/{id}/archive
      */
     @PostMapping("/admin/messages/{id}/archive")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<ContactMessageResponse> archiveMessage(@PathVariable Long id) {
         log.info("POST /api/contact/admin/messages/{}/archive", id);
         ContactMessageResponse message = contactMessageService.archiveMessage(id);
@@ -172,7 +172,7 @@ public class ContactMessageController {
      * POST /api/contact/admin/messages/{id}/unarchive
      */
     @PostMapping("/admin/messages/{id}/unarchive")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<ContactMessageResponse> unarchiveMessage(@PathVariable Long id) {
         log.info("POST /api/contact/admin/messages/{}/unarchive", id);
         ContactMessageResponse message = contactMessageService.unarchiveMessage(id);
@@ -184,7 +184,7 @@ public class ContactMessageController {
      * DELETE /api/contact/admin/messages/{id}
      */
     @DeleteMapping("/admin/messages/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
         log.info("DELETE /api/contact/admin/messages/{}", id);
         contactMessageService.deleteMessage(id);
@@ -201,12 +201,12 @@ public class ContactMessageController {
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
             return xForwardedFor.split(",")[0].trim();
         }
-        
+
         String xRealIp = request.getHeader("X-Real-IP");
         if (xRealIp != null && !xRealIp.isEmpty()) {
             return xRealIp;
         }
-        
+
         return request.getRemoteAddr();
     }
 }

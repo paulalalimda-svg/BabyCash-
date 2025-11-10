@@ -41,7 +41,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setLoading(true);
           // Intentar cargar desde backend
           const backendCart = await cartService.getCart();
-          const cartItems: CartItem[] = backendCart.items.map(item => ({
+          const cartItems: CartItem[] = backendCart.items.map((item) => ({
             id: String(item.productId),
             name: item.product?.name || 'Producto',
             price: item.product?.price || 0,
@@ -87,7 +87,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const addToCart = (item: CartItem) => {
     const existing = items.find((i) => i.id === item.id);
-    
+
     // Actualizar estado local PRIMERO (optimistic update)
     if (existing) {
       setItems(
@@ -104,7 +104,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       lastToastTime.current = now;
       lastToastItem.current = item.id;
     }
-    
+
     // Si está autenticado, sincronizar con backend en background (sin esperar)
     if (isAuthenticated) {
       cartService.addItem(Number(item.id), item.quantity).catch((error) => {
@@ -148,7 +148,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Primero limpiar el estado local y localStorage
     setItems([]);
     localStorage.removeItem('baby-cash-cart');
-    
+
     // Luego intentar limpiar en el backend si está autenticado (en background)
     if (isAuthenticated) {
       cartService.clearCart().catch((error) => {
@@ -176,11 +176,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [items, loading] // Solo recalcular cuando items o loading cambien
   );
 
-  return (
-    <CartContext.Provider value={contextValue}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>;
 };
 
 export const useCart = (): CartContextType => {

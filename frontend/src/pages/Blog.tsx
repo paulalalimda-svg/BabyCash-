@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  BookOpen,
-  Tag,
-  Search,
-  TrendingUp,
-  Loader2,
   AlertCircle,
+  BookOpen,
   ChevronLeft,
   ChevronRight,
+  Loader2,
+  Search,
+  Tag,
 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { blogService, handleApiError } from '../services/api';
-import type { BlogPost as ApiBlogPost } from '../services/api';
-import type { BlogPost as LegacyBlogPost } from '../types';
 import BlogCard from '../components/cards/BlogCard';
-import Input from '../components/ui/input';
 import Button from '../components/ui/Button';
+import Input from '../components/ui/input';
+import type { BlogPost as ApiBlogPost } from '../services/api';
+import { blogService, handleApiError } from '../services/api';
+import type { BlogPost as LegacyBlogPost } from '../types';
 
 const Blog: React.FC = () => {
   const navigate = useNavigate();
@@ -124,7 +123,7 @@ const Blog: React.FC = () => {
             </p>
             <Button
               onClick={handleCreatePost}
-              className="bg-baby-pink hover:bg-baby-pink/90"
+              className="bg-baby-pink hover:bg-baby-pink/90 mx-auto"
             >
               <BookOpen className="w-5 h-5 mr-2" />
               Participar - Escribe un Artículo
@@ -214,15 +213,13 @@ const Blog: React.FC = () => {
           {!loading && !error && posts.length === 0 && (
             <div className="text-center py-16">
               <Search className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-              <h3 className="text-xl font-bold text-baby-gray mb-2">
-                No se encontraron artículos
-              </h3>
+              <h3 className="text-xl font-bold text-baby-gray mb-2">No se encontraron artículos</h3>
               <p className="text-gray-600">
                 {searchTerm
                   ? `No hay resultados para "${searchTerm}"`
                   : selectedTag
-                  ? `No hay artículos con la etiqueta "${selectedTag}"`
-                  : 'No hay artículos disponibles en este momento'}
+                    ? `No hay artículos con la etiqueta "${selectedTag}"`
+                    : 'No hay artículos disponibles en este momento'}
               </p>
             </div>
           )}
@@ -232,11 +229,7 @@ const Blog: React.FC = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
-                  <BlogCard
-                    key={post.id}
-                    post={post}
-                    onReadMore={() => handlePostClick(post.id)}
-                  />
+                  <BlogCard key={post.id} post={post} onReadMore={() => handlePostClick(post.id)} />
                 ))}
               </div>
 

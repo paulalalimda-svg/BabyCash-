@@ -109,31 +109,28 @@ const CrearBlog: React.FC = () => {
                 id="blog-title"
                 type="text"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="Ej: Consejos para el sueño del bebé"
                 required
                 minLength={5}
                 maxLength={200}
                 className="w-full"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                {formData.title.length}/200 caracteres
-              </p>
+              <p className="text-xs text-gray-500 mt-1">{formData.title.length}/200 caracteres</p>
             </div>
 
             {/* Excerpt */}
             <div>
-              <label htmlFor="blog-excerpt" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="blog-excerpt"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Extracto o Resumen *
               </label>
               <textarea
                 id="blog-excerpt"
                 value={formData.excerpt || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, excerpt: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                 placeholder="Una breve descripción de tu artículo (aparecerá en la lista de blogs)"
                 required
                 minLength={20}
@@ -148,15 +145,16 @@ const CrearBlog: React.FC = () => {
 
             {/* Content */}
             <div>
-              <label htmlFor="blog-content" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="blog-content"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Contenido del Artículo *
               </label>
               <textarea
                 id="blog-content"
                 value={formData.content}
-                onChange={(e) =>
-                  setFormData({ ...formData, content: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 placeholder="Escribe aquí el contenido completo de tu artículo..."
                 required
                 minLength={100}
@@ -177,9 +175,7 @@ const CrearBlog: React.FC = () => {
                 id="blog-image"
                 type="url"
                 value={formData.imageUrl}
-                onChange={(e) =>
-                  setFormData({ ...formData, imageUrl: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                 placeholder="https://ejemplo.com/imagen.jpg"
                 className="w-full"
               />
@@ -208,12 +204,7 @@ const CrearBlog: React.FC = () => {
                   placeholder="Ej: bebé, sueño, consejos"
                   className="flex-1"
                 />
-                <Button
-                  type="button"
-                  onClick={addTag}
-                  variant="outline"
-                  className="shrink-0"
-                >
+                <Button type="button" onClick={addTag} variant="outline" className="shrink-0">
                   Agregar
                 </Button>
               </div>

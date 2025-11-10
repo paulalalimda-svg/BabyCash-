@@ -1,5 +1,5 @@
+import { Clock, Facebook, Github, Instagram, Mail, MapPin, Phone, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -40,7 +40,7 @@ const Footer = () => {
                       target.nextElementSibling?.classList.remove('hidden');
                     }}
                   />
-                  <div className="hidden w-6 h-6 bg-baby-blue rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-baby-blue rounded-full items-center justify-center hidden">
                     <span className="text-white font-bold text-xs">BC</span>
                   </div>
                 </div>
@@ -154,6 +154,16 @@ const Footer = () => {
                 aria-label="Síguenos en Twitter"
               >
                 <Twitter size={18} />
+              </a>
+
+              <a
+                href="https://github.com/babycash"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-gray-800 hover:text-white transition-colors shadow-md tap-target"
+                aria-label="Síguenos en GitHub"
+              >
+                <Github size={18} />
               </a>
             </div>
 

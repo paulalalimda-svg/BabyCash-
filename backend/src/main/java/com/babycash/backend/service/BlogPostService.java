@@ -105,7 +105,7 @@ public class BlogPostService implements IBlogPostService {
         User author = findUserByEmail(authorEmail);
 
         // Verify ownership or admin
-        if (!post.getAuthor().getId().equals(author.getId()) && 
+        if (!post.getAuthor().getId().equals(author.getId()) &&
             !author.getRole().name().equals("ADMIN")) {
             throw new BusinessException(UNAUTHORIZED);
         }
@@ -143,8 +143,9 @@ public class BlogPostService implements IBlogPostService {
 
     @Transactional(readOnly = true)
     public Page<BlogPostResponse> getAllPosts(Pageable pageable) {
-        log.info("Getting all posts (published and unpublished)");
-        Page<BlogPost> posts = blogPostRepository.findAll(pageable);
+        log.info("Getting all posts (published and unpublished) - featured first");
+        // Use custom query to prioritize featured posts
+        Page<BlogPost> posts = blogPostRepository.findAllOrderByFeaturedAndCreatedAt(pageable);
         return posts.map(this::mapToResponse);
     }
 

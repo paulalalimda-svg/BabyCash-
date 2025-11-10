@@ -20,9 +20,10 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   return (
     <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow">
       <div className="text-sm text-gray-600">
-        Mostrando {itemsCount} de {totalElements} {itemName} • Página {currentPage + 1} de {totalPages}
+        Mostrando {itemsCount} de {totalElements} {itemName} • Página {currentPage + 1} de{' '}
+        {totalPages}
       </div>
-      
+
       <div className="flex items-center gap-2">
         <button
           onClick={onPrevious}
@@ -31,7 +32,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
         >
           Anterior
         </button>
-        
+
         <div className="flex gap-1">
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
             let pageNum;
@@ -44,7 +45,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             } else {
               pageNum = currentPage - 2 + i;
             }
-            
+
             return (
               <button
                 key={`page-${pageNum}`}
@@ -60,7 +61,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             );
           })}
         </div>
-        
+
         <button
           onClick={onNext}
           disabled={!canGoNext}

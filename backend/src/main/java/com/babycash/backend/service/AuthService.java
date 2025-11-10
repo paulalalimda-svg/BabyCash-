@@ -50,17 +50,19 @@ public class AuthService {
      */
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        log.info("🔹 Attempting to register user with email: {}", request.getEmail());
+        String normalizedEmail = request.getEmail().trim().toLowerCase();
+        log.info("🔹 Attempting to register user with email: {}", normalizedEmail);
 
-        // Verify email is not already registered
-        if (userRepository.existsByEmail(request.getEmail())) {
-            log.warn("❌ Registration failed: Email {} already exists", request.getEmail());
+        // Verify email is not already registered (normalize before checking)
+        if (userRepository.existsByEmail(normalizedEmail)) {
+            log.warn("❌ Registration failed: Email {} already exists", normalizedEmail);
             throw new BusinessException("El email ya está registrado");
         }
 
         // Create new user entity
-        User user = User.builder()
-                .email(request.getEmail())
+
+    User user = User.builder()
+        .email(normalizedEmail)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -101,15 +103,16 @@ public class AuthService {
 
         try {
             // Authenticate with Spring Security
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
+        String loginEmail = request.getEmail().trim().toLowerCase();
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginEmail,
+                request.getPassword()
+            )
+        );
 
             // Get authenticated user
-            User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(loginEmail)
                     .orElseThrow(() -> new AuthenticationException("Usuario no encontrado"));
 
             log.info("✅ Login successful for user: {} with role: {}", user.getEmail(), user.getRole());
@@ -129,7 +132,8 @@ public class AuthService {
                     .build();
 
         } catch (BadCredentialsException e) {
-            log.warn("❌ Login failed for user {}: Invalid credentials", request.getEmail());
+            String attempted = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "<unknown>";
+            log.warn("❌ Login failed for user {}: Invalid credentials", attempted);
             throw new AuthenticationException("Credenciales inválidas");
         }
     }
@@ -177,85 +181,85 @@ public class AuthService {
     }
 
     /**
-     * Generate password reset token and send email
+     * Generate password reset code and send email
      *
      * @param email User's email address
      * @throws BusinessException if user not found
      */
     @Transactional
     public void forgotPassword(String email, String baseUrl) {
-        log.info("🔹 Password reset requested for email: {}", email);
+        String normalizedEmail = email == null ? null : email.trim().toLowerCase();
+        log.info("🔹 Password reset requested for email: {}", normalizedEmail);
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(normalizedEmail)
                 .orElseThrow(() -> new BusinessException("No existe una cuenta con este email"));
 
-        // Generate secure token (UUID)
-        String resetToken = java.util.UUID.randomUUID().toString();
-        
-        // Set expiry to 1 hour from now
-        LocalDateTime expiry = LocalDateTime.now().plusHours(1);
-        
-        user.setResetPasswordToken(resetToken);
+        // Generate 6-digit random code
+        String resetCode = String.format("%06d", new java.util.Random().nextInt(1000000));
+
+        // Set expiry to 15 minutes from now (codes expire faster than tokens)
+        LocalDateTime expiry = LocalDateTime.now().plusMinutes(15);
+
+        user.setResetPasswordToken(resetCode);
         user.setResetPasswordExpiry(expiry);
         userRepository.save(user);
 
-        log.info("✅ Reset token generated for user: {}, expires at: {}", email, expiry);
+        log.info("✅ Reset code generated for user: {}, expires at: {}", email, expiry);
 
-        // Send email with reset link
-        emailService.sendPasswordResetEmail(
+        // Send email with 6-digit code
+        emailService.sendPasswordResetCodeEmail(
             user.getEmail(),
             user.getFirstName(),
-            resetToken,
-            baseUrl
+            resetCode
         );
 
-        log.info("✅ Password reset email sent to: {}", email);
+        log.info("✅ Password reset email sent to: {}", normalizedEmail);
     }
 
     /**
-     * Validate reset token
+     * Validate reset code
      *
-     * @param token Reset token from email
-     * @return User if token is valid
-     * @throws BusinessException if token is invalid or expired
+     * @param code Reset code from email (6 digits)
+     * @return User if code is valid
+     * @throws BusinessException if code is invalid or expired
      */
     @Transactional(readOnly = true)
-    public User validateResetToken(String token) {
-        log.info("🔹 Validating reset token");
+    public User validateResetCode(String code) {
+        log.info("🔹 Validating reset code");
 
-        User user = userRepository.findByResetPasswordToken(token)
-                .orElseThrow(() -> new BusinessException("Token inválido"));
+        User user = userRepository.findByResetPasswordToken(code)
+                .orElseThrow(() -> new BusinessException("Código inválido"));
 
-        if (user.getResetPasswordExpiry() == null || 
+        if (user.getResetPasswordExpiry() == null ||
             LocalDateTime.now().isAfter(user.getResetPasswordExpiry())) {
-            log.warn("❌ Reset token expired for user: {}", user.getEmail());
-            throw new BusinessException("El token ha expirado. Solicita uno nuevo.");
+            log.warn("❌ Reset code expired for user: {}", user.getEmail());
+            throw new BusinessException("El código ha expirado. Solicita uno nuevo.");
         }
 
-        log.info("✅ Reset token validated for user: {}", user.getEmail());
+        log.info("✅ Reset code validated for user: {}", user.getEmail());
         return user;
     }
 
     /**
-     * Reset user password using valid token
+     * Reset user password using valid code
      *
-     * @param token Reset token
+     * @param code Reset code (6 digits)
      * @param newPassword New password
-     * @throws BusinessException if token is invalid or expired
+     * @throws BusinessException if code is invalid or expired
      */
     @Transactional
-    public void resetPassword(String token, String newPassword) {
-        log.info("🔹 Attempting password reset with token");
+    public void resetPassword(String code, String newPassword) {
+        log.info("🔹 Attempting password reset with code");
 
-        User user = validateResetToken(token);
+        User user = validateResetCode(code);
 
         // Update password
         user.setPassword(passwordEncoder.encode(newPassword));
-        
-        // Invalidate reset token
+
+        // Invalidate reset code
         user.setResetPasswordToken(null);
         user.setResetPasswordExpiry(null);
-        
+
         userRepository.save(user);
 
         log.info("✅ Password reset successful for user: {}", user.getEmail());

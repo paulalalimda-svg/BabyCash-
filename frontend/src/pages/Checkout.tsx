@@ -61,9 +61,10 @@ const Checkout = () => {
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setShippingInfo((prev) => ({ ...prev, [name]: value }));
-    
+
     // Validar en tiempo real
-    if (name !== 'notes') { // 'notes' es opcional
+    if (name !== 'notes') {
+      // 'notes' es opcional
       const error = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: error }));
     }
@@ -125,11 +126,11 @@ const Checkout = () => {
     }
 
     setErrors(newErrors);
-    
+
     if (!isValid) {
       toast.error('Por favor corrige los errores en el formulario');
     }
-    
+
     return isValid;
   };
 
@@ -146,35 +147,35 @@ const Checkout = () => {
   const handlePlaceOrder = async () => {
     try {
       setLoading(true);
-      
+
       // Validar información de envío antes de proceder
       if (!validateShipping()) {
         setLoading(false);
         return;
       }
-      
+
       // Formatear la dirección de envío como un string para el backend
       const formattedAddress = `${shippingInfo.fullName} | Tel: ${shippingInfo.phone} | ${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, CP: ${shippingInfo.zipCode}`;
-      
+
       // Crear la orden en el backend con la información completa
       const order = await orderService.createOrder({
         shippingAddress: formattedAddress,
         notes: shippingInfo.notes || `Método de pago: ${paymentMethod}`,
-        items: items.map(item => ({
+        items: items.map((item) => ({
           productId: Number(item.id),
-          quantity: item.quantity
-        }))
+          quantity: item.quantity,
+        })),
       });
-      
+
       toast.success('¡Orden creada exitosamente!');
-      
+
       // Marcar que se creó una orden para evitar alert de carrito vacío
       orderCreated.current = true;
-      
+
       // Limpiar carrito DESPUÉS de guardar el orderId
       const orderId = order.id;
       clearCart();
-      
+
       // Redirigir a la página de confirmación
       navigate(`/order-confirmation/${orderId}`);
     } catch (error: any) {
@@ -204,35 +205,31 @@ const Checkout = () => {
               { num: 1, label: 'Carrito' },
               { num: 2, label: 'Envío' },
               { num: 3, label: 'Pago' },
-              { num: 4, label: 'Confirmar' }
+              { num: 4, label: 'Confirmar' },
             ].map((s, idx) => (
               <div key={s.num} className="flex flex-col items-center flex-1">
                 <div className="flex items-center w-full">
                   {idx > 0 && (
                     <div
-                      className={`flex-1 h-1 ${
-                        s.num <= step ? 'bg-baby-blue' : 'bg-gray-300'
-                      }`}
+                      className={`flex-1 h-1 ${s.num <= step ? 'bg-baby-blue' : 'bg-gray-300'}`}
                     />
                   )}
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                      s.num <= step
-                        ? 'bg-baby-blue text-white'
-                        : 'bg-gray-300 text-gray-600'
+                      s.num <= step ? 'bg-baby-blue text-white' : 'bg-gray-300 text-gray-600'
                     }`}
                   >
                     {s.num}
                   </div>
                   {idx < 3 && (
                     <div
-                      className={`flex-1 h-1 ${
-                        s.num < step ? 'bg-baby-blue' : 'bg-gray-300'
-                      }`}
+                      className={`flex-1 h-1 ${s.num < step ? 'bg-baby-blue' : 'bg-gray-300'}`}
                     />
                   )}
                 </div>
-                <span className={`mt-2 text-sm ${step === s.num ? 'font-bold text-baby-blue' : 'text-gray-600'}`}>
+                <span
+                  className={`mt-2 text-sm ${step === s.num ? 'font-bold text-baby-blue' : 'text-gray-600'}`}
+                >
                   {s.label}
                 </span>
               </div>
@@ -250,10 +247,7 @@ const Checkout = () => {
                   <h2 className="text-2xl font-bold mb-4">Revisa tu carrito</h2>
                   <div className="space-y-4">
                     {items.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center gap-4 border-b pb-4"
-                      >
+                      <div key={item.id} className="flex items-center gap-4 border-b pb-4">
                         {item.image && (
                           <img
                             src={item.image}
@@ -299,8 +293,8 @@ const Checkout = () => {
                           value={shippingInfo.fullName}
                           onChange={handleShippingChange}
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            errors.fullName 
-                              ? 'border-red-500 focus:ring-red-500' 
+                            errors.fullName
+                              ? 'border-red-500 focus:ring-red-500'
                               : 'focus:ring-baby-blue'
                           }`}
                           required
@@ -321,8 +315,8 @@ const Checkout = () => {
                           onChange={handleShippingChange}
                           placeholder="+57 300 1234567"
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            errors.phone 
-                              ? 'border-red-500 focus:ring-red-500' 
+                            errors.phone
+                              ? 'border-red-500 focus:ring-red-500'
                               : 'focus:ring-baby-blue'
                           }`}
                           required
@@ -344,8 +338,8 @@ const Checkout = () => {
                         onChange={handleShippingChange}
                         placeholder="Calle 123 #45-67, Apto 101"
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                          errors.address 
-                            ? 'border-red-500 focus:ring-red-500' 
+                          errors.address
+                            ? 'border-red-500 focus:ring-red-500'
                             : 'focus:ring-baby-blue'
                         }`}
                         required
@@ -367,15 +361,13 @@ const Checkout = () => {
                           onChange={handleShippingChange}
                           placeholder="Bogotá"
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            errors.city 
-                              ? 'border-red-500 focus:ring-red-500' 
+                            errors.city
+                              ? 'border-red-500 focus:ring-red-500'
                               : 'focus:ring-baby-blue'
                           }`}
                           required
                         />
-                        {errors.city && (
-                          <p className="text-red-500 text-xs mt-1">{errors.city}</p>
-                        )}
+                        {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
                       </div>
                       <div>
                         <label htmlFor="state" className="block text-sm font-medium mb-1">
@@ -389,8 +381,8 @@ const Checkout = () => {
                           onChange={handleShippingChange}
                           placeholder="Cundinamarca"
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            errors.state 
-                              ? 'border-red-500 focus:ring-red-500' 
+                            errors.state
+                              ? 'border-red-500 focus:ring-red-500'
                               : 'focus:ring-baby-blue'
                           }`}
                           required
@@ -411,8 +403,8 @@ const Checkout = () => {
                           onChange={handleShippingChange}
                           placeholder="110111"
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            errors.zipCode 
-                              ? 'border-red-500 focus:ring-red-500' 
+                            errors.zipCode
+                              ? 'border-red-500 focus:ring-red-500'
                               : 'focus:ring-baby-blue'
                           }`}
                           required
@@ -459,29 +451,29 @@ const Checkout = () => {
                   <h2 className="text-2xl font-bold mb-4">Método de pago</h2>
                   <div className="space-y-4">
                     {[
-                      { 
-                        id: 'credit_card', 
-                        label: 'Tarjeta de Crédito', 
+                      {
+                        id: 'credit_card',
+                        label: 'Tarjeta de Crédito',
                         icon: CreditCard,
-                        color: 'text-blue-600'
+                        color: 'text-blue-600',
                       },
-                      { 
-                        id: 'debit_card', 
-                        label: 'Tarjeta Débito', 
+                      {
+                        id: 'debit_card',
+                        label: 'Tarjeta Débito',
                         icon: Banknote,
-                        color: 'text-green-600'
+                        color: 'text-green-600',
                       },
-                      { 
-                        id: 'pse', 
-                        label: 'PSE', 
+                      {
+                        id: 'pse',
+                        label: 'PSE',
                         icon: Building2,
-                        color: 'text-purple-600'
+                        color: 'text-purple-600',
                       },
-                      { 
-                        id: 'cash_on_delivery', 
-                        label: 'Pago Contra Entrega', 
+                      {
+                        id: 'cash_on_delivery',
+                        label: 'Pago Contra Entrega',
                         icon: Wallet,
-                        color: 'text-orange-600'
+                        color: 'text-orange-600',
                       },
                     ].map((method) => {
                       const Icon = method.icon;
@@ -529,7 +521,7 @@ const Checkout = () => {
               {step === 4 && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Confirma tu orden</h2>
-                  
+
                   <div className="space-y-6">
                     {/* Shipping Info Summary */}
                     <div className="border-b pb-4">
@@ -544,9 +536,7 @@ const Checkout = () => {
                       </p>
                       <p>{shippingInfo.phone}</p>
                       {shippingInfo.notes && (
-                        <p className="text-sm text-gray-600 mt-2">
-                          Notas: {shippingInfo.notes}
-                        </p>
+                        <p className="text-sm text-gray-600 mt-2">Notas: {shippingInfo.notes}</p>
                       )}
                     </div>
 
@@ -569,10 +559,7 @@ const Checkout = () => {
                       <h3 className="font-semibold mb-2">🛍️ Productos:</h3>
                       <div className="space-y-2">
                         {items.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex justify-between text-sm"
-                          >
+                          <div key={item.id} className="flex justify-between text-sm">
                             <span>
                               {item.name} x{item.quantity}
                             </span>
@@ -612,9 +599,7 @@ const Checkout = () => {
               <div className="space-y-3 border-b pb-4 mb-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-semibold">
-                    ${totalPrice.toLocaleString('es-CO')}
-                  </span>
+                  <span className="font-semibold">${totalPrice.toLocaleString('es-CO')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Envío</span>
@@ -628,21 +613,16 @@ const Checkout = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>IVA (19%)</span>
-                  <span className="font-semibold">
-                    ${tax.toLocaleString('es-CO')}
-                  </span>
+                  <span className="font-semibold">${tax.toLocaleString('es-CO')}</span>
                 </div>
               </div>
               <div className="flex justify-between text-xl font-bold">
                 <span>Total</span>
-                <span className="text-baby-pink">
-                  ${finalTotal.toLocaleString('es-CO')}
-                </span>
+                <span className="text-baby-pink">${finalTotal.toLocaleString('es-CO')}</span>
               </div>
               {totalPrice < 100000 && (
                 <p className="text-sm text-gray-600 mt-4">
-                  💡 ¡Agrega ${(100000 - totalPrice).toLocaleString('es-CO')} más para envío
-                  gratis!
+                  💡 ¡Agrega ${(100000 - totalPrice).toLocaleString('es-CO')} más para envío gratis!
                 </p>
               )}
             </div>

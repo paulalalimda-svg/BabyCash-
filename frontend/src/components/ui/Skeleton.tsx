@@ -2,9 +2,7 @@
  * Componente Skeleton genérico para loading states
  */
 export const Skeleton: React.FC<{ className?: string }> = ({ className = '' }) => {
-  return (
-    <div className={`animate-pulse bg-gray-200 rounded ${className}`} />
-  );
+  return <div className={`animate-pulse bg-gray-200 rounded ${className}`} />;
 };
 
 /**

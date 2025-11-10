@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       const response: AuthResponse = await authService.login(email, password);
-      
+
       // Construir objeto de usuario
       const userData: User = {
         id: 0, // El backend no lo devuelve aún, pero no es crítico
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       const response: AuthResponse = await authService.register(userData);
-      
+
       // Construir objeto de usuario
       const newUser: User = {
         id: 0,

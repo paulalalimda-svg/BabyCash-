@@ -50,9 +50,9 @@ export const BlogsManager = () => {
     pageSize: 10,
     filterFn: (blogs, filterType) => {
       if (filterType === 'published') {
-        return blogs.filter(p => p.published);
+        return blogs.filter((p) => p.published);
       } else if (filterType === 'pending') {
-        return blogs.filter(p => !p.published);
+        return blogs.filter((p) => !p.published);
       }
       return blogs;
     },
@@ -62,7 +62,7 @@ export const BlogsManager = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
-  
+
   const [formData, setFormData] = useState<BlogPostRequest>({
     title: '',
     content: '',
@@ -102,7 +102,7 @@ export const BlogsManager = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.title.trim() || !formData.content.trim()) {
       toast.error('El título y contenido son obligatorios');
       return;
@@ -182,9 +182,7 @@ export const BlogsManager = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold">Gestión de Blogs</h2>
-          <p className="text-gray-600">
-            Total de publicaciones: {posts.length}
-          </p>
+          <p className="text-gray-600">Total de publicaciones: {posts.length}</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
@@ -241,15 +239,11 @@ export const BlogsManager = () => {
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Título *
-              </label>
+              <label className="block text-sm font-medium mb-1">Título *</label>
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
                 required
                 minLength={5}
@@ -263,9 +257,7 @@ export const BlogsManager = () => {
               </label>
               <textarea
                 value={formData.excerpt}
-                onChange={(e) =>
-                  setFormData({ ...formData, excerpt: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
                 rows={2}
                 required
@@ -275,14 +267,10 @@ export const BlogsManager = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Contenido *
-              </label>
+              <label className="block text-sm font-medium mb-1">Contenido *</label>
               <textarea
                 value={formData.content}
-                onChange={(e) =>
-                  setFormData({ ...formData, content: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
                 rows={10}
                 required
@@ -294,24 +282,18 @@ export const BlogsManager = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
-                URL de Imagen
-              </label>
+              <label className="block text-sm font-medium mb-1">URL de Imagen</label>
               <input
                 type="url"
                 value={formData.imageUrl}
-                onChange={(e) =>
-                  setFormData({ ...formData, imageUrl: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
                 placeholder="https://ejemplo.com/imagen.jpg"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Etiquetas (Tags)
-              </label>
+              <label className="block text-sm font-medium mb-1">Etiquetas (Tags)</label>
               <div className="flex gap-2 mb-2">
                 <input
                   type="text"
@@ -358,9 +340,7 @@ export const BlogsManager = () => {
                 type="checkbox"
                 id="featured"
                 checked={formData.featured}
-                onChange={(e) =>
-                  setFormData({ ...formData, featured: e.target.checked })
-                }
+                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
                 className="w-4 h-4 text-baby-blue focus:ring-baby-blue rounded"
               />
               <label htmlFor="featured" className="text-sm font-medium">
@@ -497,7 +477,7 @@ export const BlogsManager = () => {
           <div className="text-center py-12 text-gray-500">
             <BookOpen size={48} className="mx-auto mb-4 opacity-50" />
             <p>No hay publicaciones de blog aún.</p>
-            <p className="text-sm">Haz clic en "Nueva Publicación" para crear una.</p>
+            <p className="text-sm">Haz clic en &quot;Nueva Publicación&quot; para crear una.</p>
           </div>
         )}
 

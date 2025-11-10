@@ -17,7 +17,15 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { orderService, userService, loyaltyService, type Order, type UserStats, type UpdateProfileData, type LoyaltyPoints } from '../services/api';
+import {
+  orderService,
+  userService,
+  loyaltyService,
+  type Order,
+  type UserStats,
+  type UpdateProfileData,
+  type LoyaltyPoints,
+} from '../services/api';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/input';
 import Card from '../components/ui/Card';
@@ -35,7 +43,7 @@ const Perfil: React.FC = () => {
   const [loadingStats, setLoadingStats] = useState(true);
   const [loyaltyPoints, setLoyaltyPoints] = useState<LoyaltyPoints | null>(null);
   const [loadingLoyalty, setLoadingLoyalty] = useState(true);
-  
+
   const [editData, setEditData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -85,7 +93,7 @@ const Perfil: React.FC = () => {
           totalOrders: orders.length,
           totalProducts: 0,
           totalSpent: orders.reduce((sum, o) => sum + (o.total || 0), 0),
-          memberSince: user?.email ? '2024' : '2025'
+          memberSince: user?.email ? '2024' : '2025',
         });
       } finally {
         setLoadingStats(false);
@@ -146,10 +154,10 @@ const Perfil: React.FC = () => {
       const updatedUser = await userService.updateProfile(profileData);
       setIsEditing(false);
       toast.success('Perfil actualizado correctamente');
-      
+
       // Update localStorage with the response from backend
       localStorage.setItem('baby-cash-user', JSON.stringify(updatedUser));
-      
+
       // Force a page reload to update AuthContext
       window.location.reload();
     } catch (error: any) {
@@ -177,7 +185,11 @@ const Perfil: React.FC = () => {
             <User className="w-20 h-20 mx-auto mb-6 text-gray-300" />
             <h2 className="text-2xl font-bold font-poppins text-baby-gray mb-4">Inicia Sesión</h2>
             <p className="text-gray-600 font-inter mb-8">Debes iniciar sesión para ver tu perfil</p>
-            <Button onClick={() => navigate('/login')} size="lg" className="bg-gradient-to-r from-baby-blue to-baby-pink text-white">
+            <Button
+              onClick={() => navigate('/login')}
+              size="lg"
+              className="bg-gradient-to-r from-baby-blue to-baby-pink text-white"
+            >
               Iniciar Sesión
             </Button>
           </Card>
@@ -187,20 +199,22 @@ const Perfil: React.FC = () => {
   }
 
   const statsData = [
-    { 
-      label: 'Pedidos realizados', 
-      value: loadingStats ? '...' : String(stats?.totalOrders || orders.length), 
-      icon: Package 
+    {
+      label: 'Pedidos realizados',
+      value: loadingStats ? '...' : String(stats?.totalOrders || orders.length),
+      icon: Package,
     },
-    { 
-      label: 'Total gastado', 
-      value: loadingStats ? '...' : `$${(stats?.totalSpent || 0).toLocaleString('es-CO')}`, 
-      icon: DollarSign 
+    {
+      label: 'Total gastado',
+      value: loadingStats ? '...' : `$${(stats?.totalSpent || 0).toLocaleString('es-CO')}`,
+      icon: DollarSign,
     },
-    { 
-      label: 'Años con nosotros', 
-      value: loadingStats ? '...' : String(stats ? new Date().getFullYear() - parseInt(stats.memberSince) : 0), 
-      icon: Calendar 
+    {
+      label: 'Años con nosotros',
+      value: loadingStats
+        ? '...'
+        : String(stats ? new Date().getFullYear() - parseInt(stats.memberSince) : 0),
+      icon: Calendar,
     },
   ];
 
@@ -291,9 +305,7 @@ const Perfil: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nombre
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
                     {isEditing ? (
                       <Input
                         value={editData.firstName}
@@ -309,9 +321,7 @@ const Perfil: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Apellido
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Apellido</label>
                     {isEditing ? (
                       <Input
                         value={editData.lastName}
@@ -400,9 +410,7 @@ const Perfil: React.FC = () => {
                       >
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <p className="font-semibold text-baby-gray">
-                              Orden #{order.id}
-                            </p>
+                            <p className="font-semibold text-baby-gray">Orden #{order.id}</p>
                             <p className="text-sm text-gray-600">
                               {new Date(order.createdAt).toLocaleDateString('es-CO', {
                                 year: 'numeric',
@@ -430,11 +438,7 @@ const Perfil: React.FC = () => {
                       </div>
                     ))}
                     {orders.length > 5 && (
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => {}}
-                      >
+                      <Button variant="outline" className="w-full" onClick={() => {}}>
                         Ver todas las órdenes ({orders.length})
                       </Button>
                     )}
@@ -447,27 +451,15 @@ const Perfil: React.FC = () => {
                   Acciones Rápidas
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <LinkButton
-                    href="/productos"
-                    variant="outline"
-                    className="justify-center"
-                  >
+                  <LinkButton href="/productos" variant="outline" className="justify-center">
                     <Package className="w-5 h-5 mr-2" />
                     Ver Productos
                   </LinkButton>
-                  <LinkButton
-                    href="/carrito"
-                    variant="outline"
-                    className="justify-center"
-                  >
+                  <LinkButton href="/carrito" variant="outline" className="justify-center">
                     <Heart className="w-5 h-5 mr-2" />
                     Ver Carrito
                   </LinkButton>
-                  <LinkButton
-                    href="/contacto"
-                    variant="outline"
-                    className="justify-center"
-                  >
+                  <LinkButton href="/contacto" variant="outline" className="justify-center">
                     <Mail className="w-5 h-5 mr-2" />
                     Contactar Soporte
                   </LinkButton>
@@ -522,7 +514,7 @@ const Perfil: React.FC = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600">Miembro desde:</span>
                     <span className="font-medium">
-                      {loadingStats ? '...' : (stats?.memberSince || '2024')}
+                      {loadingStats ? '...' : stats?.memberSince || '2024'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -551,9 +543,7 @@ const Perfil: React.FC = () => {
                         {loyaltyPoints.totalPoints.toLocaleString('es-CO')}
                       </p>
                       <div className="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full">
-                        <span className="text-xs font-bold text-white">
-                          {loyaltyPoints.tier}
-                        </span>
+                        <span className="text-xs font-bold text-white">{loyaltyPoints.tier}</span>
                       </div>
                     </div>
 
@@ -566,9 +556,7 @@ const Perfil: React.FC = () => {
                         <p className="text-2xl font-bold text-green-600">
                           {loyaltyPoints.availableDiscountPercent}% OFF
                         </p>
-                        <p className="text-xs text-green-600 mt-1">
-                          En tu próxima compra
-                        </p>
+                        <p className="text-xs text-green-600 mt-1">En tu próxima compra</p>
                       </div>
                     )}
 
@@ -576,7 +564,9 @@ const Perfil: React.FC = () => {
                     {loyaltyPoints.pointsForNextDiscount > 0 && (
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                         <p className="text-xs text-blue-800 text-center">
-                          📈 Te faltan <span className="font-bold">{loyaltyPoints.pointsForNextDiscount}</span> puntos para el siguiente 5% de descuento
+                          📈 Te faltan{' '}
+                          <span className="font-bold">{loyaltyPoints.pointsForNextDiscount}</span>{' '}
+                          puntos para el siguiente 5% de descuento
                         </p>
                       </div>
                     )}
@@ -627,9 +617,7 @@ const Perfil: React.FC = () => {
                   </div>
                 ) : (
                   <div className="text-center py-6">
-                    <p className="text-sm text-gray-600">
-                      No se pudieron cargar los puntos
-                    </p>
+                    <p className="text-sm text-gray-600">No se pudieron cargar los puntos</p>
                   </div>
                 )}
               </Card>

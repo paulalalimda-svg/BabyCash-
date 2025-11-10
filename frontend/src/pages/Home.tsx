@@ -1,16 +1,25 @@
-import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Truck, Shield, Heart, DollarSign, ArrowRight, Star } from 'lucide-react';
-import Button from '../components/ui/Button';
+import { ArrowRight, DollarSign, Heart, Shield, Star, Truck } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import BlogCard from '../components/cards/BlogCard';
 import ProductCard from '../components/cards/ProductCard';
 import TestimonialCard from '../components/cards/TestimonialCard';
-import BlogCard from '../components/cards/BlogCard';
-import { productService, testimonialService, blogService, type Testimonial, type Product } from '../services/api';
-import { useEffect, useState } from 'react';
+import Button from '../components/ui/Button';
+import {
+  BlogGridSkeleton,
+  ProductGridSkeleton,
+  TestimonialGridSkeleton,
+} from '../components/ui/Skeleton';
+import {
+  blogService,
+  productService,
+  testimonialService,
+  type Product,
+  type Testimonial,
+} from '../services/api';
 import type { BlogPost } from '../types';
 import { logger } from '../utils/logger';
-import { ProductGridSkeleton, BlogGridSkeleton, TestimonialGridSkeleton } from '../components/ui/Skeleton';
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -28,8 +37,11 @@ const Home = () => {
       try {
         logger.loading('Cargando productos destacados...');
         const response = await productService.getFeatured();
-        logger.success('Productos destacados recibidos:', Array.isArray(response) ? response.length : 'No es array');
-        
+        logger.success(
+          'Productos destacados recibidos:',
+          Array.isArray(response) ? response.length : 'No es array'
+        );
+
         // La API devuelve un array directamente
         const products = Array.isArray(response) ? response : [];
         setFeaturedProducts(products.slice(0, 6));
@@ -43,13 +55,13 @@ const Home = () => {
         logger.loading('Cargando testimonios destacados...');
         const [apiTestimonials, allTestimonials] = await Promise.all([
           testimonialService.getFeaturedTestimonials(),
-          testimonialService.getTestimonials() // Obtener TODOS los testimonios para estadísticas
+          testimonialService.getTestimonials(), // Obtener TODOS los testimonios para estadísticas
         ]);
         logger.success('Testimonios destacados recibidos:', apiTestimonials.length);
         logger.success('Todos los testimonios recibidos:', allTestimonials.length);
-        
+
         // Calcular estadísticas reales basadas en TODOS los testimonios aprobados
-        const approvedTestimonials = allTestimonials.filter(t => t.approved);
+        const approvedTestimonials = allTestimonials.filter((t) => t.approved);
         if (approvedTestimonials.length > 0) {
           const totalRating = approvedTestimonials.reduce((sum, t) => sum + t.rating, 0);
           const avgRating = totalRating / approvedTestimonials.length;
@@ -58,7 +70,7 @@ const Home = () => {
             totalCount: approvedTestimonials.length,
           });
         }
-        
+
         setFeaturedTestimonials(apiTestimonials);
       } catch (error) {
         logger.failed('Error fetching featured testimonials:', error);
@@ -68,10 +80,11 @@ const Home = () => {
     const fetchFeaturedPosts = async () => {
       try {
         logger.loading('Cargando blogs destacados...');
-        const response = await blogService.getPosts(0, 3);
-        logger.success('Blogs destacados recibidos:', response.content.length);
-        // Transformar de API format a component format
-        const blogPosts: BlogPost[] = response.content.map(post => ({
+        // Use the dedicated endpoint for featured posts so only featured items are returned
+        const response = await blogService.getFeaturedPosts();
+        logger.success('Blogs destacados recibidos:', response.length);
+
+        const blogPosts: BlogPost[] = response.map((post) => ({
           id: String(post.id),
           title: post.title,
           excerpt: post.excerpt || '',
@@ -79,9 +92,9 @@ const Home = () => {
           image: post.imageUrl || '/images/blog/placeholder.jpg',
           date: post.publishedAt || post.createdAt,
           author: `${post.author.firstName} ${post.author.lastName}`,
-          category: post.tags[0] || 'General'
+          category: post.tags[0] || 'General',
         }));
-        setFeaturedPosts(blogPosts);
+        setFeaturedPosts(blogPosts.slice(0, 3));
       } catch (error) {
         logger.failed('Error fetching featured blog posts:', error);
       }
@@ -290,13 +303,13 @@ const Home = () => {
           </motion.div>
 
           {loading && <ProductGridSkeleton count={6} />}
-          
+
           {!loading && featuredProducts.length === 0 && (
             <div className="text-center py-12 text-gray-500">
               No hay productos destacados disponibles
             </div>
           )}
-          
+
           {!loading && featuredProducts.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProducts.map((product) => (
@@ -332,19 +345,19 @@ const Home = () => {
               {Array.from({ length: 5 }).map((_, i) => {
                 const isFullStar = i < Math.floor(testimonialStats.averageRating);
                 const isPartialStar = !isFullStar && i < testimonialStats.averageRating;
-                
+
                 let starClass = 'text-gray-300';
                 if (isFullStar) {
                   starClass = 'text-yellow-400 fill-current';
                 } else if (isPartialStar) {
                   starClass = 'text-yellow-400 fill-current opacity-50';
                 }
-                
+
                 return (
-                  <Star 
-                    key={`star-rating-${testimonialStats.averageRating}-${i}`} 
-                    size={24} 
-                    className={starClass} 
+                  <Star
+                    key={`star-rating-${testimonialStats.averageRating}-${i}`}
+                    size={24}
+                    className={starClass}
                   />
                 );
               })}
@@ -353,7 +366,7 @@ const Home = () => {
               </span>
             </div>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {testimonialStats.totalCount > 0 
+              {testimonialStats.totalCount > 0
                 ? `Basado en ${testimonialStats.totalCount} testimonios de familias que confían en nosotros`
                 : 'Miles de familias confían en nosotros'}
             </p>
@@ -424,10 +437,7 @@ const Home = () => {
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <BlogCard
-                    post={post}
-                    onReadMore={() => navigate(`/blog/${post.id}`)}
-                  />
+                  <BlogCard post={post} onReadMore={() => navigate(`/blog/${post.id}`)} />
                 </motion.div>
               ))}
             </div>

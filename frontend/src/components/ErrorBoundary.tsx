@@ -131,7 +131,8 @@ class ErrorBoundary extends Component<Props, State> {
                 Si el problema persiste, por favor{' '}
                 <a href="/contacto" className="text-baby-blue hover:underline font-semibold">
                   contáctanos
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </div>

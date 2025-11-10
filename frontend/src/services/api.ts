@@ -141,10 +141,12 @@ axiosRetry(api, {
     if (error.response?.status && error.response.status >= 400 && error.response.status < 500) {
       return false;
     }
-    
+
     // Reintentar solo en errores de red o errores 5xx del servidor
-    return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
-           (error.response?.status !== undefined && error.response.status >= 500);
+    return (
+      axiosRetry.isNetworkOrIdempotentRequestError(error) ||
+      (error.response?.status !== undefined && error.response.status >= 500)
+    );
   },
   onRetry: (retryCount, error) => {
     console.warn(`🔄 Reintento ${retryCount}/2 para ${error.config?.url}`, error.message);
@@ -183,9 +185,13 @@ api.interceptors.request.use(
 
 // Response interceptor with refresh token logic
 let isRefreshing = false;
-let failedQueue: any[] = [];
+interface QueueItem {
+  resolve: (token: string | null) => void;
+  reject: (error: unknown) => void;
+}
+let failedQueue: QueueItem[] = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: unknown, token: string | null = null) => {
   for (const prom of failedQueue) {
     if (error) {
       prom.reject(error);
@@ -202,8 +208,9 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Solo manejar refresh si la URL NO es de login o register
-    const isAuthEndpoint = originalRequest.url?.includes('/auth/login') || 
-                          originalRequest.url?.includes('/auth/register');
+    const isAuthEndpoint =
+      originalRequest.url?.includes('/auth/login') ||
+      originalRequest.url?.includes('/auth/register');
 
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
       if (isRefreshing) {
@@ -214,7 +221,9 @@ api.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${token}`;
             return api(originalRequest);
           })
-          .catch((err) => { throw err; });
+          .catch((err) => {
+            throw err;
+          });
       }
 
       originalRequest._retry = true;
@@ -230,16 +239,13 @@ api.interceptors.response.use(
       }
 
       try {
-        const { data } = await axios.post(
-          `${api.defaults.baseURL}/auth/refresh`,
-          { refreshToken }
-        );
-        
+        const { data } = await axios.post(`${api.defaults.baseURL}/auth/refresh`, { refreshToken });
+
         setAuthData(data.token, data.refreshToken);
         api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
         originalRequest.headers.Authorization = `Bearer ${data.token}`;
         processQueue(null, data.token);
-        
+
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
@@ -292,7 +298,11 @@ export const authService = {
     return data;
   },
 
-  async resetPassword(token: string, newPassword: string, confirmPassword: string): Promise<{ message: string }> {
+  async resetPassword(
+    token: string,
+    newPassword: string,
+    confirmPassword: string
+  ): Promise<{ message: string }> {
     const { data } = await api.post<{ message: string }>('/auth/reset-password', {
       token,
       newPassword,
@@ -335,7 +345,9 @@ export const productService = {
   },
 
   async search(query: string): Promise<PagedResponse<Product>> {
-    const { data } = await api.get<PagedResponse<Product>>('/products/search', { params: { q: query } });
+    const { data } = await api.get<PagedResponse<Product>>('/products/search', {
+      params: { q: query },
+    });
     return data;
   },
 };
@@ -369,10 +381,10 @@ export const cartService = {
 
 // Order service
 export const orderService = {
-  async createOrder(orderData: { 
-    shippingAddress: string; 
-    notes?: string; 
-    items: Array<{ productId: number; quantity: number }> 
+  async createOrder(orderData: {
+    shippingAddress: string;
+    notes?: string;
+    items: Array<{ productId: number; quantity: number }>;
   }): Promise<Order> {
     const { data } = await api.post<Order>('/orders', orderData);
     return data;
@@ -437,21 +449,25 @@ export const adminService = {
   // Orders
   async getAllOrders(page = 0, size = 10): Promise<PagedResponse<Order>> {
     const { data } = await api.get<PagedResponse<Order>>('/admin/orders', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
 
-  async getOrdersByStatus(status: Order['status'], page = 0, size = 10): Promise<PagedResponse<Order>> {
+  async getOrdersByStatus(
+    status: Order['status'],
+    page = 0,
+    size = 10
+  ): Promise<PagedResponse<Order>> {
     const { data } = await api.get<PagedResponse<Order>>('/admin/orders', {
-      params: { status, page, size }
+      params: { status, page, size },
     });
     return data;
   },
 
   async updateOrderStatus(id: number, status: Order['status']): Promise<Order> {
     const { data } = await api.put<Order>(`/admin/orders/${id}/status`, null, {
-      params: { status }
+      params: { status },
     });
     return data;
   },
@@ -506,7 +522,7 @@ export const loyaltyService = {
 
   async getHistory(page = 0, size = 10): Promise<PagedResponse<LoyaltyTransaction>> {
     const { data } = await api.get<PagedResponse<LoyaltyTransaction>>('/loyalty/history', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
@@ -553,14 +569,14 @@ export interface BlogPostRequest {
 export const blogService = {
   async getPosts(page = 0, size = 10): Promise<PagedResponse<BlogPost>> {
     const { data } = await api.get<PagedResponse<BlogPost>>('/blog', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
 
   async getAllPostsAdmin(page = 0, size = 10): Promise<PagedResponse<BlogPost>> {
     const { data } = await api.get<PagedResponse<BlogPost>>('/blog/admin/all', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
@@ -582,14 +598,14 @@ export const blogService = {
 
   async searchPosts(query: string, page = 0, size = 10): Promise<PagedResponse<BlogPost>> {
     const { data } = await api.get<PagedResponse<BlogPost>>('/blog/search', {
-      params: { q: query, page, size }
+      params: { q: query, page, size },
     });
     return data;
   },
 
   async getPostsByTag(tag: string, page = 0, size = 10): Promise<PagedResponse<BlogPost>> {
-    const { data} = await api.get<PagedResponse<BlogPost>>(`/blog/tag/${tag}`, {
-      params: { page, size }
+    const { data } = await api.get<PagedResponse<BlogPost>>(`/blog/tag/${tag}`, {
+      params: { page, size },
     });
     return data;
   },
@@ -601,7 +617,7 @@ export const blogService = {
 
   async getMyPosts(page = 0, size = 10): Promise<PagedResponse<BlogPost>> {
     const { data } = await api.get<PagedResponse<BlogPost>>('/blog/author/me', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
@@ -678,7 +694,11 @@ export const commentService = {
     return data;
   },
 
-  async updateComment(postId: number, commentId: number, request: CommentRequest): Promise<BlogComment> {
+  async updateComment(
+    postId: number,
+    commentId: number,
+    request: CommentRequest
+  ): Promise<BlogComment> {
     const { data } = await api.put<BlogComment>(`/blog/${postId}/comments/${commentId}`, request);
     return data;
   },
@@ -796,7 +816,7 @@ export const testimonialService = {
 
   async getAllTestimonialsPaged(page = 0, size = 10): Promise<PagedResponse<Testimonial>> {
     const { data } = await api.get<PagedResponse<Testimonial>>('/testimonials/admin/paged', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
@@ -901,7 +921,7 @@ export const contactMessageService = {
 
   async getAllMessagesPaged(page = 0, size = 10): Promise<PagedResponse<ContactMessage>> {
     const { data } = await api.get<PagedResponse<ContactMessage>>('/contact/admin/messages/paged', {
-      params: { page, size }
+      params: { page, size },
     });
     return data;
   },
@@ -932,7 +952,8 @@ export const contactMessageService = {
   },
 
   async markAsReplied(id: number, adminNotes?: string): Promise<ContactMessage> {
-    const { data } = await api.post<ContactMessage>(`/contact/admin/messages/${id}/reply`, 
+    const { data } = await api.post<ContactMessage>(
+      `/contact/admin/messages/${id}/reply`,
       adminNotes ? { adminNotes } : {}
     );
     return data;
@@ -957,7 +978,7 @@ export const contactMessageService = {
 export const handleApiError = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<{ message?: string }>;
-    
+
     if (axiosError.response) {
       const status = axiosError.response.status;
       const message = axiosError.response.data?.message;

@@ -1,9 +1,9 @@
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, ShoppingCart, User, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, Menu, X } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/CartContext';
 import Button from '../ui/Button';
 
 const Navbar = () => {
@@ -13,14 +13,16 @@ const Navbar = () => {
   const { user, isAuthenticated } = useAuth();
   const totalItems = getTotalItems();
 
- const navLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/nosotros', label: 'Nosotros' },
-  { href: '/productos', label: 'Productos' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contacto', label: 'Contacto' },
-  ...(user?.role === 'ADMIN' || user?.role === 'MODERATOR' ? [{ href: '/admin', label: 'Admin' }] : []),
- ];
+  const navLinks = [
+    { href: '/', label: 'Inicio' },
+    { href: '/nosotros', label: 'Nosotros' },
+    { href: '/productos', label: 'Productos' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/contacto', label: 'Contacto' },
+    ...(user?.role === 'ADMIN' || user?.role === 'MODERATOR'
+      ? [{ href: '/admin', label: 'Admin' }]
+      : []),
+  ];
 
   const isActiveLink = (href: string) => {
     return location.pathname === href;
@@ -37,14 +39,14 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-3 focus-ring rounded-lg p-2"
+            className="flex items-center space-x-2 sm:space-x-3 focus-ring rounded-lg p-2"
             aria-label="Ir al inicio - Baby Cash"
           >
-            <div className="w-12 h-12 bg-white rounded-full ring-2 ring-baby-blue flex items-center justify-center shadow-md">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full ring-2 ring-baby-blue flex items-center justify-center shadow-md flex-shrink-0">
               <img
                 src="/productos/icono-pinguino.png"
                 alt="Baby Cash Logo"
-                className="w-8 h-8 object-contain"
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                 onError={(e) => {
                   // Fallback si no existe la imagen
                   const target = e.target as HTMLImageElement;
@@ -52,13 +54,15 @@ const Navbar = () => {
                   target.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <div className="hidden w-8 h-8 bg-baby-blue rounded-full items-center justify-center">
+              <div className="hidden w-6 h-6 sm:w-8 sm:h-8 bg-baby-blue rounded-full items-center justify-center">
                 <span className="text-white font-bold text-xs">BC</span>
               </div>
             </div>
-            <div className="hidden sm:block">
-              <h1 className="font-poppins font-bold text-xl text-baby-gray">BABY CASH</h1>
-              <p className="font-inter text-xs text-gray-500 -mt-1">
+            <div>
+              <h1 className="font-poppins font-bold text-base sm:text-xl text-baby-gray">
+                BABY CASH
+              </h1>
+              <p className="font-inter text-xs text-gray-500 -mt-1 hidden sm:block">
                 Pañalera y variedades {`Soffy's`}
               </p>
             </div>
@@ -107,9 +111,7 @@ const Navbar = () => {
                 aria-label={`Perfil de ${user?.firstName}`}
               >
                 <User size={24} />
-                <span className="hidden lg:inline font-inter text-sm">
-                  {user?.firstName}
-                </span>
+                <span className="hidden lg:inline font-inter text-sm">{user?.firstName}</span>
               </Link>
             ) : (
               <Link to="/login">

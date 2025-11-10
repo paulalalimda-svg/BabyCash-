@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Star,
+  AlertCircle,
   CheckCircle,
-  XCircle,
-  Trash2,
+  Clock,
   Eye,
   EyeOff,
-  AlertCircle,
-  Clock,
   MapPin,
+  Star,
+  Trash2,
+  XCircle,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useAdminCrud } from '../../hooks/useAdminCrud';
 import {
+  handleApiError,
   testimonialService,
   type Testimonial,
   type TestimonialStats,
-  handleApiError,
 } from '../../services/api';
-import toast from 'react-hot-toast';
-import { useAdminCrud } from '../../hooks/useAdminCrud';
 import { PaginationControls } from '../ui/PaginationControls';
 
 type TestimonialFilter = 'all' | 'approved' | 'pending';
@@ -59,7 +59,7 @@ export const TestimonialsManager = () => {
 
   const [stats, setStats] = useState<TestimonialStats | null>(null);
 
-  // Load stats when component mounts or data changes
+  // Load stats when component mounts or page changes
   useEffect(() => {
     const loadStats = async () => {
       try {
@@ -70,7 +70,7 @@ export const TestimonialsManager = () => {
       }
     };
     loadStats();
-  }, [testimonials]);
+  }, [currentPage]); // Solo depende de currentPage, no de testimonials
 
   const handleApprove = async (id: number) => {
     try {
@@ -235,7 +235,9 @@ export const TestimonialsManager = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-1 mb-2">{renderStars(testimonial.rating)}</div>
+                  <div className="flex items-center space-x-1 mb-2">
+                    {renderStars(testimonial.rating)}
+                  </div>
 
                   <p className="text-gray-700 mb-3">{testimonial.message}</p>
 

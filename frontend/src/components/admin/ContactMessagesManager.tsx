@@ -1,24 +1,20 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
+  AlertCircle,
+  Archive,
+  CheckCheck,
+  Clock,
   Mail,
   MailOpen,
-  CheckCheck,
-  Archive,
-  Trash2,
-  Clock,
-  User,
-  Phone,
   MessageSquare,
-  AlertCircle,
+  Phone,
+  Trash2,
+  User,
 } from 'lucide-react';
-import {
-  contactMessageService,
-  type ContactMessage,
-  handleApiError,
-} from '../../services/api';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAdminCrud } from '../../hooks/useAdminCrud';
+import { contactMessageService, handleApiError, type ContactMessage } from '../../services/api';
 import { PaginationControls } from '../ui/PaginationControls';
 
 type MessageFilter = 'all' | 'new' | 'read' | 'replied' | 'archived';
@@ -63,7 +59,7 @@ export const ContactMessagesManager = () => {
 
   const [newCount, setNewCount] = useState(0);
 
-  // Load new message count when component mounts or data changes
+  // Load new message count when component mounts or loadData is called
   useEffect(() => {
     const loadCount = async () => {
       try {
@@ -74,15 +70,22 @@ export const ContactMessagesManager = () => {
       }
     };
     loadCount();
-  }, [messages]);
+  }, [currentPage]); // Solo depende de currentPage, no de messages
 
   const handleMarkAsRead = async (id: number) => {
     try {
       await contactMessageService.markAsRead(id);
       toast.success('Marcado como leído');
       loadData();
-    } catch (error) {
-      toast.error(handleApiError(error));
+    } catch (error: unknown) {
+      // Si es un 403, mostrar mensaje de permisos más claro
+      if ((error as { response?: { status?: number } })?.response?.status === 403) {
+        toast.error(
+          'No tienes permisos para realizar esta acción. Intenta iniciar sesión de nuevo.'
+        );
+      } else {
+        toast.error(handleApiError(error));
+      }
     }
   };
 
@@ -91,8 +94,14 @@ export const ContactMessagesManager = () => {
       await contactMessageService.markAsReplied(id);
       toast.success('Marcado como respondido');
       loadData();
-    } catch (error) {
-      toast.error(handleApiError(error));
+    } catch (error: unknown) {
+      if ((error as { response?: { status?: number } })?.response?.status === 403) {
+        toast.error(
+          'No tienes permisos para realizar esta acción. Intenta iniciar sesión de nuevo.'
+        );
+      } else {
+        toast.error(handleApiError(error));
+      }
     }
   };
 
@@ -101,8 +110,14 @@ export const ContactMessagesManager = () => {
       await contactMessageService.archiveMessage(id);
       toast.success('Mensaje archivado');
       loadData();
-    } catch (error) {
-      toast.error(handleApiError(error));
+    } catch (error: unknown) {
+      if ((error as { response?: { status?: number } })?.response?.status === 403) {
+        toast.error(
+          'No tienes permisos para realizar esta acción. Intenta iniciar sesión de nuevo.'
+        );
+      } else {
+        toast.error(handleApiError(error));
+      }
     }
   };
 
@@ -111,8 +126,14 @@ export const ContactMessagesManager = () => {
       await contactMessageService.unarchiveMessage(id);
       toast.success('Mensaje desarchivado');
       loadData();
-    } catch (error) {
-      toast.error(handleApiError(error));
+    } catch (error: unknown) {
+      if ((error as { response?: { status?: number } })?.response?.status === 403) {
+        toast.error(
+          'No tienes permisos para realizar esta acción. Intenta iniciar sesión de nuevo.'
+        );
+      } else {
+        toast.error(handleApiError(error));
+      }
     }
   };
 
@@ -196,7 +217,7 @@ export const ContactMessagesManager = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6 border border-yellow-200">
-                      <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Leídos</p>
               <p className="text-2xl font-bold text-yellow-600">
@@ -311,7 +332,9 @@ export const ContactMessagesManager = () => {
                       <User size={20} className="text-baby-blue" />
                       <h3 className="font-semibold text-baby-gray">{message.name}</h3>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm flex items-center space-x-1 ${getStatusColor(message.status)}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm flex items-center space-x-1 ${getStatusColor(message.status)}`}
+                    >
                       {getStatusIcon(message.status)}
                       <span>{getStatusText(message.status)}</span>
                     </span>
@@ -321,7 +344,10 @@ export const ContactMessagesManager = () => {
                   <div className="space-y-2 mb-4 text-sm text-gray-600">
                     <div className="flex items-center space-x-2">
                       <Mail size={16} />
-                      <a href={`mailto:${message.email}`} className="text-baby-blue hover:underline">
+                      <a
+                        href={`mailto:${message.email}`}
+                        className="text-baby-blue hover:underline"
+                      >
                         {message.email}
                       </a>
                     </div>
@@ -341,8 +367,8 @@ export const ContactMessagesManager = () => {
                     <span className="text-gray-600">{message.subject}</span>
                   </div>
 
-                  {/* Mensaje */}
-                  <div className="bg-gray-50 rounded-lg p-4 mb-3">
+                  {/* Mensaje: limitar altura para evitar overflow del layout */}
+                  <div className="bg-gray-50 rounded-lg p-4 mb-3 max-h-48 overflow-auto">
                     <p className="text-gray-700 whitespace-pre-wrap">{message.message}</p>
                   </div>
 
@@ -373,17 +399,7 @@ export const ContactMessagesManager = () => {
                     </button>
                   )}
 
-                  {message.status === 'READ' && (
-                    <button
-                      onClick={() => handleMarkAsReplied(message.id)}
-                      className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                      title="Marcar como respondido"
-                    >
-                      <CheckCheck size={20} />
-                    </button>
-                  )}
-
-                  {message.status !== 'REPLIED' && message.status !== 'ARCHIVED' && (
+                  {(message.status === 'NEW' || message.status === 'READ') && (
                     <button
                       onClick={() => handleMarkAsReplied(message.id)}
                       className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"

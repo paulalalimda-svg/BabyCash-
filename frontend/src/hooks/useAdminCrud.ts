@@ -28,17 +28,17 @@ interface UseAdminCrudReturn<T, F> {
   loading: boolean;
   filter: F;
   setFilter: (filter: F) => void;
-  
+
   // Pagination states
   currentPage: number;
   totalPages: number;
   totalElements: number;
   setCurrentPage: (page: number) => void;
-  
+
   // Actions
   loadData: () => Promise<void>;
   handleDelete: (id: number, confirmMessage?: string) => Promise<void>;
-  
+
   // Pagination helpers
   goToNextPage: () => void;
   goToPreviousPage: () => void;
@@ -49,7 +49,7 @@ interface UseAdminCrudReturn<T, F> {
 /**
  * Hook personalizado para gestionar operaciones CRUD en componentes de administración
  * con paginación, filtrado y carga de datos.
- * 
+ *
  * @example
  * ```tsx
  * const {
@@ -72,13 +72,7 @@ interface UseAdminCrudReturn<T, F> {
 export function useAdminCrud<T, F = string>(
   options: UseAdminCrudOptions<T, F>
 ): UseAdminCrudReturn<T, F> {
-  const {
-    service,
-    pageSize = 10,
-    filterFn,
-    defaultFilter,
-    logName = 'items',
-  } = options;
+  const { service, pageSize = 10, filterFn, defaultFilter, logName = 'items' } = options;
 
   // Data states
   const [items, setItems] = useState<T[]>([]);
@@ -98,10 +92,10 @@ export function useAdminCrud<T, F = string>(
     try {
       setLoading(true);
       logger.loading(`Cargando ${logName}... Página ${currentPage + 1}`);
-      
+
       const response = await service.getAll(currentPage, pageSize);
       logger.success(`${logName} cargados:`, response.content.length);
-      
+
       setAllItems(response.content);
       setTotalPages(response.totalPages);
       setTotalElements(response.totalElements);
@@ -119,15 +113,15 @@ export function useAdminCrud<T, F = string>(
   // Load data when page or pageSize changes
   useEffect(() => {
     let isMounted = true;
-    
+
     const load = async () => {
       if (isMounted) {
         await loadData();
       }
     };
-    
+
     load();
-    
+
     return () => {
       isMounted = false;
     };
@@ -149,7 +143,8 @@ export function useAdminCrud<T, F = string>(
       return;
     }
 
-    const message = confirmMessage || `¿Estás seguro de que deseas eliminar este ${logName.slice(0, -1)}?`;
+    const message =
+      confirmMessage || `¿Estás seguro de que deseas eliminar este ${logName.slice(0, -1)}?`;
     if (!confirm(message)) return;
 
     try {
@@ -180,17 +175,17 @@ export function useAdminCrud<T, F = string>(
     loading,
     filter,
     setFilter,
-    
+
     // Pagination
     currentPage,
     totalPages,
     totalElements,
     setCurrentPage,
-    
+
     // Actions
     loadData,
     handleDelete,
-    
+
     // Helpers
     goToNextPage,
     goToPreviousPage,

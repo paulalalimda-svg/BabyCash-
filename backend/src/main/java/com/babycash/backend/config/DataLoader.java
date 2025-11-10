@@ -13,6 +13,7 @@ import com.babycash.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,9 @@ import java.util.List;
 /**
  * Componente que carga datos de prueba en la base de datos al iniciar la aplicación.
  * Incluye productos de ejemplo y usuarios de demostración.
+ *
+ * IMPORTANTE: Solo carga datos si la base de datos está vacía.
+ * Si ya hay datos, no hace nada (idempotente).
  */
 @Component
 @RequiredArgsConstructor
@@ -37,15 +41,17 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("🚀 Iniciando carga de datos de prueba...");
-        
+
         // Cargar usuarios primero (necesarios para blog posts)
         if (userRepository.count() == 0) {
             loadUsers();
             log.info("✅ Usuarios cargados: {} usuarios", userRepository.count());
         } else {
             log.info("ℹ️ Usuarios ya existen, omitiendo carga");
+            // IMPORTANTE: Actualizar contraseña del admin si existe con credenciales incorrectas
+            updateAdminPassword();
         }
-        
+
         // Cargar productos
         if (productRepository.count() == 0) {
             loadProducts();
@@ -53,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
         } else {
             log.info("ℹ️ Productos ya existen, omitiendo carga");
         }
-        
+
         // Cargar testimonios
         if (testimonialRepository.count() == 0) {
             loadTestimonials();
@@ -61,7 +67,7 @@ public class DataLoader implements CommandLineRunner {
         } else {
             log.info("ℹ️ Testimonios ya existen, omitiendo carga");
         }
-        
+
         // Cargar blog posts
         if (blogPostRepository.count() == 0) {
             loadBlogPosts();
@@ -69,7 +75,7 @@ public class DataLoader implements CommandLineRunner {
         } else {
             log.info("ℹ️ Blog posts ya existen, omitiendo carga");
         }
-        
+
         log.info("🎉 Carga de datos completada exitosamente!");
     }
 
@@ -108,7 +114,7 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
         userRepository.saveAll(List.of(admin, demo, testUser));
-        
+
         log.info("👤 Usuarios creados:");
         log.info("   Admin: admin@babycash.com / Admin123!");
         log.info("   Demo: demo@babycash.com / Demo123!");
@@ -436,7 +442,7 @@ public class DataLoader implements CommandLineRunner {
         );
 
         productRepository.saveAll(products);
-        
+
         log.info("🛍️ Productos creados por categoría:");
         log.info("   CLOTHING (Ropa): 4 productos");
         log.info("   TOYS (Juguetes): 4 productos");
@@ -525,7 +531,7 @@ public class DataLoader implements CommandLineRunner {
         );
 
         testimonialRepository.saveAll(testimonials);
-        
+
         log.info("💬 Testimonios creados:");
         log.info("   Total: {} testimonios", testimonials.size());
         log.info("   Destacados: {} testimonios", testimonials.stream().filter(Testimonial::isFeatured).count());
@@ -546,22 +552,22 @@ public class DataLoader implements CommandLineRunner {
                         .content("""
                                 <h2>Bienvenidos al Maravilloso Mundo de la Paternidad</h2>
                                 <p>Ser padre por primera vez es una experiencia transformadora llena de alegría, desafíos y aprendizaje continuo. Aquí te compartimos 10 consejos esenciales:</p>
-                                
+
                                 <h3>1. Confía en tu Instinto</h3>
                                 <p>Los padres tienen una conexión especial con sus bebés. Aprende a confiar en tu intuición mientras observas y conoces a tu hijo.</p>
-                                
+
                                 <h3>2. Establece una Rutina</h3>
                                 <p>Los bebés se sienten seguros con rutinas predecibles. Establece horarios consistentes para dormir, comer y jugar.</p>
-                                
+
                                 <h3>3. No Temas Pedir Ayuda</h3>
                                 <p>Criar un bebé requiere apoyo. No dudes en pedir ayuda a familiares, amigos o profesionales cuando la necesites.</p>
-                                
+
                                 <h3>4. Cuida tu Propio Bienestar</h3>
                                 <p>Recuerda que tu salud física y mental es crucial. Descansa cuando puedas y busca momentos para ti.</p>
-                                
+
                                 <h3>5. Documenta los Momentos Especiales</h3>
                                 <p>Los bebés crecen increíblemente rápido. Toma fotos y videos para preservar estos preciosos recuerdos.</p>
-                                
+
                                 <p>Recuerda, cada bebé es único y cada familia encuentra su propio camino. ¡Disfruta este hermoso viaje!</p>
                                 """)
                         .author(admin)
@@ -578,7 +584,7 @@ public class DataLoader implements CommandLineRunner {
                         .content("""
                                 <h2>Nutrición en el Primer Año de Vida</h2>
                                 <p>La alimentación durante el primer año es fundamental para el desarrollo saludable de tu bebé.</p>
-                                
+
                                 <h3>0-6 Meses: Lactancia Exclusiva</h3>
                                 <p>La leche materna o fórmula proporciona todos los nutrientes necesarios. Se recomienda la lactancia materna exclusiva durante los primeros 6 meses.</p>
                                 <ul>
@@ -586,7 +592,7 @@ public class DataLoader implements CommandLineRunner {
                                   <li>Observar señales de hambre del bebé</li>
                                   <li>Mantener hidratación adecuada</li>
                                 </ul>
-                                
+
                                 <h3>6-8 Meses: Introducción de Sólidos</h3>
                                 <p>Comienza la alimentación complementaria con purés suaves y papillas.</p>
                                 <ul>
@@ -594,7 +600,7 @@ public class DataLoader implements CommandLineRunner {
                                   <li>Esperar 3-5 días entre nuevos alimentos</li>
                                   <li>Comenzar con vegetales y frutas</li>
                                 </ul>
-                                
+
                                 <h3>9-12 Meses: Variedad y Texturas</h3>
                                 <p>Aumenta la variedad de alimentos y texturas gradualmente.</p>
                                 <p>Consulta siempre con tu pediatra antes de introducir nuevos alimentos, especialmente en casos de alergias familiares.</p>
@@ -613,7 +619,7 @@ public class DataLoader implements CommandLineRunner {
                         .content("""
                                 <h2>Seguridad en el Hogar</h2>
                                 <p>Crear un ambiente seguro es esencial para el bienestar de tu bebé y tu tranquilidad como padre.</p>
-                                
+
                                 <h3>Habitación del Bebé</h3>
                                 <ul>
                                   <li>Cuna con barrotes separados máximo 6 cm</li>
@@ -621,7 +627,7 @@ public class DataLoader implements CommandLineRunner {
                                   <li>Sin almohadas, mantas sueltas o juguetes en la cuna</li>
                                   <li>Monitor de bebé funcionando</li>
                                 </ul>
-                                
+
                                 <h3>Áreas Comunes</h3>
                                 <ul>
                                   <li>Protectores en enchufes</li>
@@ -629,14 +635,14 @@ public class DataLoader implements CommandLineRunner {
                                   <li>Puertas de seguridad en escaleras</li>
                                   <li>Productos de limpieza y medicamentos bajo llave</li>
                                 </ul>
-                                
+
                                 <h3>Baño</h3>
                                 <ul>
                                   <li>Temperatura del agua entre 36-37°C</li>
                                   <li>Nunca dejar al bebé solo</li>
                                   <li>Alfombra antideslizante en bañera</li>
                                 </ul>
-                                
+
                                 <p>Recuerda: la mejor seguridad es la supervisión constante combinada con un entorno preparado.</p>
                                 """)
                         .author(admin)
@@ -648,10 +654,33 @@ public class DataLoader implements CommandLineRunner {
         );
 
         blogPostRepository.saveAll(posts);
-        
+
         log.info("📝 Blog posts creados:");
         log.info("   Total: {} posts", posts.size());
         log.info("   Publicados: {} posts", posts.stream().filter(BlogPost::getPublished).count());
         log.info("   Destacados: {} posts", posts.stream().filter(BlogPost::getFeatured).count());
+    }
+
+    /**
+     * Actualiza la contraseña del usuario admin si existe
+     * Esto asegura que siempre tengamos acceso con las credenciales conocidas
+     */
+    private void updateAdminPassword() {
+        try {
+            userRepository.findByEmail("admin@babycash.com").ifPresent(admin -> {
+                String newPassword = "Admin123!";
+                String encodedPassword = passwordEncoder.encode(newPassword);
+                admin.setPassword(encodedPassword);
+                admin.setFirstName("Administrador");
+                admin.setLastName("Sistema");
+                admin.setRole(UserRole.ADMIN);
+                admin.setEnabled(true);
+                userRepository.save(admin);
+                log.info("🔑 Contraseña del admin actualizada correctamente");
+                log.info("   Credenciales: admin@babycash.com / Admin123!");
+            });
+        } catch (Exception e) {
+            log.error("❌ Error al actualizar contraseña del admin: {}", e.getMessage());
+        }
     }
 }

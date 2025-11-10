@@ -57,7 +57,7 @@ public class BlogPost {
     @Builder.Default
     private Long viewCount = 0L;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "blog_post_tags", joinColumns = @JoinColumn(name = "blog_post_id"))
     @Column(name = "tag")
     @Builder.Default

@@ -22,7 +22,6 @@ export type Product = {
   opciones?: string;
 };
 
-
 // Tipos de carrito
 export interface CartItem {
   id: string;

@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableCaching
+// @EnableCaching  // DESACTIVADO TEMPORALMENTE para debug
 @EnableScheduling
 @EnableAsync
 public class BabyCashApplication {

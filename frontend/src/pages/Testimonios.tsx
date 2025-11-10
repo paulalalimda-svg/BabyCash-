@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Star, Users, Heart, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { testimonialService, type Testimonial, type TestimonialRequest, handleApiError } from '../services/api';
+import {
+  testimonialService,
+  type Testimonial,
+  type TestimonialRequest,
+  handleApiError,
+} from '../services/api';
 import TestimonialCard from '../components/cards/TestimonialCard';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -14,11 +19,11 @@ const Testimonios: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  
+
   // Pagination for "All Testimonials" section
   const [currentPage, setCurrentPage] = useState(0);
   const testimonialsPerPage = 6;
-  
+
   // Form state
   const [formData, setFormData] = useState<TestimonialRequest>({
     name: '',
@@ -46,13 +51,16 @@ const Testimonios: React.FC = () => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
-    
+
     try {
       await testimonialService.createTestimonial(formData);
-      toast.success('¡Gracias por tu testimonio! Está pendiente de aprobación por nuestro equipo.', {
-        duration: 5000,
-        icon: '🎉',
-      });
+      toast.success(
+        '¡Gracias por tu testimonio! Está pendiente de aprobación por nuestro equipo.',
+        {
+          duration: 5000,
+          icon: '🎉',
+        }
+      );
       setShowForm(false);
       setFormData({ name: '', message: '', rating: 5, avatar: '', location: '' });
       // Recargar testimonios después de crear uno
@@ -68,13 +76,13 @@ const Testimonios: React.FC = () => {
 
   // Calcular estadísticas
   const totalTestimonials = testimonials.length;
-  const averageRating = totalTestimonials > 0 
-    ? testimonials.reduce((acc, t) => acc + t.rating, 0) / totalTestimonials 
-    : 0;
+  const averageRating =
+    totalTestimonials > 0
+      ? testimonials.reduce((acc, t) => acc + t.rating, 0) / totalTestimonials
+      : 0;
   const fiveStarCount = testimonials.filter((t) => t.rating === 5).length;
-  const satisfactionRate = totalTestimonials > 0 
-    ? Math.round((fiveStarCount / totalTestimonials) * 100) 
-    : 0;
+  const satisfactionRate =
+    totalTestimonials > 0 ? Math.round((fiveStarCount / totalTestimonials) * 100) : 0;
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -114,22 +122,34 @@ const Testimonios: React.FC = () => {
                   className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
 
               {error && (
-                <div className={`mb-4 p-4 rounded-lg ${
-                  error.includes('Gracias') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-                }`}>
+                <div
+                  className={`mb-4 p-4 rounded-lg ${
+                    error.includes('Gracias')
+                      ? 'bg-green-50 text-green-700'
+                      : 'bg-red-50 text-red-700'
+                  }`}
+                >
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="testimonial-name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="testimonial-name"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Nombre completo *
                   </label>
                   <input
@@ -144,7 +164,10 @@ const Testimonios: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="testimonial-location" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="testimonial-location"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Ubicación (opcional)
                   </label>
                   <input
@@ -162,28 +185,31 @@ const Testimonios: React.FC = () => {
                     Calificación *
                   </legend>
                   <div className="flex gap-2" aria-label="Calificación por estrellas">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={`star-${star}`}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, rating: star })}
-                      className="transition-transform hover:scale-110"
-                      aria-label={`${star} estrella${star > 1 ? 's' : ''}`}
-                    >
-                      <Star
-                        className={`w-8 h-8 ${
-                          star <= formData.rating
-                            ? 'text-yellow-400 fill-current'
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    </button>
-                  ))}
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={`star-${star}`}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, rating: star })}
+                        className="transition-transform hover:scale-110"
+                        aria-label={`${star} estrella${star > 1 ? 's' : ''}`}
+                      >
+                        <Star
+                          className={`w-8 h-8 ${
+                            star <= formData.rating
+                              ? 'text-yellow-400 fill-current'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      </button>
+                    ))}
                   </div>
                 </fieldset>
 
                 <div>
-                  <label htmlFor="testimonial-message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="testimonial-message"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Tu experiencia *
                   </label>
                   <textarea
@@ -201,7 +227,10 @@ const Testimonios: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="testimonial-avatar" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="testimonial-avatar"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     URL del avatar (opcional)
                   </label>
                   <input
@@ -348,7 +377,7 @@ const Testimonios: React.FC = () => {
                   </div>
 
                   <blockquote className="text-xl md:text-2xl font-inter text-gray-700 mb-6 italic break-words overflow-wrap-anywhere">
-                    "{testimonials[currentTestimonial].message}"
+                    &ldquo;{testimonials[currentTestimonial].message}&rdquo;
                   </blockquote>
 
                   <div className="flex justify-center mb-4">
@@ -446,7 +475,7 @@ const Testimonios: React.FC = () => {
             <div className="mt-12 flex items-center justify-center gap-2">
               <button
                 onClick={() => {
-                  setCurrentPage(prev => Math.max(0, prev - 1));
+                  setCurrentPage((prev) => Math.max(0, prev - 1));
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 disabled={currentPage === 0}
@@ -460,27 +489,32 @@ const Testimonios: React.FC = () => {
               </button>
 
               <div className="flex gap-1">
-                {Array.from({ length: Math.ceil(testimonials.length / testimonialsPerPage) }, (_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setCurrentPage(i);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                      currentPage === i
-                        ? 'bg-baby-blue text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+                {Array.from(
+                  { length: Math.ceil(testimonials.length / testimonialsPerPage) },
+                  (_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setCurrentPage(i);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                        currentPage === i
+                          ? 'bg-baby-blue text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  )
+                )}
               </div>
 
               <button
                 onClick={() => {
-                  setCurrentPage(prev => Math.min(Math.ceil(testimonials.length / testimonialsPerPage) - 1, prev + 1));
+                  setCurrentPage((prev) =>
+                    Math.min(Math.ceil(testimonials.length / testimonialsPerPage) - 1, prev + 1)
+                  );
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 disabled={currentPage === Math.ceil(testimonials.length / testimonialsPerPage) - 1}
