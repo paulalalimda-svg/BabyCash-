@@ -9,6 +9,164 @@ E-commerce de productos para bebés desarrollado con Spring Boot y React.
 
 ---
 
+Explicacion Copleta Base de Datos:
+📌 1. ¿Qué es una Base de Datos y por qué usamos PostgreSQL?
+
+Una base de datos es un sistema que permite almacenar, organizar y consultar información de forma estructurada. En una aplicación como BabyCash, la base de datos guarda cosas como:
+
+✔ datos de usuarios
+✔ productos
+✔ roles y permisos
+✔ carritos y compras
+✔ etc.
+
+PostgreSQL es el sistema de gestión de base de datos (DBMS) que usamos. Es muy potente, compatible con el estándar SQL, permite transacciones, procedimientos almacenados, vistas y triggers, y mantiene la integridad de los datos de forma robusta. 
+ionos.es
++1
+
+🔹 ¿Por qué elegimos PostgreSQL y no MySQL?
+
+Aunque MySQL también es popular, PostgreSQL ofrece ventajas importantes:
+
+✔ mejor cumplimiento del estándar SQL
+✔ soporte completo para transacciones ACID (atomicidad, consistencia, aislamiento y durabilidad)
+✔ permite triggers y procedimientos complejos
+✔ tipos de datos avanzados y funciones poderosas para consultas complejas 
+repositorio.upct.es
++1
+
+Esto lo hace ideal para aplicaciones con lógica de negocio compleja, como BabyCash.
+
+📊 2. Estructura de la Base de Datos
+
+En tu proyecto, la base de datos contiene varias tablas que representan las entidades principales de la app.
+
+📌 Ejemplos de tablas típicas:
+Tabla	Descripción
+users	Guarda la información de usuario (correo, contraseña, rol)
+products	Información de productos (nombre, precio, stock)
+orders	Pedidos hechos por usuarios
+roles	Roles de usuario (cliente, admin)
+order_items	Productos dentro de cada pedido
+🧱 3. Tipos de Objetos en la Base de Datos
+🔹 Tablas
+
+Son las estructuras principales donde se almacenan filas de datos.
+
+Ejemplo de creación de tabla:
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+🔹 Vistas (Views)
+
+Una vista es como una “tabla virtual” derivada de una consulta. No guarda datos por sí misma, sino que muestra información combinada de varias tablas.
+
+Ejemplo:
+
+CREATE VIEW view_products_stock AS
+SELECT p.id, p.name, p.stock
+FROM products p
+WHERE p.stock > 0;
+
+🔹 Procedimientos almacenados / Funciones
+
+Son bloques de código SQL que se almacenan en la base de datos para realizar operaciones que se usan varias veces.
+
+Ejemplo de una función en PostgreSQL:
+
+CREATE OR REPLACE FUNCTION add_stock(product_id INT, amount INT)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE products
+  SET stock = stock + amount
+  WHERE id = product_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+Las funciones ayudan a:
+✔ encapsular lógica compleja
+✔ evitar repetir consultas
+✔ mejorar rendimiento del sistema 
+bbdd.codeandcoke.com
+
+🔹 Triggers (Disparadores)
+
+Los triggers son código SQL que se ejecuta automáticamente cuando ocurre un evento (INSERT, UPDATE, DELETE) en una tabla. 
+Wikipedia
+
+Ejemplo:
+
+CREATE OR REPLACE FUNCTION actualizar_fecha_modificacion()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_timestamp
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE PROCEDURE actualizar_fecha_modificacion();
+
+
+Esto permite, por ejemplo, actualizar automáticamente la fecha de modificación de un registro cuando se edita.
+
+🛠 4. Comandos SQL Esenciales por Categoría
+🧱 DDL – Definición de Datos
+CREATE DATABASE babycash;
+CREATE TABLE ...
+ALTER TABLE ...
+DROP TABLE ...
+
+📥 DML – Manipulación de Datos
+INSERT INTO users ...
+UPDATE products SET ...
+DELETE FROM orders WHERE ...
+
+📊 DQL – Consultas
+SELECT * FROM products;
+SELECT name, price FROM products WHERE stock > 0;
+
+🔐 DCL – Control de Datos
+GRANT SELECT ON products TO public;
+REVOKE UPDATE ON orders FROM guest;
+
+🚀 Otras operaciones útiles
+CREATE INDEX idx_products_name ON products(name);
+
+🔍 5. Consultas Útiles para Documentar
+✨ Ver todas las tablas
+SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';
+
+✨ Ver estructura de una tabla
+\d users
+
+✨ Ver funciones existentes
+SELECT proname FROM pg_proc;
+
+✨ Ver triggers existentes
+SELECT tgname FROM pg_trigger WHERE tgrelid = 'users'::regclass;
+
+🧾 6. Cómo se Conecta con el Backend (Spring Boot)
+
+📌 En Spring Boot, la conexión con PostgreSQL está configurada en application.properties:
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/babycash
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+
+
+Spring Boot usa estas propiedades para abrir la conexión automáticamente cuando la app inicia.
+
+Spring emplea Spring Data JPA o JDBC para consultar y actualizar datos sin tener que escribir código de conexión nativo cada vez.
+
 ## 🚀 Tecnologías
 
 ### Backend
