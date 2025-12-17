@@ -48,9 +48,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
+                .requestMatchers("/api/reports/**").permitAll() // CSV reports
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-                
+
                 // Blog public endpoints (GET operations for reading)
                 .requestMatchers(
                     org.springframework.http.HttpMethod.GET,
@@ -62,7 +63,7 @@ public class SecurityConfig {
                     "/api/blog/tag/**",
                     "/api/blog/most-viewed"
                 ).permitAll()
-                
+
                 // Testimonials public endpoints
                 .requestMatchers(
                     org.springframework.http.HttpMethod.GET,
@@ -74,26 +75,26 @@ public class SecurityConfig {
                     org.springframework.http.HttpMethod.POST,
                     "/api/testimonials"
                 ).permitAll() // Allow public testimonial submission
-                
+
                 // Contact Info public endpoint
                 .requestMatchers(
                     org.springframework.http.HttpMethod.GET,
                     "/api/contact-info"
                 ).permitAll()
-                
+
                 // Contact Message public endpoint
                 .requestMatchers(
                     org.springframework.http.HttpMethod.POST,
                     "/api/contact/send"
                 ).permitAll()
-                
+
                 // Admin endpoints
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/actuator/**").hasRole("ADMIN")
-                
+
                 // Blog write operations require authentication
                 .requestMatchers("/api/blog/**").authenticated()
-                
+
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
@@ -127,4 +128,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(12); // Strength 12 para mejor seguridad
     }
 }
-

@@ -67,6 +67,21 @@ public class User {
     @Column(name = "refresh_token", columnDefinition = "TEXT")
     private String refreshToken;
 
+    // Security fields for login attempt blocking
+    @Column(name = "failed_login_attempts")
+    @Builder.Default
+    private Integer failedLoginAttempts = 0;
+
+    @Column(name = "account_locked_until")
+    private LocalDateTime accountLockedUntil;
+
+    // Account deletion fields
+    @Column(name = "account_deletion_token", length = 6)
+    private String accountDeletionToken;
+
+    @Column(name = "account_deletion_expiry")
+    private LocalDateTime accountDeletionExpiry;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

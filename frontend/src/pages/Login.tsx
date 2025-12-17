@@ -1,8 +1,8 @@
 // src/pages/Login.tsx
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { logger } from '../utils/logger';
 
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
           navigate('/');
         }
       }, 100);
-    } catch (err: any) {
+    } catch (err: unknown) {
       // El error ya se muestra con toast en AuthContext
       logger.error('Error en login:', err);
     } finally {
@@ -54,35 +54,35 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-baby-blue via-baby-pink to-baby-mint px-4 pt-24 md:pt-28 pb-20 md:pb-20">
+    <div className="from-baby-blue via-baby-pink to-baby-mint flex min-h-screen items-center justify-center bg-gradient-to-br px-4 pb-20 pt-24 md:pb-20 md:pt-28">
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="bg-white shadow-xl rounded-2xl w-full max-w-md p-8"
+        className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl"
       >
         {/* Logo */}
-        <div className="flex justify-center mb-6">
+        <div className="mb-6 flex justify-center">
           <img
             src="/productos/icono-pinguino.png"
             alt="Logo Pingüino"
-            className="w-20 h-20 object-contain"
+            className="size-20 object-contain"
           />
         </div>
 
         {/* Título */}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Inicia sesión en <span className="text-baby-blue">Baby Cash</span>
         </h2>
 
         {/* Error */}
-        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+        {error && <p className="mb-4 text-center text-sm text-red-500">{error}</p>}
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Correo electrónico
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
+              Correo electrónico <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
@@ -91,13 +91,13 @@ const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-baby-blue"
+              className="focus:ring-baby-blue w-full rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:outline-none focus:ring-2"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Contraseña
+            <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
+              Contraseña <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <input
@@ -107,12 +107,12 @@ const Login: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-baby-blue pr-10"
+                className="focus:ring-baby-blue w-full rounded-lg border border-gray-300 px-4 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2"
               />
               <button
                 type="button"
                 tabIndex={-1}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-baby-blue focus:outline-none"
+                className="hover:text-baby-blue absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 focus:outline-none"
                 onClick={() => setShowPassword((v) => !v)}
                 aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               >
@@ -147,7 +147,7 @@ const Login: React.FC = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full py-2 bg-baby-blue text-white rounded-lg font-semibold shadow-md hover:bg-baby-pink transition disabled:opacity-60"
+            className="bg-baby-blue hover:bg-baby-pink w-full rounded-lg py-2 font-semibold text-white shadow-md transition disabled:opacity-60"
             disabled={loading}
           >
             {loading ? 'Ingresando...' : 'Iniciar sesión'}

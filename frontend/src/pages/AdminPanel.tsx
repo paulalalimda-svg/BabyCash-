@@ -68,7 +68,7 @@ const AdminPanel = () => {
   // Paginación órdenes
   const [currentOrderPage, setCurrentOrderPage] = useState(0);
   const ordersPerPage = 4;
-  const [ordersTotalPages, setOrdersTotalPages] = useState(0);
+  const [_ordersTotalPages, setOrdersTotalPages] = useState(0);
   const [ordersTotalElements, setOrdersTotalElements] = useState(0);
 
   // Filtro de órdenes
@@ -99,6 +99,7 @@ const AdminPanel = () => {
     if (activeTab === 'dashboard' || activeTab === 'products' || activeTab === 'orders') {
       loadData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentOrderPage, activeTab, orderStatusFilter]);
 
   const loadData = async () => {
@@ -220,7 +221,12 @@ const AdminPanel = () => {
       resetProductForm();
       loadData();
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string }; status?: number } };
+      const err = error as {
+        response?: {
+          data?: { message?: string; errors?: Record<string, string> };
+          status?: number;
+        };
+      };
       logger.error('❌ Error completo:', error);
       logger.error('❌ Error response:', err.response);
       logger.error('❌ Error response data:', err.response?.data);
@@ -229,12 +235,12 @@ const AdminPanel = () => {
       logger.error('❌ Error details:', JSON.stringify(err.response?.data, null, 2));
 
       // Mostrar errores de validación específicos
-      if (error.response?.data?.errors) {
-        const errors = error.response.data.errors;
+      if (err.response?.data?.errors) {
+        const errors = err.response.data.errors;
         const errorMessages = Object.values(errors).join(', ');
         toast.error(`Errores de validación: ${errorMessages}`);
       } else {
-        toast.error(error.response?.data?.message || 'Error al guardar producto');
+        toast.error(err.response?.data?.message || 'Error al guardar producto');
       }
     }
   };
@@ -297,6 +303,7 @@ const AdminPanel = () => {
     });
   };
 
+  const handleUpdateOrderStatus = async (orderId: number, status: Order['status']) => {
     try {
       await adminService.updateOrderStatus(orderId, status);
       toast.success('Estado de orden actualizado');
@@ -310,25 +317,25 @@ const AdminPanel = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-baby-blue"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="border-baby-blue size-16 animate-spin rounded-full border-y-2"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-baby-cream py-8 pt-24">
+    <div className="bg-baby-cream min-h-screen py-8 pt-24">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-baby-blue mb-8">Panel de Administración</h1>
+        <h1 className="text-baby-blue mb-8 text-4xl font-bold">Panel de Administración</h1>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b">
+        <div className="mb-8 flex gap-4 border-b">
           <button
             onClick={() => {
               setActiveTab('dashboard');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'dashboard' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'dashboard' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <Home size={20} />
             Dashboard
@@ -338,7 +345,7 @@ const AdminPanel = () => {
               setActiveTab('products');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'products' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'products' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <Box size={20} />
             Productos
@@ -348,7 +355,7 @@ const AdminPanel = () => {
               setActiveTab('orders');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'orders' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'orders' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <ShoppingCart size={20} />
             Órdenes
@@ -358,7 +365,7 @@ const AdminPanel = () => {
               setActiveTab('blogs');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'blogs' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'blogs' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <BookOpen size={20} />
             Blogs
@@ -368,7 +375,7 @@ const AdminPanel = () => {
               setActiveTab('testimonials');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'testimonials' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'testimonials' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <Star size={20} />
             Testimonios
@@ -378,7 +385,7 @@ const AdminPanel = () => {
               setActiveTab('messages');
               setSearchTerm('');
             }}
-            className={`px-6 py-3 font-semibold transition-colors flex items-center gap-2 ${activeTab === 'messages' ? 'text-baby-blue border-b-2 border-baby-blue' : 'text-gray-600 hover:text-baby-blue'}`}
+            className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === 'messages' ? 'text-baby-blue border-baby-blue border-b-2' : 'hover:text-baby-blue text-gray-600'}`}
           >
             <Mail size={20} />
             Mensajes
@@ -390,24 +397,24 @@ const AdminPanel = () => {
           <div className="space-y-6">
             {/* Low Stock Alert - MOVED TO TOP */}
             {lowStockProducts.length > 0 && (
-              <div className="bg-red-50 border-l-4 border-red-500 rounded-xl p-6 shadow-lg">
-                <div className="flex items-center gap-3 mb-4">
-                  <AlertTriangle className="w-6 h-6 text-red-500" />
+              <div className="rounded-xl border-l-4 border-red-500 bg-red-50 p-6 shadow-lg">
+                <div className="mb-4 flex items-center gap-3">
+                  <AlertTriangle className="size-6 text-red-500" />
                   <h3 className="text-lg font-bold text-red-700">
                     ⚠️ Alerta: Stock Bajo - Acción Requerida
                   </h3>
                 </div>
-                <p className="text-sm text-red-600 mb-4">
+                <p className="mb-4 text-sm text-red-600">
                   Los siguientes productos necesitan reabastecimiento urgente:
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                   {lowStockProducts.map((product) => (
                     <div
                       key={product.id}
-                      className="bg-white border border-red-200 rounded-lg p-3 hover:shadow-md transition-shadow"
+                      className="rounded-lg border border-red-200 bg-white p-3 transition-shadow hover:shadow-md"
                     >
-                      <p className="font-semibold text-sm">{product.name}</p>
-                      <p className="text-red-600 text-xs font-bold">
+                      <p className="text-sm font-semibold">{product.name}</p>
+                      <p className="text-xs font-bold text-red-600">
                         ⚠️ Stock: {product.stock} unidades
                       </p>
                     </div>
@@ -417,53 +424,68 @@ const AdminPanel = () => {
             )}
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-baby-blue to-baby-purple text-white rounded-xl shadow-lg p-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="from-baby-blue to-baby-purple rounded-xl bg-gradient-to-br p-6 text-white shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/80 text-sm">Total Ventas</p>
+                    <p className="text-sm text-white/80">Total Ventas</p>
                     <p className="text-2xl font-bold">${totalSales.toLocaleString('es-CO')}</p>
                   </div>
-                  <DollarSign className="w-10 h-10 text-white/80" />
+                  <DollarSign className="size-10 text-white/80" />
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-baby-pink to-baby-mint text-white rounded-xl shadow-lg p-6">
+              <div className="from-baby-pink to-baby-mint rounded-xl bg-gradient-to-br p-6 text-white shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/80 text-sm">Total Productos</p>
+                    <p className="text-sm text-white/80">Total Productos</p>
                     <p className="text-2xl font-bold">{totalProducts}</p>
                   </div>
-                  <Package className="w-10 h-10 text-white/80" />
+                  <Package className="size-10 text-white/80" />
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-baby-purple to-baby-blue text-white rounded-xl shadow-lg p-6">
+              <div className="from-baby-purple to-baby-blue rounded-xl bg-gradient-to-br p-6 text-white shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/80 text-sm">Órdenes</p>
+                    <p className="text-sm text-white/80">Órdenes</p>
                     <p className="text-2xl font-bold">{orders.length}</p>
                   </div>
-                  <ShoppingCart className="w-10 h-10 text-white/80" />
+                  <ShoppingCart className="size-10 text-white/80" />
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-baby-mint to-baby-pink text-white rounded-xl shadow-lg p-6">
+              <div className="from-baby-mint to-baby-pink rounded-xl bg-gradient-to-br p-6 text-white shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/80 text-sm">Pendientes</p>
+                    <p className="text-sm text-white/80">Pendientes</p>
                     <p className="text-2xl font-bold">{pendingOrders}</p>
                   </div>
-                  <AlertTriangle className="w-10 h-10 text-white/80" />
+                  <AlertTriangle className="size-10 text-white/80" />
                 </div>
               </div>
             </div>
 
+            {/* Download CSV Button */}
+            <div className="mb-6 flex justify-end">
+              <button
+                onClick={() => {
+                  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+                  window.open(`${API_URL}/reports/dashboard/csv`, '_blank');
+                  toast.success('Descargando extracto del dashboard...');
+                }}
+                className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-white shadow-lg transition-colors hover:bg-green-700"
+              >
+                <Save className="size-5" />
+                Descargar Extracto CSV
+              </button>
+            </div>
+
             {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               {/* Sales by Status */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold mb-4">Órdenes por Estado</h3>
+              <div className="rounded-xl bg-white p-6 shadow-lg">
+                <h3 className="mb-4 text-lg font-bold">Órdenes por Estado</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
@@ -540,8 +562,8 @@ const AdminPanel = () => {
               </div>
 
               {/* Top Products by Stock */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold mb-4">Top 5 Productos con Más Stock</h3>
+              <div className="rounded-xl bg-white p-6 shadow-lg">
+                <h3 className="mb-4 text-lg font-bold">Top 5 Productos con Más Stock</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart
                     data={[...products]
@@ -562,8 +584,8 @@ const AdminPanel = () => {
               </div>
 
               {/* Products by Category */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold mb-4">Productos por Categoría</h3>
+              <div className="rounded-xl bg-white p-6 shadow-lg">
+                <h3 className="mb-4 text-lg font-bold">Productos por Categoría</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart
                     data={[
@@ -611,8 +633,8 @@ const AdminPanel = () => {
               </div>
 
               {/* Orders by Date */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold mb-4">Órdenes Recientes (Últimas 7)</h3>
+              <div className="rounded-xl bg-white p-6 shadow-lg">
+                <h3 className="mb-4 text-lg font-bold">Órdenes Recientes (Últimas 7)</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart
                     data={orders
@@ -645,7 +667,7 @@ const AdminPanel = () => {
         {/* Products Tab */}
         {activeTab === 'products' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Gestión de Productos</h2>
               <button
                 onClick={() => {
@@ -653,47 +675,47 @@ const AdminPanel = () => {
                   setEditingProduct(null);
                   setShowProductForm(true);
                 }}
-                className="bg-baby-blue text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-baby-blue/90"
+                className="bg-baby-blue hover:bg-baby-blue/90 flex items-center gap-2 rounded-lg px-4 py-2 text-white"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="size-5" />
                 Nuevo Producto
               </button>
             </div>
 
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Buscar productos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                className="focus:ring-baby-blue w-full rounded-lg border py-2 pl-10 pr-4 focus:outline-none focus:ring-2"
               />
             </div>
 
             {/* Products Table */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="overflow-hidden rounded-xl bg-white shadow-lg">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                         Producto
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                         Categoría
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                         Precio
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                         Stock
                       </th>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500">
                         Destacado
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
                         Acciones
                       </th>
                     </tr>
@@ -706,11 +728,11 @@ const AdminPanel = () => {
                             <img
                               src={product.imageUrl}
                               alt={product.name}
-                              className="w-12 h-12 object-cover rounded"
+                              className="size-12 rounded object-cover"
                             />
                             <div>
                               <p className="font-semibold">{product.name}</p>
-                              <p className="text-sm text-gray-600 truncate max-w-xs">
+                              <p className="max-w-xs truncate text-sm text-gray-600">
                                 {product.description}
                               </p>
                             </div>
@@ -727,7 +749,7 @@ const AdminPanel = () => {
                         </td>
                         <td className="px-6 py-4">
                           <span
-                            className={`px-2 py-1 rounded-full text-xs ${(() => {
+                            className={`rounded-full px-2 py-1 text-xs ${(() => {
                               if (product.stock < 10) return 'bg-red-100 text-red-800';
                               if (product.stock < 20) return 'bg-yellow-100 text-yellow-800';
                               return 'bg-green-100 text-green-800';
@@ -739,14 +761,14 @@ const AdminPanel = () => {
                         <td className="px-6 py-4 text-center">
                           <button
                             onClick={() => handleToggleFeatured(product.id)}
-                            className={`p-2 rounded-lg transition-colors ${
+                            className={`rounded-lg p-2 transition-colors ${
                               product.featured
                                 ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
                                 : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                             }`}
                             title={product.featured ? 'Quitar de destacados' : 'Destacar producto'}
                           >
-                            <Star className={`w-5 h-5 ${product.featured ? 'fill-current' : ''}`} />
+                            <Star className={`size-5 ${product.featured ? 'fill-current' : ''}`} />
                           </button>
                         </td>
                         <td className="px-6 py-4 text-right">
@@ -756,14 +778,14 @@ const AdminPanel = () => {
                               className="text-baby-blue hover:text-baby-blue/80"
                               title="Editar producto"
                             >
-                              <Edit className="w-5 h-5" />
+                              <Edit className="size-5" />
                             </button>
                             <button
                               onClick={() => handleDeleteProduct(product.id)}
                               className="text-red-500 hover:text-red-700"
                               title="Eliminar producto"
                             >
-                              <Trash2 className="w-5 h-5" />
+                              <Trash2 className="size-5" />
                             </button>
                           </div>
                         </td>
@@ -776,11 +798,11 @@ const AdminPanel = () => {
 
             {/* Paginación */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-6">
+              <div className="mt-6 flex items-center justify-center gap-2">
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
                   disabled={currentPage === 0}
-                  className="px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="rounded-lg border px-4 py-2 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Anterior
                 </button>
@@ -790,7 +812,7 @@ const AdminPanel = () => {
                     <button
                       key={`page-number-${i}`}
                       onClick={() => setCurrentPage(i)}
-                      className={`px-4 py-2 border rounded-lg ${
+                      className={`rounded-lg border px-4 py-2 ${
                         currentPage === i ? 'bg-baby-blue text-white' : 'hover:bg-gray-50'
                       }`}
                     >
@@ -802,12 +824,12 @@ const AdminPanel = () => {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
                   disabled={currentPage === totalPages - 1}
-                  className="px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="rounded-lg border px-4 py-2 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Siguiente
                 </button>
 
-                <span className="text-sm text-gray-600 ml-4">
+                <span className="ml-4 text-sm text-gray-600">
                   Página {currentPage + 1} de {totalPages} ({totalProducts} productos total)
                 </span>
               </div>
@@ -819,28 +841,28 @@ const AdminPanel = () => {
         {activeTab === 'orders' && (
           <div className="space-y-6">
             {/* Header with Stats */}
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+            <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Gestión de Órdenes</h2>
+                <h2 className="mb-2 text-3xl font-bold text-gray-800">Gestión de Órdenes</h2>
                 <p className="text-gray-600">Administra y da seguimiento a todas las órdenes</p>
               </div>
 
               {/* Quick Stats */}
               <div className="flex gap-3">
-                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 px-4 py-2 rounded-lg border border-yellow-200">
-                  <p className="text-xs text-yellow-700 font-medium">Pendientes</p>
+                <div className="rounded-lg border border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100 px-4 py-2">
+                  <p className="text-xs font-medium text-yellow-700">Pendientes</p>
                   <p className="text-xl font-bold text-yellow-800">
                     {orders.filter((o) => o.status === 'PENDING').length}
                   </p>
                 </div>
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-2 rounded-lg border border-blue-200">
-                  <p className="text-xs text-blue-700 font-medium">Procesando</p>
+                <div className="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-2">
+                  <p className="text-xs font-medium text-blue-700">Procesando</p>
                   <p className="text-xl font-bold text-blue-800">
                     {orders.filter((o) => o.status === 'PROCESSING').length}
                   </p>
                 </div>
-                <div className="bg-gradient-to-br from-green-50 to-green-100 px-4 py-2 rounded-lg border border-green-200">
-                  <p className="text-xs text-green-700 font-medium">Completadas</p>
+                <div className="rounded-lg border border-green-200 bg-gradient-to-br from-green-50 to-green-100 px-4 py-2">
+                  <p className="text-xs font-medium text-green-700">Completadas</p>
                   <p className="text-xl font-bold text-green-800">
                     {orders.filter((o) => o.status === 'DELIVERED').length}
                   </p>
@@ -851,11 +873,11 @@ const AdminPanel = () => {
             {/* Filter */}
             <div className="flex justify-end">
               <div className="relative min-w-[200px]">
-                <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Filter className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                 <select
                   value={orderStatusFilter}
                   onChange={(e) => setOrderStatusFilter(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-baby-blue focus:border-baby-blue transition appearance-none bg-white font-semibold"
+                  className="focus:ring-baby-blue focus:border-baby-blue w-full appearance-none rounded-xl border-2 bg-white py-3 pl-12 pr-4 font-semibold transition focus:outline-none focus:ring-2"
                 >
                   <option value="ALL">Todos los Estados</option>
                   <option value="PENDING">Pendientes</option>
@@ -868,7 +890,7 @@ const AdminPanel = () => {
             </div>
 
             {/* Orders Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {filteredOrders.map((order) => {
                 const statusConfig = {
                   PENDING: {
@@ -904,28 +926,28 @@ const AdminPanel = () => {
                 return (
                   <div
                     key={order.id}
-                    className="bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100"
+                    className="rounded-lg border border-gray-100 bg-white shadow transition-shadow hover:shadow-md"
                   >
                     {/* Card Header - More compact */}
-                    <div className="bg-gradient-to-r from-baby-blue to-baby-pink px-4 py-2 flex justify-between items-center">
+                    <div className="from-baby-blue to-baby-pink flex items-center justify-between bg-gradient-to-r px-4 py-2">
                       <div className="flex items-center gap-2 text-white">
-                        <ShoppingBag className="w-4 h-4" />
+                        <ShoppingBag className="size-4" />
                         <h3 className="font-bold">Orden #{order.id}</h3>
                       </div>
                       <div
-                        className={`px-2 py-1 rounded-full text-xs font-bold border ${config.color} flex items-center gap-1`}
+                        className={`rounded-full border px-2 py-1 text-xs font-bold ${config.color} flex items-center gap-1`}
                       >
-                        <StatusIcon className="w-3 h-3" />
+                        <StatusIcon className="size-3" />
                         {config.label}
                       </div>
                     </div>
 
                     {/* Card Body - More compact */}
-                    <div className="p-3 space-y-2">
+                    <div className="space-y-2 p-3">
                       {/* Date and Amount in one row */}
-                      <div className="flex justify-between items-center text-sm">
+                      <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center gap-2 text-gray-600">
-                          <Clock className="w-3 h-3" />
+                          <Clock className="size-3" />
                           <span>
                             {new Date(order.createdAt).toLocaleDateString('es-CO', {
                               month: 'short',
@@ -935,33 +957,33 @@ const AdminPanel = () => {
                             })}
                           </span>
                         </div>
-                        <div className="font-bold text-lg text-baby-blue">
+                        <div className="text-baby-blue text-lg font-bold">
                           ${(order.totalAmount || order.total || 0).toLocaleString('es-CO')}
                         </div>
                       </div>
 
                       {/* Order Details - More compact */}
                       {order.shippingAddress && (
-                        <div className="flex items-start gap-2 text-xs text-gray-600 bg-gray-50 rounded p-2">
-                          <MapPin className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                        <div className="flex items-start gap-2 rounded bg-gray-50 p-2 text-xs text-gray-600">
+                          <MapPin className="mt-0.5 size-3 shrink-0" />
                           <p className="line-clamp-1">{order.shippingAddress}</p>
                         </div>
                       )}
 
                       {order.notes && (
-                        <div className="text-xs text-gray-600 bg-blue-50 rounded p-2">
+                        <div className="rounded bg-blue-50 p-2 text-xs text-gray-600">
                           <p className="line-clamp-1">📝 {order.notes}</p>
                         </div>
                       )}
 
                       {/* Products Count */}
                       <div className="flex items-center gap-1 text-xs text-gray-600">
-                        <Package className="w-3 h-3" />
+                        <Package className="size-3" />
                         <span>{order.items?.length || 0} producto(s)</span>
                       </div>
 
                       {/* Status Update - Inline */}
-                      <div className="pt-2 border-t">
+                      <div className="border-t pt-2">
                         <div className="relative">
                           <select
                             id={`order-status-${order.id}`}
@@ -969,7 +991,7 @@ const AdminPanel = () => {
                             onChange={(e) =>
                               handleUpdateOrderStatus(order.id, e.target.value as Order['status'])
                             }
-                            className="w-full px-3 py-1.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue font-semibold transition hover:border-baby-blue appearance-none bg-white pr-8"
+                            className="focus:ring-baby-blue hover:border-baby-blue w-full appearance-none rounded-lg border bg-white px-3 py-1.5 pr-8 text-sm font-semibold transition focus:outline-none focus:ring-2"
                           >
                             <option value="PENDING">Pendiente</option>
                             <option value="PROCESSING">Procesando</option>
@@ -977,8 +999,8 @@ const AdminPanel = () => {
                             <option value="DELIVERED">Entregada</option>
                             <option value="CANCELLED">Cancelada</option>
                           </select>
-                          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                            <StatusIcon className="w-4 h-4 text-gray-400" />
+                          <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
+                            <StatusIcon className="size-4 text-gray-400" />
                           </div>
                         </div>
                       </div>
@@ -989,10 +1011,10 @@ const AdminPanel = () => {
             </div>
 
             {orders.length === 0 && (
-              <div className="text-center py-16 bg-white rounded-2xl shadow-lg">
-                <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <div className="rounded-2xl bg-white py-16 text-center shadow-lg">
+                <ShoppingBag className="mx-auto mb-4 size-16 text-gray-300" />
                 <p className="text-xl font-semibold text-gray-600">No se encontraron órdenes</p>
-                <p className="text-gray-500 mt-2">
+                <p className="mt-2 text-gray-500">
                   {orderStatusFilter !== 'ALL'
                     ? `No hay órdenes con estado "${orderStatusFilter}"`
                     : 'Aún no hay órdenes registradas'}
@@ -1002,11 +1024,11 @@ const AdminPanel = () => {
 
             {/* Order Pagination */}
             {Math.ceil(ordersTotalElements / ordersPerPage) > 1 && (
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 bg-white rounded-xl p-4 shadow-lg">
+              <div className="mt-8 flex flex-col items-center justify-center gap-4 rounded-xl bg-white p-4 shadow-lg sm:flex-row">
                 <button
                   onClick={() => setCurrentOrderPage((prev) => Math.max(0, prev - 1))}
                   disabled={currentOrderPage === 0}
-                  className="px-6 py-2 bg-baby-blue text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-baby-blue/90 transition font-semibold"
+                  className="bg-baby-blue hover:bg-baby-blue/90 rounded-lg px-6 py-2 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   ← Anterior
                 </button>
@@ -1018,9 +1040,9 @@ const AdminPanel = () => {
                       <button
                         key={`order-page-${i}`}
                         onClick={() => setCurrentOrderPage(i)}
-                        className={`w-10 h-10 rounded-lg font-bold transition ${
+                        className={`size-10 rounded-lg font-bold transition ${
                           currentOrderPage === i
-                            ? 'bg-gradient-to-r from-baby-blue to-baby-pink text-white shadow-lg scale-110'
+                            ? 'from-baby-blue to-baby-pink scale-110 bg-gradient-to-r text-white shadow-lg'
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
@@ -1039,12 +1061,12 @@ const AdminPanel = () => {
                   disabled={
                     currentOrderPage === Math.ceil(filteredOrders.length / ordersPerPage) - 1
                   }
-                  className="px-6 py-2 bg-baby-blue text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-baby-blue/90 transition font-semibold"
+                  className="bg-baby-blue hover:bg-baby-blue/90 rounded-lg px-6 py-2 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Siguiente →
                 </button>
 
-                <span className="text-sm text-gray-600 font-medium bg-gray-100 px-4 py-2 rounded-lg">
+                <span className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-600">
                   Página {currentOrderPage + 1} de {Math.ceil(ordersTotalElements / ordersPerPage)}{' '}
                   · {ordersTotalElements} órdenes
                 </span>
@@ -1055,9 +1077,9 @@ const AdminPanel = () => {
 
         {/* Product Form Modal */}
         {showProductForm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
-              <div className="flex justify-between items-center mb-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-6 shadow-2xl">
+              <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-2xl font-bold">
                   {editingProduct ? 'Editar Producto' : 'Nuevo Producto'}
                 </h3>
@@ -1069,13 +1091,13 @@ const AdminPanel = () => {
                   }}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="size-6" />
                 </button>
               </div>
 
               <form onSubmit={handleProductSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="product-name" className="block text-sm font-semibold mb-1">
+                  <label htmlFor="product-name" className="mb-1 block text-sm font-semibold">
                     Nombre * (mínimo 3 caracteres)
                   </label>
                   <input
@@ -1083,7 +1105,7 @@ const AdminPanel = () => {
                     type="text"
                     value={productForm.name}
                     onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                    className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                     required
                     minLength={3}
                     maxLength={200}
@@ -1091,7 +1113,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="product-description" className="block text-sm font-semibold mb-1">
+                  <label htmlFor="product-description" className="mb-1 block text-sm font-semibold">
                     Descripción * (mínimo 10 caracteres){' '}
                     <span className="text-xs text-gray-500">
                       {productForm.description.length}/2000
@@ -1104,7 +1126,7 @@ const AdminPanel = () => {
                       setProductForm({ ...productForm, description: e.target.value })
                     }
                     rows={3}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                    className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                     required
                     minLength={10}
                     maxLength={2000}
@@ -1114,7 +1136,7 @@ const AdminPanel = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="product-price" className="block text-sm font-semibold mb-1">
+                    <label htmlFor="product-price" className="mb-1 block text-sm font-semibold">
                       Precio * (mayor a 0)
                     </label>
                     <input
@@ -1124,13 +1146,13 @@ const AdminPanel = () => {
                       min="0.01"
                       value={productForm.price}
                       onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                      className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                       required
                       placeholder="Ej: 50000"
                     />
                   </div>
                   <div>
-                    <label htmlFor="product-discount" className="block text-sm font-semibold mb-1">
+                    <label htmlFor="product-discount" className="mb-1 block text-sm font-semibold">
                       Precio Final con Descuento
                     </label>
                     <input
@@ -1142,10 +1164,10 @@ const AdminPanel = () => {
                       onChange={(e) =>
                         setProductForm({ ...productForm, discountPrice: e.target.value })
                       }
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                      className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                       placeholder="Opcional (Ej: 40000 si el precio es 50000)"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="mt-1 text-xs text-gray-500">
                       Este es el precio que pagará el cliente después del descuento. Debe ser menor
                       al precio normal. Dejar vacío si no hay descuento.
                     </p>
@@ -1153,7 +1175,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="product-stock" className="block text-sm font-semibold mb-1">
+                  <label htmlFor="product-stock" className="mb-1 block text-sm font-semibold">
                     Stock * (cantidad disponible)
                   </label>
                   <input
@@ -1162,21 +1184,21 @@ const AdminPanel = () => {
                     min="0"
                     value={productForm.stock}
                     onChange={(e) => setProductForm({ ...productForm, stock: e.target.value })}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                    className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                     required
                     placeholder="Ej: 100"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="product-category" className="block text-sm font-semibold mb-1">
+                  <label htmlFor="product-category" className="mb-1 block text-sm font-semibold">
                     Categoría *
                   </label>
                   <select
                     id="product-category"
                     value={productForm.category}
                     onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                    className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                     required
                   >
                     <option value="HEALTHCARE">Cuidado de Salud</option>
@@ -1191,7 +1213,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="product-image" className="block text-sm font-semibold mb-1">
+                  <label htmlFor="product-image" className="mb-1 block text-sm font-semibold">
                     URL de Imagen *
                   </label>
                   <input
@@ -1199,7 +1221,7 @@ const AdminPanel = () => {
                     type="url"
                     value={productForm.imageUrl}
                     onChange={(e) => setProductForm({ ...productForm, imageUrl: e.target.value })}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-baby-blue"
+                    className="focus:ring-baby-blue w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2"
                     required
                   />
                 </div>
@@ -1210,7 +1232,7 @@ const AdminPanel = () => {
                     id="featured"
                     checked={productForm.featured}
                     onChange={(e) => setProductForm({ ...productForm, featured: e.target.checked })}
-                    className="w-5 h-5"
+                    className="size-5"
                   />
                   <label htmlFor="featured" className="text-sm font-semibold">
                     Producto Destacado
@@ -1225,15 +1247,15 @@ const AdminPanel = () => {
                       setEditingProduct(null);
                       resetProductForm();
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="flex-1 rounded-lg border border-gray-300 px-4 py-2 hover:bg-gray-50"
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 px-4 py-2 bg-baby-blue text-white rounded-lg hover:bg-baby-blue/90 flex items-center justify-center gap-2"
+                    className="bg-baby-blue hover:bg-baby-blue/90 flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-white"
                   >
-                    <Save className="w-5 h-5" />
+                    <Save className="size-5" />
                     {editingProduct ? 'Actualizar' : 'Crear'}
                   </button>
                 </div>
@@ -1252,7 +1274,7 @@ const AdminPanel = () => {
         {/* Testimonials Tab */}
         {activeTab === 'testimonials' && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">Gestión de Testimonios</h2>
+            <h2 className="mb-6 text-2xl font-bold">Gestión de Testimonios</h2>
             <TestimonialsManager />
           </div>
         )}
@@ -1260,7 +1282,7 @@ const AdminPanel = () => {
         {/* Messages Tab */}
         {activeTab === 'messages' && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">Gestión de Mensajes</h2>
+            <h2 className="mb-6 text-2xl font-bold">Gestión de Mensajes</h2>
             <ContactMessagesManager />
           </div>
         )}

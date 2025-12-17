@@ -1,6 +1,6 @@
 package com.babycash.backend.config.security;
 
-import com.babycash.backend.entity.AuditLog;
+import com.babycash.backend.model.entity.AuditLog;
 import com.babycash.backend.service.AuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Aspecto AOP para auditoría automática de operaciones críticas
- * 
+ *
  * Intercepta métodos en servicios y registra automáticamente:
  * - Creación/cancelación de órdenes
  * - Procesamiento de pagos
@@ -103,7 +103,7 @@ public class AuditAspect {
         try {
             Object[] args = joinPoint.getArgs();
             Long orderId = args.length > 0 && args[0] instanceof Long ? (Long) args[0] : null;
-            
+
             auditService.logFailure(
                 AuditLog.ActionType.PAYMENT_FAILED,
                 "Payment",

@@ -1,11 +1,12 @@
 // Lazy loading de páginas
 
-import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Preloader from '../components/ui/Preloader';
-import Navbar from '../components/layout/Navbar';
+import React, { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Footer from '../components/layout/Footer';
+import Navbar from '../components/layout/Navbar';
+import ScrollToTop from '../components/ScrollToTop';
+import Preloader from '../components/ui/Preloader';
 
 // Lazy loading de páginas
 const Home = React.lazy(() => import('../pages/Home'));
@@ -37,16 +38,17 @@ const ResetPassword = React.lazy(() => import('../pages/ResetPassword'));
 
 const AppRouter: React.FC = () => {
   return (
-    <div className="min-h-screen bg-baby-light flex flex-col">
+    <div className="bg-baby-light flex min-h-screen flex-col">
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-baby-blue focus:text-white focus:px-4 focus:py-2 focus:rounded-lg shadow-lg focus:ring-2 focus:ring-white"
+        className="focus:bg-baby-blue sr-only shadow-lg focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:px-4 focus:py-2 focus:text-white focus:ring-2 focus:ring-white"
       >
         Saltar al contenido principal
       </a>
 
       <Navbar />
+      <ScrollToTop />
 
       <motion.main
         id="main-content"

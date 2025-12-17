@@ -9,6 +9,7 @@ export interface AuthResponse {
   firstName: string;
   lastName: string;
   role: 'USER' | 'ADMIN' | 'MODERATOR';
+  emailVerified?: boolean;
 }
 
 export interface User {
@@ -19,6 +20,7 @@ export interface User {
   role: 'USER' | 'ADMIN' | 'MODERATOR';
   enabled: boolean;
   phone?: string;
+  emailVerified?: boolean;
 }
 
 export interface Product {
@@ -320,6 +322,33 @@ export const authService = {
     const { token } = getAuthData();
     return !!token;
   },
+
+  async verifyEmail(code: string): Promise<{ message: string }> {
+    const { data } = await api.post<{ message: string }>('/auth/verify-email', { code });
+    return data;
+  },
+
+  async resendVerificationCode(email: string): Promise<{ message: string }> {
+    const { data } = await api.post<{ message: string }>('/auth/resend-verification', { email });
+    return data;
+  },
+
+  async logoutAllDevices(): Promise<{ message: string }> {
+    const { data } = await api.post<{ message: string }>('/auth/logout-all-devices');
+    return data;
+  },
+
+  async requestAccountDeletion(): Promise<{ message: string }> {
+    const { data } = await api.post<{ message: string }>('/auth/request-account-deletion');
+    return data;
+  },
+
+  async deleteAccount(code: string, confirmPassword: string): Promise<{ message: string }> {
+    const { data } = await api.delete<{ message: string }>('/auth/delete-account', {
+      data: { code, confirmPassword },
+    });
+    return data;
+  },
 };
 
 // Product service
@@ -472,7 +501,7 @@ export const adminService = {
     return data;
   },
 
-  async getOrderStats(): Promise<any> {
+  async getOrderStats(): Promise<Record<string, unknown>> {
     const { data } = await api.get('/admin/orders/stats');
     return data;
   },
@@ -507,7 +536,7 @@ export const adminService = {
     await api.delete(`/testimonials/admin/${id}`);
   },
 
-  async getTestimonialStats(): Promise<any> {
+  async getTestimonialStats(): Promise<Record<string, unknown>> {
     const { data } = await api.get('/testimonials/admin/stats');
     return data;
   },

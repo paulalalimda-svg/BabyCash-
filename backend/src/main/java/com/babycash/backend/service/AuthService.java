@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,21 +60,33 @@ public class AuthService {
             throw new BusinessException("El email ya está registrado");
         }
 
-        // Create new user entity
+        // Generate 6-digit verification code
+        String verificationCode = String.format("%06d", new java.util.Random().nextInt(1000000));
 
-    User user = User.builder()
-        .email(normalizedEmail)
+        // Create new user entity
+        User user = User.builder()
+                .email(normalizedEmail)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phone(request.getPhone())
                 .role(UserRole.USER) // Default role for new registrations
                 .enabled(true)
+                .emailVerified(false)
+                .verificationToken(verificationCode)
                 .createdAt(LocalDateTime.now())
                 .build();
 
         User savedUser = userRepository.save(user);
         log.info("✅ User registered successfully with ID: {} and email: {}", savedUser.getId(), savedUser.getEmail());
+
+        // Send verification email with 6-digit code
+        emailService.sendEmailVerificationCode(
+            savedUser.getEmail(),
+            savedUser.getFirstName(),
+            verificationCode
+        );
+        log.info("📧 Verification email sent to: {}", savedUser.getEmail());
 
         // Generate JWT tokens
         UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getEmail());
@@ -87,6 +100,7 @@ public class AuthService {
                 .firstName(savedUser.getFirstName())
                 .lastName(savedUser.getLastName())
                 .role(savedUser.getRole().name())
+                .emailVerified(savedUser.getEmailVerified())
                 .build();
     }
 
@@ -97,23 +111,62 @@ public class AuthService {
      * @return AuthResponse with JWT tokens and user info
      * @throws AuthenticationException if credentials are invalid
      */
-    @Transactional
+    @Transactional(noRollbackFor = {BadCredentialsException.class, AuthenticationException.class, com.babycash.backend.exception.custom.AuthenticationException.class, BusinessException.class})
     public AuthResponse login(LoginRequest request) {
         log.info("🔹 Attempting login for user: {}", request.getEmail());
 
+        String loginEmail = request.getEmail().trim().toLowerCase();
+
+        // Check if user exists first
+        User user = userRepository.findByEmail(loginEmail)
+                .orElse(null);
+
+        // If user exists, check if account is locked
+        if (user != null) {
+            // Auto-unlock if lock period has expired
+            if (user.getAccountLockedUntil() != null &&
+                user.getAccountLockedUntil().isBefore(LocalDateTime.now())) {
+                user.setAccountLockedUntil(null);
+                user.setFailedLoginAttempts(0);
+                userRepository.save(user);
+                log.info("🔓 Account auto-unlocked for user: {}", loginEmail);
+            }
+
+            // Check if still locked
+            if (user.getAccountLockedUntil() != null &&
+                user.getAccountLockedUntil().isAfter(LocalDateTime.now())) {
+                long minutesLeft = java.time.Duration.between(
+                    LocalDateTime.now(),
+                    user.getAccountLockedUntil()
+                ).toMinutes();
+                log.warn("🔒 Login attempt blocked - account locked for user: {}", loginEmail);
+                throw new BusinessException(
+                    "Cuenta bloqueada por múltiples intentos fallidos. " +
+                    "Intenta nuevamente en " + minutesLeft + " minutos."
+                );
+            }
+        }
+
         try {
             // Authenticate with Spring Security
-        String loginEmail = request.getEmail().trim().toLowerCase();
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                loginEmail,
-                request.getPassword()
-            )
-        );
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginEmail,
+                    request.getPassword()
+                )
+            );
 
-            // Get authenticated user
-        User user = userRepository.findByEmail(loginEmail)
+            // Get authenticated user (we know it exists now)
+            user = userRepository.findByEmail(loginEmail)
                     .orElseThrow(() -> new AuthenticationException("Usuario no encontrado"));
+
+            // Reset failed login attempts on successful login
+            if (user.getFailedLoginAttempts() != null && user.getFailedLoginAttempts() > 0) {
+                user.setFailedLoginAttempts(0);
+                user.setAccountLockedUntil(null);
+                userRepository.save(user);
+                log.info("🔄 Reset failed login attempts for user: {}", loginEmail);
+            }
 
             log.info("✅ Login successful for user: {} with role: {}", user.getEmail(), user.getRole());
 
@@ -129,12 +182,36 @@ public class AuthService {
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .role(user.getRole().name())
+                    .emailVerified(user.getEmailVerified())
                     .build();
 
         } catch (BadCredentialsException e) {
-            String attempted = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "<unknown>";
-            log.warn("❌ Login failed for user {}: Invalid credentials", attempted);
-            throw new AuthenticationException("Credenciales inválidas");
+            // Increment failed login attempts
+            if (user != null) {
+                int attempts = (user.getFailedLoginAttempts() == null ? 0 : user.getFailedLoginAttempts()) + 1;
+                user.setFailedLoginAttempts(attempts);
+
+                if (attempts >= 3) {
+                    // Lock account for 15 minutes
+                    user.setAccountLockedUntil(LocalDateTime.now().plusMinutes(15));
+                    userRepository.save(user);
+                    log.warn("🔒 Account locked due to {} failed attempts for user: {}", attempts, loginEmail);
+                    throw new BusinessException(
+                        "Cuenta bloqueada por múltiples intentos fallidos. " +
+                        "Intenta nuevamente en 15 minutos."
+                    );
+                } else {
+                    userRepository.save(user);
+                    log.warn("❌ Login failed for user {} - attempt {}/3", loginEmail, attempts);
+                    throw new AuthenticationException(
+                        "Credenciales inválidas. Intentos restantes: " + (3 - attempts)
+                    );
+                }
+            } else {
+                // User doesn't exist - don't reveal this information
+                log.warn("❌ Login failed - user not found: {}", loginEmail);
+                throw new AuthenticationException("Credenciales inválidas");
+            }
         }
     }
 
@@ -266,5 +343,144 @@ public class AuthService {
 
         // Send confirmation email
         emailService.sendPasswordChangedEmail(user.getEmail(), user.getFirstName());
+    }
+
+    /**
+     * Verify user email using the 6-digit code
+     *
+     * @param code Verification code (6 digits)
+     * @throws BusinessException if code is invalid
+     */
+    @Transactional
+    public void verifyEmail(String code) {
+        log.info("🔹 Attempting email verification with code");
+
+        User user = userRepository.findByVerificationToken(code)
+                .orElseThrow(() -> new BusinessException("Código de verificación inválido"));
+
+        if (user.getEmailVerified()) {
+            log.info("ℹ️ Email already verified for user: {}", user.getEmail());
+            return; // Already verified, no need to throw error
+        }
+
+        user.setEmailVerified(true);
+        user.setVerificationToken(null); // Invalidate the code after use
+        userRepository.save(user);
+
+        log.info("✅ Email verified successfully for user: {}", user.getEmail());
+    }
+
+    /**
+     * Resend verification code to user email
+     *
+     * @param email User's email address
+     * @throws BusinessException if user not found or already verified
+     */
+    @Transactional
+    public void resendVerificationCode(String email) {
+        String normalizedEmail = email == null ? null : email.trim().toLowerCase();
+        log.info("🔹 Resending verification code for email: {}", normalizedEmail);
+
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new BusinessException("No existe una cuenta con este email"));
+
+        if (user.getEmailVerified()) {
+            throw new BusinessException("El correo electrónico ya está verificado");
+        }
+
+        // Generate new 6-digit verification code
+        String verificationCode = String.format("%06d", new java.util.Random().nextInt(1000000));
+        user.setVerificationToken(verificationCode);
+        userRepository.save(user);
+
+        // Send verification email
+        emailService.sendEmailVerificationCode(
+            user.getEmail(),
+            user.getFirstName(),
+            verificationCode
+        );
+
+        log.info("📧 Verification code resent to: {}", normalizedEmail);
+    }
+
+    /**
+     * Logout user from all devices by revoking all refresh tokens
+     */
+    @Transactional
+    public void logoutAllDevices() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("🔹 Logging out all devices for user: {}", currentUserEmail);
+
+        User user = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
+
+        refreshTokenService.revokeAllUserTokens(user);
+
+        log.info("✅ All devices logged out for user: {}", currentUserEmail);
+    }
+
+    /**
+     * Request account deletion - generates code and sends email
+     */
+    @Transactional
+    public void requestAccountDeletion() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("🔹 Account deletion requested for user: {}", currentUserEmail);
+
+        User user = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
+
+        // Generate 6-digit code
+        String deletionCode = String.format("%06d", new java.util.Random().nextInt(1000000));
+
+        // Set expiry for 15 minutes
+        user.setAccountDeletionToken(deletionCode);
+        user.setAccountDeletionExpiry(LocalDateTime.now().plusMinutes(15));
+        userRepository.save(user);
+
+        // Send email with code
+        emailService.sendAccountDeletionCode(user.getEmail(), user.getFirstName(), deletionCode);
+
+        log.info("📧 Account deletion code sent to: {}", currentUserEmail);
+    }
+
+    /**
+     * Delete account after validating code and password
+     */
+    @Transactional
+    public void deleteAccount(String code, String confirmPassword) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("🔹 Attempting account deletion for user: {}", currentUserEmail);
+
+        User user = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
+
+        // Verify deletion code
+        if (user.getAccountDeletionToken() == null ||
+            !user.getAccountDeletionToken().equals(code)) {
+            log.warn("❌ Invalid deletion code for user: {}", currentUserEmail);
+            throw new BusinessException("Código de verificación inválido");
+        }
+
+        // Check expiry
+        if (user.getAccountDeletionExpiry() == null ||
+            user.getAccountDeletionExpiry().isBefore(LocalDateTime.now())) {
+            log.warn("❌ Expired deletion code for user: {}", currentUserEmail);
+            throw new BusinessException("El código de verificación ha expirado");
+        }
+
+        // Verify password
+        if (!passwordEncoder.matches(confirmPassword, user.getPassword())) {
+            log.warn("❌ Invalid password confirmation for user: {}", currentUserEmail);
+            throw new BusinessException("Contraseña incorrecta");
+        }
+
+        // Revoke all refresh tokens first
+        refreshTokenService.revokeAllUserTokens(user);
+
+        // Delete user (cascade will handle related entities)
+        userRepository.delete(user);
+
+        log.info("✅ Account deleted for user: {}", currentUserEmail);
     }
 }

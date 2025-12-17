@@ -1,6 +1,6 @@
 package com.babycash.backend.repository;
 
-import com.babycash.backend.entity.AuditLog;
+import com.babycash.backend.model.entity.AuditLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,8 +28,8 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * Buscar logs por rango de fechas
      */
     Page<AuditLog> findByTimestampBetween(
-        LocalDateTime start, 
-        LocalDateTime end, 
+        LocalDateTime start,
+        LocalDateTime end,
         Pageable pageable
     );
 
@@ -37,7 +37,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * Buscar logs de una entidad específica
      */
     List<AuditLog> findByEntityTypeAndEntityIdOrderByTimestampDesc(
-        String entityType, 
+        String entityType,
         Long entityId
     );
 
@@ -48,7 +48,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
            "AND a.actionType = 'LOGIN_FAILED' " +
            "AND a.timestamp > :since")
     long countFailedLoginsByIpSince(
-        @Param("ip") String ipAddress, 
+        @Param("ip") String ipAddress,
         @Param("since") LocalDateTime since
     );
 
@@ -64,8 +64,8 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * Buscar logs por usuario y tipo de acción
      */
     Page<AuditLog> findByUserIdAndActionType(
-        Long userId, 
-        AuditLog.ActionType actionType, 
+        Long userId,
+        AuditLog.ActionType actionType,
         Pageable pageable
     );
 

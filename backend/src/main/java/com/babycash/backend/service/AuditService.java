@@ -1,6 +1,6 @@
 package com.babycash.backend.service;
 
-import com.babycash.backend.entity.AuditLog;
+import com.babycash.backend.model.entity.AuditLog;
 import com.babycash.backend.model.entity.User;
 import com.babycash.backend.repository.AuditLogRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Servicio para gestión de auditoría
- * 
+ *
  * Registra automáticamente operaciones críticas en la base de datos
  * para trazabilidad y compliance
  */
@@ -74,7 +74,7 @@ public class AuditService {
             }
 
             auditLogRepository.save(auditLog);
-            
+
             log.debug("Audit log created: {} - {}", actionType, description);
         } catch (Exception e) {
             log.error("Error creating audit log: {}", e.getMessage(), e);
@@ -118,7 +118,7 @@ public class AuditService {
             }
 
             auditLogRepository.save(auditLog);
-            
+
             log.warn("Audit failure logged: {} - {}", actionType, errorMessage);
         } catch (Exception e) {
             log.error("Error creating audit failure log: {}", e.getMessage(), e);
@@ -148,7 +148,7 @@ public class AuditService {
             }
 
             auditLogRepository.save(auditLog);
-            
+
             log.warn("Security event logged: {}", description);
         } catch (Exception e) {
             log.error("Error logging security event: {}", e.getMessage(), e);
@@ -180,7 +180,7 @@ public class AuditService {
 
                 // Verificar intentos fallidos recientes desde esta IP
                 long recentFailures = auditLogRepository.countFailedLoginsByIpSince(
-                    ip, 
+                    ip,
                     LocalDateTime.now().minusMinutes(15)
                 );
 
@@ -248,7 +248,7 @@ public class AuditService {
      * Obtiene la request HTTP actual
      */
     private HttpServletRequest getCurrentRequest() {
-        ServletRequestAttributes attributes = 
+        ServletRequestAttributes attributes =
             (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes != null ? attributes.getRequest() : null;
     }

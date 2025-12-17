@@ -1,6 +1,6 @@
 package com.babycash.backend.service;
 
-import com.babycash.backend.entity.AuditLog;
+import com.babycash.backend.model.entity.AuditLog;
 import com.babycash.backend.exception.custom.BusinessException;
 import com.babycash.backend.model.entity.RefreshToken;
 import com.babycash.backend.model.entity.User;

@@ -315,6 +315,60 @@ public class EmailService {
     }
 
     /**
+     * Envía email de verificación de correo con código de 6 dígitos
+     */
+    @Async
+    public void sendEmailVerificationCode(String toEmail, String name, String verificationCode) {
+        try {
+            log.info("Sending email verification code to: {}", toEmail);
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setFrom(fromEmail, fromName);
+            helper.setTo(toEmail);
+            helper.setSubject("✉️ Verifica tu cuenta - Baby Cash");
+
+            String htmlContent = buildEmailVerificationHtml(name, verificationCode);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(mimeMessage);
+            log.info("Email verification code sent successfully to {}", toEmail);
+
+        } catch (Exception e) {
+            log.error("Error sending email verification code: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al enviar el código de verificación", e);
+        }
+    }
+
+    /**
+     * Envía email con código para eliminación de cuenta
+     */
+    @Async
+    public void sendAccountDeletionCode(String toEmail, String name, String deletionCode) {
+        try {
+            log.info("Sending account deletion code to: {}", toEmail);
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setFrom(fromEmail, fromName);
+            helper.setTo(toEmail);
+            helper.setSubject("⚠️ Confirmación de eliminación de cuenta - Baby Cash");
+
+            String htmlContent = buildAccountDeletionHtml(name, deletionCode);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(mimeMessage);
+            log.info("Account deletion code sent successfully to {}", toEmail);
+
+        } catch (Exception e) {
+            log.error("Error sending account deletion code: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al enviar el código de eliminación", e);
+        }
+    }
+
+    /**
      * Envía email de confirmación de pedido
      */
     @Async
@@ -767,6 +821,155 @@ public class EmailService {
             </body>
             </html>
             """.formatted(statusEmoji, orderNumber, name, statusText);
+    }
+
+    /**
+     * Template de email de verificación de cuenta
+     */
+    private String buildEmailVerificationHtml(String name, String verificationCode) {
+        return """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+                    .header { background: linear-gradient(135deg, #93C5FD 0%%, #FBB6CE 100%%);
+                              color: white; padding: 40px 30px; text-align: center; }
+                    .header h1 { margin: 0; font-size: 28px; }
+                    .content { padding: 40px 30px; background: #f8f9fa; }
+                    .message { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;
+                               box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    .code-container { text-align: center; margin: 30px 0; }
+                    .code { display: inline-block; font-size: 48px; font-weight: bold; letter-spacing: 8px;
+                            color: #10B981; background: #D1FAE5; padding: 20px 40px; border-radius: 12px;
+                            border: 3px dashed #10B981; font-family: 'Courier New', monospace; }
+                    .info-box { background: #DBEAFE; border-left: 4px solid #3B82F6; padding: 15px;
+                                border-radius: 5px; margin: 20px 0; }
+                    .footer { background: #374151; color: #9CA3AF; padding: 30px; text-align: center; font-size: 13px; }
+                    .footer a { color: #93C5FD; text-decoration: none; }
+                    .icon { font-size: 48px; margin-bottom: 20px; }
+                    .steps { margin: 20px 0; padding-left: 20px; }
+                    .steps li { margin: 10px 0; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <div class="icon">✉️</div>
+                        <h1>Verifica tu Cuenta</h1>
+                        <p>Baby Cash - Bienvenido a la familia</p>
+                    </div>
+                    <div class="content">
+                        <div class="message">
+                            <p>¡Hola <strong>%s</strong>!</p>
+                            <p>¡Gracias por registrarte en Baby Cash! Para completar tu registro y asegurar tu cuenta, por favor verifica tu correo electrónico.</p>
+                            <p>Usa el siguiente código de 6 dígitos para verificar tu cuenta:</p>
+
+                            <div class="code-container">
+                                <div class="code">%s</div>
+                            </div>
+
+                            <div class="info-box">
+                                <strong>📝 ¿Cómo verificar tu cuenta?</strong>
+                                <ol class="steps">
+                                    <li>Inicia sesión en Baby Cash</li>
+                                    <li>Ve a tu perfil</li>
+                                    <li>Ingresa el código de 6 dígitos</li>
+                                    <li>¡Listo! Tu cuenta estará verificada</li>
+                                </ol>
+                            </div>
+
+                            <p style="color: #6B7280; font-size: 14px; margin-top: 20px;">
+                                Si no creaste una cuenta en Baby Cash, puedes ignorar este correo de forma segura.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p>Este correo fue enviado desde Baby Cash</p>
+                        <p>📧 <a href="mailto:mazoanas09@gmail.com">mazoanas09@gmail.com</a> |
+                           📱 <a href="tel:+573219297605">+57 321 929 7605</a></p>
+                        <p>&copy; 2025 Baby Cash. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """.formatted(name, verificationCode);
+    }
+
+    /**
+     * Template de email de confirmación de eliminación de cuenta
+     */
+    private String buildAccountDeletionHtml(String name, String deletionCode) {
+        return """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+                    .header { background: linear-gradient(135deg, #EF4444 0%%, #DC2626 100%%);
+                              color: white; padding: 40px 30px; text-align: center; }
+                    .header h1 { margin: 0; font-size: 28px; }
+                    .content { padding: 40px 30px; background: #f8f9fa; }
+                    .message { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;
+                               box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    .code-container { text-align: center; margin: 30px 0; }
+                    .code { display: inline-block; font-size: 48px; font-weight: bold; letter-spacing: 8px;
+                            color: #EF4444; background: #FEE2E2; padding: 20px 40px; border-radius: 12px;
+                            border: 3px dashed #EF4444; font-family: 'Courier New', monospace; }
+                    .warning-box { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px;
+                                   border-radius: 5px; margin: 20px 0; }
+                    .footer { background: #374151; color: #9CA3AF; padding: 30px; text-align: center; font-size: 13px; }
+                    .footer a { color: #93C5FD; text-decoration: none; }
+                    .icon { font-size: 48px; margin-bottom: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <div class="icon">⚠️</div>
+                        <h1>Confirmación de Eliminación</h1>
+                        <p>Baby Cash - Solicitud de eliminación de cuenta</p>
+                    </div>
+                    <div class="content">
+                        <div class="message">
+                            <p>Hola <strong>%s</strong>,</p>
+                            <p>Hemos recibido una solicitud para <strong>eliminar tu cuenta de Baby Cash</strong>.</p>
+
+                            <div class="warning-box">
+                                <strong>⚠️ ADVERTENCIA</strong>
+                                <p style="margin: 10px 0 0 0;">Esta acción es <strong>permanente e irreversible</strong>. Se eliminarán todos tus datos, pedidos, puntos de fidelidad y historial.</p>
+                            </div>
+
+                            <p>Si realmente deseas continuar, usa el siguiente código:</p>
+
+                            <div class="code-container">
+                                <div class="code">%s</div>
+                            </div>
+
+                            <p style="text-align: center; color: #6B7280; font-size: 14px;">
+                                Este código expirará en <strong>15 minutos</strong>
+                            </p>
+
+                            <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">
+                                Si NO solicitaste eliminar tu cuenta, ignora este correo y tu cuenta permanecerá segura.
+                                Te recomendamos cambiar tu contraseña inmediatamente.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p>Este correo fue enviado desde Baby Cash</p>
+                        <p>📧 <a href="mailto:mazoanas09@gmail.com">mazoanas09@gmail.com</a> |
+                           📱 <a href="tel:+573219297605">+57 321 929 7605</a></p>
+                        <p>&copy; 2025 Baby Cash. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """.formatted(name, deletionCode);
     }
 
     /**
